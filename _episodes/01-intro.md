@@ -5,9 +5,11 @@ exercises: 30
 questions:
 - "What is Chapel and why is it useful?"
 objectives:
-- "First objective."
+- "Write and execute our first chapel program."
 keypoints:
-- "First key point."
+- "Chapel is a compiled language - any programs we make must be compiled with `chpl`."
+- "The `--fast` flag instructs the Chapel compiler to optimize our code."
+- "The `-o` flag tells the compiler what to name our output (otherwise it gets named `a.out`)"
 ---
 
 **_Chapel_** is a modern programming language, developed by _Cray Inc._, that supports HPC via high-level abstractions for data parallelism and task parallelism. These abstractions allow the users to express parallel codes in a natural, almost intuitive, manner. In contrast with other high-level parallel languages, however, Chapel was designed around a _multi-resolution_ philosophy. This means that users can incrementally add more detail to their original code prototype, to optimize it to a particular computer as closely as required. 
@@ -64,7 +66,7 @@ Chapel module:
 
 ~~~
 module load gcc
-module load chapel-single/1.15.0
+module load chapel-single
 ~~~
 {: .bash}
 
