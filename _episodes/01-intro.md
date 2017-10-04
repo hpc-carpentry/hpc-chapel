@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Chapel"
-teaching: 60
-exercises: 30
+teaching: 15 
+exercises: 15 
 questions:
 - "What is Chapel and why is it useful?"
 objectives:
