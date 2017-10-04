@@ -1,5 +1,5 @@
 ---
-title: "Chapel Base Language"
+title: "Introduction to Chapel"
 teaching: 60
 exercises: 30
 questions:
@@ -10,31 +10,47 @@ keypoints:
 - "First key point."
 ---
 
-**_Chapel_** is a modern programming language, developed by _Cray Inc._, that supports HPC via high-level abstractions for data parallelism and task parallelism. These abstractions allow the users to express parallel codes in a natural, almost intuitive, manner. In contrast with other high-level parallel languages, however, Chapel was designed around a _multi-resolution_ philosophy. This means that users can incrementally add more detail to their original abstract code prototype, to bring it as close to the machine as required. 
+**_Chapel_** is a modern programming language, developed by _Cray Inc._, that supports HPC via high-level abstractions for data parallelism and task parallelism. These abstractions allow the users to express parallel codes in a natural, almost intuitive, manner. In contrast with other high-level parallel languages, however, Chapel was designed around a _multi-resolution_ philosophy. This means that users can incrementally add more detail to their original code prototype, to optimize it to a particular computer as closely as required. 
 
-In a nutshell, with Chapel we can write parallel codes with the simplicity and readability of scripting languages such as Python or Matlab, but achieving performance comparable to lower-level compilable languages such as C or Fortran (+ traditional parallel libraries such as MPI or openMP).
-
-Chapel is a compilable language which means that we must **_compile_** our **_source code_** to generate a **_binary_** or **_executable_** that we can then run in the computer. 
-
-Chapel source code must be written in text files with the extension **_.chpl_**. The basic compilation of a source code `mycode.chpl` to generate an executable `mybinary` can be done as follows:
-
-~~~
->> chpl --fast mycode.chpl -o mybinary
-~~~
-{:.input}
-
-The flag `--fast` indicates the compiler to optimize the binary to run as fast as possible in the given architecture.
-
-Chapel was designed from scratch as a new programming language. It is an imperative language with its own syntax (with elements similar to C) that we must know before introducing the parallel programming concepts. 
+In a nutshell, with Chapel we can write parallel code with the simplicity and readability of scripting languages such as Python or Matlab, but achieving performance comparable to compiled languages like C or Fortran (+ traditional parallel libraries such as MPI or openMP).
 
 In this lesson we will learn the basic elements and syntax of the language; then we will study **_task parallelism_**, the first level of parallelism in Chapel, and finally we will use parallel data structures and **_data parallelism_**, which is the higher level of abstraction, in parallel programming, offered by Chapel. 
 
-To run the code, you can simply type:
+## Getting started
+
+Chapel is a compilable language which means that we must **_compile_** our **_source code_** to generate a **_binary_** or **_executable_** that we can then run in the computer. 
+
+Chapel source code must be written in text files with the extension **_.chpl_**. 
+Let's write a simple "hello world"-type program to demonstrate how we write Chapel code!
+Using your favorite text editor, create the file `hello.chpl` with the following content:
+
+```
+writeln('If we can see this, everything works!');
+```
+{: .input}
+
+This program can then be compiled with the following bash command:
 
 ~~~
->> ./mybinary
+chpl --fast hello.chpl -o hello.o
 ~~~
-{:.input}
+{: .bash}
+
+The flag `--fast` indicates the compiler to optimize the binary to run as fast as possible in the given architecture.
+The `-o` option tells Chapel what to call the final output program, in this case `hello.o`.
+
+To run the code, you execute it as you would any other program:
+
+~~~
+./hello.o
+~~~
+{: .bash}
+```
+If we can see this, everything works!
+```
+{: .output}
+
+## Running on a cluster
 
 Depending on the code, it might utilize several or even all cores on the current node. The command above
 implies that you are allowed to utilize all cores. This might not be the case on an HPC cluster, where a
@@ -47,37 +63,37 @@ single-locale Chapel. If you are logged into Cedar or Graham, you'll need to loa
 Chapel module:
 
 ~~~
->> module load gcc
->> module load chapel-single/1.15.0
+module load gcc
+module load chapel-single/1.15.0
 ~~~
-{:.input}
+{: .bash}
 
 Then, for running a test code on a cluster you would submit an interactive job to the queue
 
 ~~~
->> salloc --time=0:30:0 --ntasks=1 --cpus-per-task=3 --mem-per-cpu=1000 --account=def-guest
+salloc --time=0:30:0 --ntasks=1 --cpus-per-task=3 --mem-per-cpu=1000 --account=def-guest
 ~~~
-{:.input}
+{: .bash}
 
 and then inside that job compile and run the test code
 
 ~~~
->> chpl --fast mycode.chpl -o mybinary
->> ./mybinary
+chpl --fast hello.chpl -o hello.o
+./hello.o
 ~~~
-{:.input}
+{: .bash}
 
 For production jobs, you would compile the code and then submit a batch script to the queue:
 
 ~~~
->> chpl --fast mycode.chpl -o mybinary
->> sbatch script.sh
+chpl --fast hello.chpl -o hello.o
+sbatch script.sh
 ~~~
-{:.input}
+{: .bash}
 
 where the script `script.sh` would set all Slurm variables and call the executable `mybinary`.
 
-### Case study
+## Case study
 
 Along all the Chapel lessons we will be using the following _case study_ as the leading thread of the discussion. Essentially, we will be building, step by step, a Chapel code to solve the **_Heat transfer_** problem described bellow. Then we will parallelize the code to improve its performance. 
 
@@ -93,7 +109,12 @@ Here T stands for the temperature at the current iteration, while Tp contains th
 So, our objective is to:
 
 > ## Goals
-> 1. Write a code to implement the difference equation above.The code should have the following requirements: a)  it should work for any given number of rows and columns in the grid, b) it should run for a given number of iterations, or until the difference between T and Tp is smaller than a given tolerance value, and c) it should output the temperature at a desired position on the grid every given number of iterations. 
+> 1. Write a code to implement the difference equation above.The code should have the following requirements: 
+>
+>    * It should work for any given number of rows and columns in the grid. 
+>    * It should run for a given number of iterations, or until the difference between T and Tp is smaller than a given tolerance value.
+>    * It should output the temperature at a desired position on the grid every given number of iterations. 
+>
 > 2. Use task parallelism to improve the performance of the code and run it in the cluster
 > 3. Use data parallelism to improve the performance of the code and run it in the cluster.
 {:.checklist}
