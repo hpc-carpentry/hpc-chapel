@@ -154,25 +154,15 @@ When set to a range: 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 11.0
 
 ## Back to our simulation
 
-Let's define some two dimensional arrays for use in our simulation:
+Let's define a two dimensional array for use in our simulation:
 
 ~~~
-var past_temp: [0..rows+1, 0..cols+1] real;	//here we will store the matrix of temperatures in the last iteration
-var temp: [0..rows+1, 0..cols+1] real;		//here we will store the new temperatures calculated at the current iteration
-~~~
-{:.source}
-
-are matrices -2D arrays- with (`rows + 2`) rows and (`cols + 2`) columns of real numbers, all initialized as 0.0. The ranges `0..rows+1` and `0..cols+1` used here, not only define the size and shape of the array, they stand for the indices with which we could access particular elements of the array using the `[ , ]` notation. For example, `temp[0,0]` is the real variable located at the frist row and first column of the array `temp`, while `temp[3,7]` is the one at the 4th row and 8th column; `temp[2,3..15]` access columns 4th to 16th of the 3th row of `temp`, and `temp[0..3,4]` corresponds to the first 4 rows on the 5th column of `temp`. Similarly, with
-
-~~~
-//this setup some initial conditions
-past_temp[1..rows,1..cols]=25;     //set an initial tempertature (iteration 0) 
+// this is our "plate"
+var temp: [0..rows+1, 0..cols+1] real = 25;
 ~~~
 {:.source}
 
-we assign an initial temperature of 25 degrees across all points of our metal plate.
-
-image: to show the matrices and its indices
+This is a matrix (2D array) with (`rows + 2`) rows and (`cols + 2`) columns of real numbers, all initialized as 25.0. The ranges `0..rows+1` and `0..cols+1` used here, not only define the size and shape of the array, they stand for the indices with which we could access particular elements of the array using the `[ , ]` notation. For example, `temp[0,0]` is the real variable located at the frist row and first column of the array `temp`, while `temp[3,7]` is the one at the 4th row and 8th column; `temp[2,3..15]` access columns 4th to 16th of the 3th row of `temp`, and `temp[0..3,4]` corresponds to the first 4 rows on the 5th column of `temp`. Similarly, with
 
 We must now be ready to start coding our simulations... but first, let's print some information about the initial configuration, compile the code, and execute it to see if everything is working as expected.
 
