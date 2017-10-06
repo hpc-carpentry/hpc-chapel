@@ -177,39 +177,27 @@ image: to show the matrices and its indices
 We must now be ready to start coding our simulations... but first, let's print some information about the initial configuration, compile the code, and execute it to see if everything is working as expected.
 
 ~~~
-const rows = 100;               // number of rows in matrix
-const cols = 100;               // number of columns in matrix
-const niter = 500;              // number of iterations
+const rows = 100;
+const cols = 100;
+const niter = 500;
 const x = 50;                   // row number of the desired position
 const y = 50;                   // column number of the desired position
-var curdif: real;               // here we will store the greatest difference in temperature from one iteration to another 
-var tt: real;                   // for temporary results when computing the temperatures
-const mindif = 0.0001: real;    // smallest difference in temperature that would be accepted before stoping
-const n = 20: int;              // the temperature at the desired position will be printed every n interations
+const mindif = 0.0001;          // smallest difference in temperature that would be accepted before stopping
 
-writeln('\nThis simulation will consider a matrix of ',rows,' by ',cols,' elements,');
-writeln('it will run up to ',niter,' iterations, or until the largest difference\n in temperature is less than ',mindif,'.');
-writeln('You are interested in the evolution of the temperature at the position (', x, ',', y, ') of the matrix...');
-writeln('and here we go...');
-writeln('Temperature at start is: ', past_temp[x,y]);
+// this is our "plate"
+var temp: [0..rows+1, 0..cols+1] real = 25;
+
+writeln('This simulation will consider a matrix of ', rows, ' by ', cols, ' elements.');
+writeln('Temperature at start is: ', temp[x, y]);
 ~~~
 {:.source}
-
 ~~~
 >> chpl base_solution.chpl -o base_solution
 >> ./base_solution
 ~~~
 {:.input}
-
 ~~~
-This simulation will consider a matrix of 100 by 100 elements,
-it will run up to 500 iterations, or until the largest difference
-in temperature between iterations is less than 0.001.
-You are interested in the evolution of the temperature at the position (50,50) of the matrix...
-
-and here we go...
-Temperature at iteration 0: 25.0
+This simulation will consider a matrix of 100 by 100 elements.
+Temperature at start is: 25.0
 ~~~
 {:.output}
-
-Note that each `writeln` statement starts a new line, but we can also introduce new lines using `\n` within the text.
