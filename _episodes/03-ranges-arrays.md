@@ -5,9 +5,12 @@ exercises: 30
 questions:
 - "What is Chapel and why is it useful?"
 objectives:
-- "First objective."
+- "Learn to define and use ranges and arrays."
 keypoints:
-- "First key point."
+- "A range is a sequence of values."
+- "An array holds a sequence of values."
+- "Chapel arrays can start at any index, not just 0 or 1."
+- "You can index arrays with the `[]` brackets."
 ---
 
 ## Ranges and Arrays
@@ -75,6 +78,82 @@ When set to a range: 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 11.0
 Notice how ranges are "right inclusive", the last number of a range is included in the range. 
 This is different from languages like Python where this does not happen.
 
+## Indexing elements
+
+One final thing - we can retrieve and reset specific values of an array using `[]` notation.
+Let's try retrieving and setting a specific value in our example so far:
+
+```
+var example_range = 0..10;
+writeln('Our example range was set to: ', example_range);
+var example_array: [example_range] real;
+writeln('Our example array is now: ', example_array);
+example_array = 5;
+writeln('When set to 5: ', example_array);
+example_array = 1..11;
+writeln('When set to a range: ', example_array);
+// retrieve the 5th index
+writeln(example_array[5]);
+// set index 5 to a new value
+example_array[5] = 99999;
+writeln(example_array);
+```
+{: .source}
+```
+chpl ranges.chpl -o ranges.o
+./ranges.o
+```
+{: .bash}
+```
+Our example range was set to: 0..10
+Our example array is now: 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+When set to 5: 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0
+When set to a range: 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 11.0
+6.0
+1.0 2.0 3.0 4.0 5.0 99999.0 7.0 8.0 9.0 10.0 11.0
+```
+{: .output}
+
+One very important thing to note - in this case, index 5 was actually the 6th element.
+This was caused by how we setup our array. 
+When we defined our array using a range starting at 0, element 5 corresponds to the 6th element.
+Unlike most other programming languages, arrays in Chapel do not start at a fixed value - 
+they can start at any number depending on how we define them!
+For instance, let's redefine example_range to start at 5:
+
+```
+var example_range = 5..15;
+writeln('Our example range was set to: ', example_range);
+var example_array: [example_range] real;
+writeln('Our example array is now: ', example_array);
+example_array = 5;
+writeln('When set to 5: ', example_array);
+example_array = 1..11;
+writeln('When set to a range: ', example_array);
+// retrieve the 5th index
+writeln(example_array[5]);
+// set index 5 to a new value
+example_array[5] = 99999;
+writeln(example_array);
+```
+{: .source}
+```
+chpl ranges.chpl -o ranges.o
+./ranges.o
+```
+{: .bash}
+```
+Our example range was set to: 5..15
+Our example array is now: 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0
+When set to 5: 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0 5.0
+When set to a range: 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 11.0
+1.0
+99999.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 11.0
+```
+{: .output}
+
+## Back to our simulation
+
 Let's define some two dimensional arrays for use in our simulation:
 
 ~~~
@@ -98,21 +177,21 @@ image: to show the matrices and its indices
 We must now be ready to start coding our simulations... but first, let's print some information about the initial configuration, compile the code, and execute it to see if everything is working as expected.
 
 ~~~
-const rows = 100;		        // number of rows in matrix
-const cols = 100;		        // number of columns in matrix
-const niter = 500;	            // number of iterations
-const x = 50;		            // row number of the desired position
-const y = 50;		            // column number of the desired position
-var curdif: real;	            // here we will store the greatest difference in temperature from one iteration to another 
-var tt: real;		            // for temporary results when computing the temperatures
-const mindif = 0.0001: real;	// smallest difference in temperature that would be accepted before stoping
-const n = 20: int;		        // the temperature at the desired position will be printed every n interations
+const rows = 100;               // number of rows in matrix
+const cols = 100;               // number of columns in matrix
+const niter = 500;              // number of iterations
+const x = 50;                   // row number of the desired position
+const y = 50;                   // column number of the desired position
+var curdif: real;               // here we will store the greatest difference in temperature from one iteration to another 
+var tt: real;                   // for temporary results when computing the temperatures
+const mindif = 0.0001: real;    // smallest difference in temperature that would be accepted before stoping
+const n = 20: int;              // the temperature at the desired position will be printed every n interations
 
 writeln('\nThis simulation will consider a matrix of ',rows,' by ',cols,' elements,');
 writeln('it will run up to ',niter,' iterations, or until the largest difference\n in temperature is less than ',mindif,'.');
-writeln('You are interested in the evolution of the temperature at the position (',x,',',y,') of the matrix...\n');
+writeln('You are interested in the evolution of the temperature at the position (', x, ',', y, ') of the matrix...');
 writeln('and here we go...');
-writeln('Temperature at iteration ',c,': ',past_temp[x,y]);
+writeln('Temperature at start is: ', past_temp[x,y]);
 ~~~
 {:.source}
 
