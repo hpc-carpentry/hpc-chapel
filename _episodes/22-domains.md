@@ -7,7 +7,10 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "Domains are multi-dimensional sets of integer indices."
+- "A domain can be defined on a single locale or distributed across many locales."
+- "There are many predefined distribution method: block, cyclic, etc."
+- "Arrays are defined on top of domains and inherit their distribution model."
 ---
 
 # Domains and single-locale data parallelism

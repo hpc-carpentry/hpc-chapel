@@ -7,7 +7,8 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "Locale in Chapel is a shared-memory node on a cluster."
+- "We can cycle in serial or parallel through all locales."
 ---
 
 So far we have been working with single-locale Chapel codes that may run on one or many cores on a single

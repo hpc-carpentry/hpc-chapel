@@ -7,7 +7,7 @@ questions:
 objectives:
 - "Learn to define and use ranges and arrays."
 keypoints:
-- "A range is a sequence of values."
+- "A range is a sequence of integers."
 - "An array holds a sequence of values."
 - "Chapel arrays can start at any index, not just 0 or 1."
 - "You can index arrays with the `[]` brackets."
