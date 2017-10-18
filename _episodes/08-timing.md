@@ -7,7 +7,7 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "Use UNIX `time` command or instrument your Chapel code to measure performance."
 ---
 
 The code generated after Excercise 4 is the basic implementation of our simulation. We will be using it as a benchmark, to see how much we can improve the performance when introducing the parallel programming features of the language in the following lessons. 

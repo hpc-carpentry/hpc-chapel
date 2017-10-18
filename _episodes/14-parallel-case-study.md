@@ -7,7 +7,7 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "There are many ways to implement task parallelism for the diffusion solver."
 ---
 
 The parallelization of our base solution for the heat transfer equation can be achieved following the ideas of Exercise 2. The entire grid of points can be divided and assigned to multiple tasks. Each tasks should compute the new temperature of its assigned points, and then we must perform a **_reduction_**, over the whole grid, to update the greatest difference in temperature. 
@@ -15,30 +15,26 @@ The parallelization of our base solution for the heat transfer equation can be a
 For the reduction of the grid we can simply use the `max reduce` statement, which is already parallelized. Now, let's divide the grid into `rowtasks` x `coltasks` sub-grids, and assign each sub-grid to a task using the `coforall` loop (we will have `rowtasks*coltasks` tasks in total).
 
 ~~~
-config const rowtasks=2;
-config const coltasks=2;
+config const rowtasks = 2;
+config const coltasks = 2;
 
-//this is the main loop of the simulation
-curdif=mindif;
-while (c<niter && curdif>=mindif) do
-{
-  c+=1;     
+// this is the main loop of the simulation
+curdif = mindif;
+while (c<niter && curdif>=mindif) do {
+  c += 1;
 
-  coforall taskid in 0..coltasks*rowtasks-1 do
-  {
-    for i in rowi..rowf do
-    {
-      for j in coli..colf do
-      {
-        temp[i,j]=(past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
+  coforall taskid in 0..coltasks*rowtasks-1 do {
+    for i in rowi..rowf do {
+      for j in coli..colf do {
+        temp[i,j] = (past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1]) / 4;
       }
     }
   }
 
-  curdif=max reduce (temp-past_temp);
-  past_temp=temp;
+  curdif = max reduce (temp-past_temp);
+  past_temp = temp;
   
-  if c%n==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
+  if c%n == 0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
 }
 ~~~
 {:.source}
@@ -46,54 +42,46 @@ while (c<niter && curdif>=mindif) do
 Note that now the nested for loops run from `rowi` to `rowf` and from `coli` to `colf` which are, respectively, the initial and final row and column of the sub-grid associated to the task `taskid`. To compute these limits, based on `taskid`, we can again follow the same ideas as in Exercise 2.
 
 ~~~
-config const rowtasks=2;
-config const coltasks=2;
+config const rowtasks = 2;
+config const coltasks = 2;
 
-const nr=rows/rowtasks;
-const rr=rows-nr*rowtasks;
-const nc=cols/coltasks;
-const rc=cols-nc*coltasks;
+const nr = rows/rowtasks;
+const rr = rows-nr*rowtasks;
+const nc = cols/coltasks;
+const rc = cols-nc*coltasks;
 
-//this is the main loop of the simulation
-curdif=mindif;
-while (c<niter && curdif>=mindif) do
-{
-  c+=1;     
+// this is the main loop of the simulation
+curdif = mindif;
+while (c<niter && curdif>=mindif) do {
+  c+=1;
 
-  coforall taskid in 0..coltasks*rowtasks-1 do
-  {
+  coforall taskid in 0..coltasks*rowtasks-1 do {
     var rowi, coli, rowf, colf: int;
     var taskr, taskc: int;
 
-    taskr=taskid/coltasks;
-    taskc=taskid%coltasks;
+    taskr = taskid/coltasks;
+    taskc = taskid%coltasks;
 
-    if taskr<rr then
-    {
+    if taskr<rr then {
       rowi=(taskr*nr)+1+taskr;
       rowf=(taskr*nr)+nr+taskr+1;
     }
-    else
-    {
-      rowi=(taskr*nr)+1+rr;
-      rowf=(taskr*nr)+nr+rr;
+	else {
+      rowi = (taskr*nr)+1+rr;
+      rowf = (taskr*nr)+nr+rr;
     }
 
-    if taskc<rc then
-    {
-      coli=(taskc*nc)+1+taskc;
-      colf=(taskc*nc)+nc+taskc+1;
+    if taskc<rc then {
+      coli = (taskc*nc)+1+taskc;
+      colf = (taskc*nc)+nc+taskc+1;
     }
-    else
-    {
-      coli=(taskc*nc)+1+rc;
-      colf=(taskc*nc)+nc+rc;
+    else {
+      coli = (taskc*nc)+1+rc;
+      colf = (taskc*nc)+nc+rc;
     }
 
-    for i in rowi..rowf do
-    {
-      for j in coli..colf do
-      {
+    for i in rowi..rowf do {
+      for j in coli..colf do {
 	  ...
 	
 }
@@ -135,56 +123,48 @@ This parallel solution, using 4 parallel tasks, took around 17 seconds to finish
 Clearly, a better approach would be to launch the parallel tasks just once, and have them executing all the simulations, before resuming the main task to print the final results. 
 
 ~~~
-config const rowtasks=2;
-config const coltasks=2;
+config const rowtasks = 2;
+config const coltasks = 2;
 
-const nr=rows/rowtasks;
-const rr=rows-nr*rowtasks;
-const nc=cols/coltasks;
-const rc=cols-nc*coltasks;
+const nr = rows/rowtasks;
+const rr = rows-nr*rowtasks;
+const nc = cols/coltasks;
+const rc = cols-nc*coltasks;
 
-//this is the main loop of the simulation
-curdif=mindif;
-coforall taskid in 0..coltasks*rowtasks-1 do
-{
+// this is the main loop of the simulation
+curdif = mindif;
+coforall taskid in 0..coltasks*rowtasks-1 do {
   var rowi, coli, rowf, colf: int;
   var taskr, taskc: int;
-  var c=0;
+  var c = 0;
 
-  taskr=taskid/coltasks;
-  taskc=taskid%coltasks;
+  taskr = taskid/coltasks;
+  taskc = taskid%coltasks;
 
-  if taskr<rr then
-  {
-    rowi=(taskr*nr)+1+taskr;
-    rowf=(taskr*nr)+nr+taskr+1;
+  if taskr<rr then {
+    rowi = (taskr*nr)+1+taskr;
+    rowf = (taskr*nr)+nr+taskr+1;
   }
-  else
-  {
-    rowi=(taskr*nr)+1+rr;
-    rowf=(taskr*nr)+nr+rr;
+  else {
+    rowi = (taskr*nr)+1+rr;
+    rowf = (taskr*nr)+nr+rr;
   }
 
-  if taskc<rc then
-  {
-    coli=(taskc*nc)+1+taskc;
-    colf=(taskc*nc)+nc+taskc+1;
+  if taskc<rc then {
+    coli = (taskc*nc)+1+taskc;
+    colf = (taskc*nc)+nc+taskc+1;
   }
-  else
-  {
-    coli=(taskc*nc)+1+rc;
-    colf=(taskc*nc)+nc+rc;
+  else {
+    coli = (taskc*nc)+1+rc;
+    colf = (taskc*nc)+nc+rc;
   }
 
-  while (c<niter && curdif>=mindif) do   
-  {
-    c=c+1;
+  while (c<niter && curdif>=mindif) do {
+    c = c+1;
     
-    for i in rowi..rowf do
-    {
-      for j in coli..colf do
-      {
-        temp[i,j]=(past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
+    for i in rowi..rowf do {
+      for j in coli..colf do {
+        temp[i,j] = (past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
       }
     }
         
@@ -215,31 +195,27 @@ coforall taskid in 0..coltasks*rowtasks-1 do
   var myd2: real;
   ...
   
-  while (c<niter && curdif>=mindif) do   
-  {
-    c=c+1;
+  while (c<niter && curdif>=mindif) do {
+    c = c+1;
     ...
   
-    for i in rowi..rowf do
-    {
-      for j in coli..colf do
-      {
-        temp[i,j]=(past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
-        myd2=max(abs(temp[i,j]-past_temp[i,j]),myd2);
+    for i in rowi..rowf do {
+      for j in coli..colf do {
+        temp[i,j] = (past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
+        myd2 = max(abs(temp[i,j]-past_temp[i,j]),myd2);
       }
     }
-    myd[taskid]=myd2    
+    myd[taskid] = myd2
     
-    //here comes the synchronization of tasks
+    // here comes the synchronization of tasks
     
-    past_temp[rowi..rowf,coli..colf]=temp[rowi..rowf,coli..colf];
-    if taskid==0 then
-    {
+    past_temp[rowi..rowf,coli..colf] = temp[rowi..rowf,coli..colf];
+    if taskid==0 then {
       curdif.write(max reduce myd);
       if c%n==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
     }
     
-    //here comes the synchronization of tasks again
+    // here comes the synchronization of tasks again
   }
 }     
 ~~~

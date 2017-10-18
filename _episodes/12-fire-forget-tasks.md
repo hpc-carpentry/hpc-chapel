@@ -7,7 +7,8 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "Use `begin` or `cobegin` or `coforall` to spawn new tasks."
+- "You can run more than one task per core, as the number of cores on a node is limited."
 ---
 
 A Chapel program always start as a single main thread. You can then start concurrent tasks with the `begin` statement. A task spawned by the `begin` statement will run in a different thread while the main thread continues its normal execution. Consider the following example:

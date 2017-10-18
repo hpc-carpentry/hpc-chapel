@@ -7,7 +7,7 @@ questions:
 objectives:
 - "You can use the `==`, `>`, `>=`, etc. operators to make a comparison that returns true or false."
 keypoints:
-- "First key point."
+- "Conditional statements in Chapel are very similar to these in other languages."
 ---
 
 Chapel, as most *high level programming languages*, has different staments to control the flow of the program or code.  The conditional statements are: the **_if statement_**, and the **_while statement_**.

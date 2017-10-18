@@ -7,7 +7,7 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "Config variables accept values from the command line at runtime, without you having to recompile the code."
 ---
 
 From the last run of our code, we can see that 500 iterations is not enough to get to a _steady state_ (a state where the difference in temperature does not vary too much, i.e. `curdif`<`mindif`). Now, if we want to change the number of iterations we would need to modify `niter` in the code, and compile it again. What if we want to change the number of rows and columns in our grid to have more precision?, or if we want to see the evolution of the temperature at a different point (x,y). The answer would be the same, modify the code and compile it again!
@@ -15,7 +15,7 @@ From the last run of our code, we can see that 500 iterations is not enough to g
 No need to say that this would be very tedious and inefficient. A better scenario would be if we can pass the desired configuration values to our binary when it is called at the command line. The Chapel mechanism to this effect is the use of **_config_** variables. When a variable is declared with the `config` keyword, in addition to `var` or `const`, like this:
 
 ~~~
-config const niter=500;    //number of iterations
+config const niter = 500;    //number of iterations
 ~~~
 {:.source}
 

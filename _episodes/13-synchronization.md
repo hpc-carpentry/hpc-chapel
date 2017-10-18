@@ -7,7 +7,8 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "You can explicitly synchronize tasks with `sync` statement."
+- "You can also use sync and atomic variables to synchronize tasks."
 ---
 
 The keyword `sync` provides all sorts of mechanisms to synchronize tasks in Chapel. 
@@ -130,7 +131,7 @@ A more elaborated and powerful use of `sync` is as a type qualifier for variable
 To assign a new value to a _sync_ variable,  its state must be _empty_ (after the assignment operation is completed, the state will be set as _full_). On the contrary, to read a value from a _sync_ variable, its state must be _full_ (after the read operation is completed, the state will be set as _empty_ again).
 
 ~~~
-var x: sync int;
+var x: sync int, a: int;
 writeln("this is main task launching a new task");
 begin {
   for i in 1..10 do writeln("this is new task working: ",i);
@@ -139,7 +140,7 @@ begin {
 }
 
 writeln("this is main task after launching new task... I will wait until  it is done");
-x;
+a = x;   // don't run this line until the variable x is written in the other task
 writeln("and now it is done");
 ~~~
 {:.source}
@@ -237,4 +238,3 @@ task 4 is done...
 {:.challenge}
 
 Finally, with all the material studied so far, we should be ready to parallelize our code for the simulation of the heat transfer equation.
-

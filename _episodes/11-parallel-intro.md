@@ -7,7 +7,7 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "Concurrency and locality are orthogonal concepts in Chapel: where the tasks are running may not be indicative of when they run, and you can control both in Chapel."
 ---
 
 The basic concept of parallel computing is simple to understand: we divide our job in tasks that can be executed at the same time, so that we finish the job in a fraction of the time that it would have taken if the tasks are executed one by one.  Implementing parallel computations, however, is not always easy, nor possible...

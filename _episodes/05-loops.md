@@ -7,7 +7,7 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "First key point."
+- "Use `for` statement to organize a loop."
 ---
 
 To compute the current temperature of an element of `temp`, we need to add all the surronding elements in `past_temp`, and divide the result by 4. And, esentially, we need to repeat this process for all the elements of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterate over a given number of elements, the **_for-loop_** is what we want to use. The for-loop has the following general syntax: 
