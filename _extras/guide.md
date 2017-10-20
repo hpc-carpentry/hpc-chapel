@@ -4,8 +4,7 @@ title: "Instructor Notes"
 permalink: /guide/
 ---
 
-This Chapel section is a full-day class. We expect it to be taught by a staff member from an HPC centre,
-and we assume that multi-locale Chapel has been already installed on the system that will be used for the hands-on exercises. Here for we do not provide instructions for installing Chapel, as it can be done in several different ways, with the details depending on the cluster's scheduler and the physical interconnect, and it would be best to leave Chapel installation to knowledgeable HPC staff.
+This Chapel section is a full-day class. We expect it to be taught by a staff member from an HPC centre, and we assume that multi-locale Chapel has been already installed on the system that will be used for the hands-on exercises. For this reason, here we do not provide instructions for installing Chapel, as it can be done in several different ways, with the details depending on the cluster's scheduler and the physical interconnect, and it would be best to leave Chapel installation to knowledgeable HPC staff.
 
 Having said that, there are also ways to run Chapel entirely on attendees' laptops. This option is less than ideal, as there are some drawbacks to not having multi-locale Chapel running on actual physical compute nodes on a cluster. Here we mention the possible installation modes if an HPC cluster is not available:
 
