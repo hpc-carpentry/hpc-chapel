@@ -8,5 +8,6 @@ This Chapel section is a full-day class. We expect it to be taught by a staff me
 
 Having said that, there are also ways to run Chapel entirely on attendees' laptops. This option is less than ideal, as there are some drawbacks to not having multi-locale Chapel running on actual physical compute nodes on a cluster. Here we mention the possible installation modes if an HPC cluster is not available:
 
-# You can install single-locale Chapel on a laptop and run it on multiple cores. Obviously, you will not be able to do data decomposition and parallelism across multiple nodes.
-# You can run multi-locale Chapel inside a docker container ("docker pull chapel/chapel-gasnet"). This will imitate an HPC cluster (without the scheduler) on which you'll be able to do data parallelism. However, since you'll be running on the same set of physical laptop cores, you will not get any acceleration from running multi-locale Chapel. This is the probably the best option for testing all Chapel features without access to an actual cluster.
+(1) You can install single-locale Chapel on a laptop and run it on multiple cores. Obviously, you will not be able to do data decomposition and parallelism across multiple nodes.
+
+(2) You can run multi-locale Chapel inside a docker container ("docker pull chapel/chapel-gasnet"). This will imitate an HPC cluster (without the scheduler) on which you'll be able to do data parallelism. However, since you'll be running on the same set of physical laptop cores, you will not get any acceleration from running multi-locale Chapel. This is the probably the best option for testing all Chapel features without access to an actual cluster.
