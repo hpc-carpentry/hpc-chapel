@@ -58,7 +58,7 @@ for i in 1..rows do
     temp[i,j]=(past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
   }
 }     
-past_temp=temp
+past_temp=temp;
 ~~~
 {:.source}
 
