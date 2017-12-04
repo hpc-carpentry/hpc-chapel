@@ -14,6 +14,8 @@ By the end of this workshop, students will know:
 * how to run multi-locale Chapel codes,
 * how to write domain-parallel codes for a distributed-memory cluster.
 
+**NOTE: This is the draft HPC Carpentry release. Comments and feedback are welcome.** 
+
 > ## Prerequisites
 >
 > There are no real prerequisites for this lesson, but prior programming and/or command line experience
