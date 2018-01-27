@@ -10,7 +10,7 @@ keypoints:
 - "Use `for` statement to organize a loop."
 ---
 
-To compute the current temperature of an element of `temp`, we need to add all the surronding elements in `past_temp`, and divide the result by 4. And, esentially, we need to repeat this process for all the elements of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterate over a given number of elements, the **_for-loop_** is what we want to use. The for-loop has the following general syntax: 
+To compute the current temperature of an element of `temp`, we need to add all the surrounding elements in `past_temp`, and divide the result by 4. And, esentially, we need to repeat this process for all the elements of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterate over a given number of elements, the **_for-loop_** is what we want to use. The for-loop has the following general syntax: 
 
 ```
 for index in iterand do
@@ -110,7 +110,7 @@ Temperature at iteration 500: 24.8595
 
 As we can see, the temperature in the middle of the plate (position 50,50) is slowly decreasing as the plate is cooling down. 
 
-> ## Excercise 1
+> ## Exercise 1
 > What would be the temperature at the top right corner of the plate? The border of the plate is in contact with the boundary conditions, which are set to zero, so we expect the temperature at these points to decrease faster. Modify the code to see the temperature at the top right corner.
 >> ## Solution
 >> To see the evolution of the temperature at the top right corner of the plate, we just need to modify `x` and `y`. This corner correspond to the first row (`x=1`) and the last column (`y=cols`) of the plate. 
@@ -139,7 +139,7 @@ As we can see, the temperature in the middle of the plate (position 50,50) is sl
 {:.challenge}
 
 > ## Exercise 2
-> Now let's have some more interesting boundary conditions. Suppose that the plate is heated by a source of 80 degrees located at the bottom right corner, and that the temperature on the rest of the border decreases linearly as one gets farther form the corner (see the image bellow). Utilize for loops to setup the described boundary conditions. Compile and run your code to see how the temperature is changing now. 
+> Now let's have some more interesting boundary conditions. Suppose that the plate is heated by a source of 80 degrees located at the bottom right corner, and that the temperature on the rest of the border decreases linearly as one gets farther form the corner (see the image below). Utilize for loops to setup the described boundary conditions. Compile and run your code to see how the temperature is changing now. 
 >> ## Solution
 >> To get the linear distribution, the 80 degrees must be divided by the number of rows or columns in our plate. So, the following couple of for loops will give us what we want;
 >> ~~~
