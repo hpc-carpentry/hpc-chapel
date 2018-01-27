@@ -10,9 +10,9 @@ keypoints:
 - "Config variables accept values from the command line at runtime, without you having to recompile the code."
 ---
 
-From the last run of our code, we can see that 500 iterations is not enough to get to a _steady state_ (a state where the difference in temperature does not vary too much, i.e. `curdif`<`mindif`). Now, if we want to change the number of iterations we would need to modify `niter` in the code, and compile it again. What if we want to change the number of rows and columns in our grid to have more precision?, or if we want to see the evolution of the temperature at a different point (x,y). The answer would be the same, modify the code and compile it again!
+From the last run of our code, we can see that 500 iterations is not enough to get to a _steady state_ (a state where the difference in temperature does not vary too much, i.e. `curdif`<`mindif`). Now, if we want to change the number of iterations we would need to modify `niter` in the code, and compile it again. What if we want to change the number of rows and columns in our grid to have more precision, or if we want to see the evolution of the temperature at a different point (x,y)? The answer would be the same, modify the code and compile it again!
 
-No need to say that this would be very tedious and inefficient. A better scenario would be if we can pass the desired configuration values to our binary when it is called at the command line. The Chapel mechanism to this effect is the use of **_config_** variables. When a variable is declared with the `config` keyword, in addition to `var` or `const`, like this:
+No need to say that this would be very tedious and inefficient. A better scenario would be if we can pass the desired configuration values to our binary when it is called at the command line. The Chapel mechanism for this is to use **_config_** variables. When a variable is declared with the `config` keyword, in addition to `var` or `const`, like this:
 
 ~~~
 config const niter = 500;    //number of iterations
@@ -24,7 +24,7 @@ config const niter = 500;    //number of iterations
 ~~~
 {:.input}
 
-it can be inicialized with a specific value, when executing the code at the command line, using the syntax:
+it can be initialized with a specific value, when executing the code at the command line, using the syntax:
 
 ~~~
 >> ./base_solution --niter=3000
@@ -50,8 +50,8 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 ~~~
 {:.output}
 
-> ## Excercise 4
-> Make `n`, `x`, `y`, `mindif`, `rows` and `cols` configurable variables, and test the code simulating different configurations. What can you conclude about the performance of the code.
+> ## Exercise 4
+> Make `n`, `x`, `y`, `mindif`, `rows` and `cols` configurable variables, and test the code simulating different configurations. What can you conclude about the performance of the code?
 >> ## Solution
 >> For example, lets use a 650 x 650 grid and observe the evolution of the temperature at the position (200,300) for 10000 iterations or until the difference of temperature between iterations is less than 0.002; also, let's print the temperature every 1000 iterations.
 >> ~~~
