@@ -10,9 +10,9 @@ keypoints:
 - "Use UNIX `time` command or instrument your Chapel code to measure performance."
 ---
 
-The code generated after Excercise 4 is the basic implementation of our simulation. We will be using it as a benchmark, to see how much we can improve the performance when introducing the parallel programming features of the language in the following lessons. 
+The code generated after Exercise 4 is the basic implementation of our simulation. We will use it as a benchmark, to see how much we can improve the performance when introducing the parallel programming features of the language in the following lessons. 
 
-But first, we need a quantitative way to measure the performance of our code. Maybe the easiest way to do it, is to see how much it takes to finish a simulation. The UNIX command `time` could be used to this effect
+But first, we need a quantitative way to measure the performance of our code. The easiest way to do it is to see how long it takes to finish a simulation. The UNIX command `time` could be used to this effect
 
 ~~~
 >> time ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
@@ -45,9 +45,11 @@ sys	0m0.053s
 ~~~
 {:.output}
 
-The real time is what interest us. Our code is taking around 34 seconds from the moment it is called at the command line until it returns. Some times, however, it could be useful to take the execution time of specific parts of the code. This can be achieved by modifying the code to output the information that we need. This process is called **_instrumentation of code_**.
+The real time is what interests us. Our code is taking around 20 seconds from the moment it is called at the command line until it returns. 
 
-An easy way to instrument our code with Chapel is by using the module `Time`. **_Modules_** in Chapel are libraries of useful functions and methods that can be used in or code once the module is loaded. To load a module we use the keyword `use` followed by the name of the module. Once the Time module is loaded we can create a variable of the type `Timer`, and use the methods `start`,`stop`and `elapsed` to instrument our code.
+Some times, however, it could be useful to take the execution time of specific parts of the code. This can be achieved by modifying the code to output the information that we need. This process is called **_instrumentation of code_**.
+
+An easy way to instrument our code with Chapel is by using the module `Time`. **_Modules_** in Chapel are libraries of useful functions and methods that can be used once the module is loaded. To load a module we use the keyword `use` followed by the name of the module. Once the Time module is loaded we can create a variable of the type `Timer`, and use the methods `start`,`stop`and `elapsed` to instrument our code.
 
 ~~~
 use Time;
