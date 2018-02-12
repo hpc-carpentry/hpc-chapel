@@ -110,7 +110,7 @@ Temperature at iteration 500: 24.8595
 
 As we can see, the temperature in the middle of the plate (position 50,50) is slowly decreasing as the plate is cooling down. 
 
-> ## Excercise 1
+> ## Exercise 1
 > What would be the temperature at the top right corner of the plate? The border of the plate is in contact with the boundary conditions, which are set to zero, so we expect the temperature at these points to decrease faster. Modify the code to see the temperature at the top right corner.
 >> ## Solution
 >> To see the evolution of the temperature at the top right corner of the plate, we just need to modify `x` and `y`. This corner correspond to the first row (`x=1`) and the last column (`y=cols`) of the plate. 
@@ -192,7 +192,7 @@ As we can see, the temperature in the middle of the plate (position 50,50) is sl
 >> {
 >>   for j in 1..cols do
 >>   {
->>     tt=temp[i,j]-past_temp[i,j];
+>>     tt=abs(temp[i,j]-past_temp[i,j]);
 >>     if tt>curdif then curdif=tt;
 >>   }
 >> }

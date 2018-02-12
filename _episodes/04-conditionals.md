@@ -92,7 +92,7 @@ var curdif = mindif;
 while (c < niter && curdif >= mindif) do
 {
   c += 1;
-  // actual simulation calcuations will go here
+  // actual simulation calculations will go here
 }
 ~~~
 {:.source}

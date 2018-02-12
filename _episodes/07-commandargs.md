@@ -50,7 +50,7 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 ~~~
 {:.output}
 
-> ## Excercise 4
+> ## Exercise 4
 > Make `n`, `x`, `y`, `mindif`, `rows` and `cols` configurable variables, and test the code simulating different configurations. What can you conclude about the performance of the code.
 >> ## Solution
 >> For example, lets use a 650 x 650 grid and observe the evolution of the temperature at the position (200,300) for 10000 iterations or until the difference of temperature between iterations is less than 0.002; also, let's print the temperature every 1000 iterations.

@@ -10,7 +10,7 @@ keypoints:
 - "Use UNIX `time` command or instrument your Chapel code to measure performance."
 ---
 
-The code generated after Excercise 4 is the basic implementation of our simulation. We will be using it as a benchmark, to see how much we can improve the performance when introducing the parallel programming features of the language in the following lessons. 
+The code generated after Exercise 4 is the basic implementation of our simulation. We will be using it as a benchmark, to see how much we can improve the performance when introducing the parallel programming features of the language in the following lessons. 
 
 But first, we need a quantitative way to measure the performance of our code. Maybe the easiest way to do it, is to see how much it takes to finish a simulation. The UNIX command `time` could be used to this effect
 
