@@ -304,7 +304,7 @@ for (i,j) in {1..n,1..n} { // serial iteration
 coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x20 blocks => 25 tasks
   for k in i..i+stride-1 { // serial loop inside each block
     for l in j..j+stride-1 do {
-      Tnew[i,j] = (T[i-1,j] + T[i+1,j] + T[i,j-1] + T[i,j+1]) / 4;
+      Tnew[k,l] = (T[k-1,l] + T[k+1,l] + T[k,l-1] + T[k,l+1]) / 4;
     }
   }
 }
