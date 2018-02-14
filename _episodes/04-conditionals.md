@@ -97,9 +97,9 @@ while (c < niter && curdif >= mindif) do
 ~~~
 {:.source}
 
-Essentially, what we want is to repeat all the code inside the curly brackets until the number of iterations is gerater than or equal to `niter`, or the difference of temperature between iterations is less than `mindif`. (Note that in our case, as `curdif` was not initialized when declared -and thus Chapel assigned it the default real value 0.0-, we need to assign it a value greater than or equal to 0.001, or otherwise the condition of the while statemnt will never be satisfied. A good starting point is to simple say that `curdif` is equal to `mindif`).
+Essentially, what we want is to repeat all the code inside the curly brackets until the number of iterations is greater than or equal to `niter`, or the difference of temperature between iterations is less than `mindif`. (Note that in our case, as `curdif` was not initialized when declared -and thus Chapel assigned it the default real value 0.0-, we need to assign it a value greater than or equal to 0.001, or otherwise the condition of the while statement will never be satisfied. A good starting point is to simple say that `curdif` is equal to `mindif`).
 
-To increase the number of iterations is not a problem, we just need to assign to `c` its current value plus 1, i.e. `c=c+1`, or in shorter form, using the compound assignment `+=` as in the code above, `c+=1`. To program the rest of the logic inside the curly brackets, on the other hand, we will need more elaborated instructions. 
+To count iterations we just need to keep adding 1 to the counter variable `c`. We could do this with `c=c+1`, or with the compound assignment, `+=`, as in the code above. To program the rest of the logic inside the curly brackets, on the other hand, we will need more elaborated instructions. 
 
 Let's focus, first, on printing the temperature every 20 interations. To achieve this, we only need to check whether `c` is a multiple of 20, and in that case, to print the temperature at the desired position. This is the type of control that an **_if statement_** give us. The general syntax is: 
 

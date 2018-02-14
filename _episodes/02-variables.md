@@ -127,7 +127,7 @@ if there is something wrong, we will typically see an error while writing our pr
 instead of while running it.
 Although we already kind of know why the error was caused 
 (we tried to reassign the value of a `const` variable, which by definition cannot be changed),
-lets walk through the error as an example of how to troubleshoot our programs.
+let's walk through the error as an example of how to troubleshoot our programs.
 
 * `variables.chpl:2:` indicates that the error was caused on line 2 of our `variables.chpl` file.
 
@@ -161,7 +161,7 @@ We also know how to read and interpret errors.
 
 ## Uninitialized variables
 
-On the other hand, if a variable is declared without an initial value, Chapel will initialize it with a defualt value depending on the declared type (0.0 for real variables, for example). The following variables will be created as real floating point numbers equal to 0.0.
+On the other hand, if a variable is declared without an initial value, Chapel will initialize it with a default value depending on the declared type (0.0 for real variables, for example). The following variables will be created as real floating point numbers equal to 0.0.
 
 ~~~
 var curdif: real;	//here we will store the greatest difference in temperature from one iteration to another 
@@ -169,10 +169,10 @@ var tt: real;		//for temporary results when computing the temperatures
 ~~~
 {: .source}
 
-Of course, we can use both, the initial value and the type, when declaring a varible as follows:
+Of course, we can use both, the initial value and the type, when declaring a variable as follows:
 
 ~~~
-const mindif=0.0001: real;	//smallest difference in temperature that would be accepted before stoping
+const mindif=0.0001: real;	//smallest difference in temperature that would be accepted before stopping
 const n=20: int;		//the temperature at the desired position will be printed every n interations
 ~~~
 {: .source}
