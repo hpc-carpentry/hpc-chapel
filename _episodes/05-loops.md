@@ -192,7 +192,7 @@ As we can see, the temperature in the middle of the plate (position 50,50) is sl
 >> {
 >>   for j in 1..cols do
 >>   {
->>     tt=temp[i,j]-past_temp[i,j];
+>>     tt=abs(temp[i,j]-past_temp[i,j]);
 >>     if tt>curdif then curdif=tt;
 >>   }
 >> }
