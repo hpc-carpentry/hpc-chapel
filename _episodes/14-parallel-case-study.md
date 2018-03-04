@@ -288,8 +288,8 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 
 to see that we now have a code that performs 5x faster. 
 
-We finish this section by providing another, elegant version of the task-parallel diffusion solver
-(without time stepping) on a single locale:
+We finish this section by providing another, elegant version of the 2D heat transfer solver (without time
+stepping) using data parallelism on a single locale:
 
 ~~~
 const n = 100, stride = 20;
@@ -310,3 +310,5 @@ coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x
 }
 ~~~
 {:.source}
+
+We will study data parallelism in more detail in the next section.
