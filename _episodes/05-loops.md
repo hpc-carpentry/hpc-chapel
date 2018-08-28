@@ -7,17 +7,17 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "Use `for` statement to organise a loop."
+- "Use `for` statement to organize a loop."
 ---
 
-To compute the current temperature of an element of `temp`, we need to add all the surrounding elements in `past_temp`, and divide the result by 4. And, essentially, we need to repeat this process for all the elements of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterate over a given number of elements, the **_for-loop_** is what we want to use. The for-loop has the following general syntax: 
+To compute the current temperature of an element of `temp`, we need to add all the surrounding elements in `past_temp`, and divide the result by 4. And, esentially, we need to repeat this process for all the elements of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterate over a given number of elements, the **_for-loop_** is what we want to use. The for-loop has the following general syntax: 
 
 ```
 for index in iterand do
 {instructions}
 ``` 
 
-The *iterand* is a function or statement that expresses an iteration; it could be the range 1..15, for example. *index* is a variable that exists only in the context of the for-loop, and that will be taking the different values yielded by the iterand. The code flows as follows: index takes the first value yielded by the iterand, and keeps it until all the instructions inside the curly brackets are executed one by one; then, index takes the second value yielded by the iterand, and keeps it until all the instructions are executed again. This pattern is repeated until index takes all the different values expressed by the iterand.
+The *iterand* is a function or statement that expresses an iteration; it could be the range 1..15, for example. *index* is a variable that exists only in the context of the for-loop, and that will be taking the different values yielded by the iterand. The code flows as follows: index takes the first value yielded by the iterand, and keeps it until all the instructions inside the curly brackets are executed one by one; then, index takes the second value yielded by the iterand, and keeps it until all the instructions are executed again. This pattern is repeated until index takes all the different values exressed by the iterand.
 
 This for loop, for example
 
@@ -139,7 +139,7 @@ As we can see, the temperature in the middle of the plate (position 50,50) is sl
 {:.challenge}
 
 > ## Exercise 2
-> Now let's have some more interesting boundary conditions. Suppose that the plate is heated by a source of 80 degrees located at the bottom right corner, and that the temperature on the rest of the border decreases linearly as one gets farther form the corner (see the image below). Utilise for loops to setup the described boundary conditions. Compile and run your code to see how the temperature is changing now. 
+> Now let's have some more interesting boundary conditions. Suppose that the plate is heated by a source of 80 degrees located at the bottom right corner, and that the temperature on the rest of the border decreases linearly as one gets farther form the corner (see the image below). Utilize for loops to setup the described boundary conditions. Compile and run your code to see how the temperature is changing now. 
 >> ## Solution
 >> To get the linear distribution, the 80 degrees must be divided by the number of rows or columns in our plate. So, the following couple of for loops will give us what we want;
 >> ~~~
@@ -156,7 +156,7 @@ As we can see, the temperature in the middle of the plate (position 50,50) is sl
 >> }
 >> ~~~
 >> {:.source}
->> Note that the boundary conditions must be set in both arrays, `past_temp` and `temp`, otherwise, they will be set to zero again after the first iteration. Also note that 80 degrees are written as a real number 80.0. The division of integers in Chapel returns an integer, then, as `rows` and `cols` are integers, we must have 80 as real so that the quotient is not truncated. 
+>> Note that the boundary conditions must be set in both arrays, `past_temp` and `temp`, otherwise, they will be set to zero again after the first iteration. Also note that 80 degrees are written as a real number 80.0. The division of integers in Chapel returns an integer, then, as `rows` and `cols` are integers, we must have 80 as real so that the cocient is not truncated. 
 >> ~~~
 >> >> chpl base_solution.chpl -o base_solution
 >> >> ./base_solution
@@ -223,7 +223,7 @@ As we can see, the temperature in the middle of the plate (position 50,50) is sl
 > {:.solution}
 {:.challenge}
 
-Now, after Exercise 3 we should have a working program to simulate our heat transfer equation. Let's just print some additional useful information,
+Now, after Excercise 3 we should have a working program to simulate our heat transfer equation. Let's just print some additional useful information,
 
 ~~~
 //print final information

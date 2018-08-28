@@ -125,7 +125,7 @@ forall idx in T.domain {
 ~~~
 {:.output}
 
-Since we use a parallel `forall` loop, the print statements appear in a random runtime order.
+Since we use a paralell `forall` loop, the print statements appear in a random runtime order.
 
 We can also define multiple arrays on the same domain:
 
@@ -240,7 +240,7 @@ writeln("actual number of threads = ", counter);
 {:.source}
 
 If `n=8` in our code is sufficiently large, there are enough array elements per node (8*8/4 = 16 in our
-case) to fully utilise all three available cores on each node, so our output should be
+case) to fully utilize all three available cores on each node, so our output should be
 
 ~~~
 actual number of threads = 12
@@ -330,13 +330,13 @@ var T: [largerMesh] real; // a block-distributed array of temperatures
 forall (i,j) in T.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real); // x, y are local to each task
   var y = ((j:real)-0.5)/(n:real);
-  T[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01); // narrow Gaussian peak
+  T[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01); // narrow gaussian peak
 }
 writeln(T);
 ~~~
 {:.source}
 
-Here we initialised an initial Gaussian temperature peak in the middle of the mesh. As we evolve our
+Here we initialized an initial Gaussian temperature peak in the middle of the mesh. As we evolve our
 solution in time, this peak should diffuse slowly over the rest of the domain.
 
 > ## Question
@@ -459,7 +459,7 @@ to our code:
 ~~~
 {:.source}
 
-Notice how the total energy decreases in time with the open boundary conditions, as the energy is leaving the system.
+Notice how the total energy decreases in time with the open BCs, as the energy is leaving the system.
 
 > ## Exercise 5
 > Write a code to print how the finite-difference stencil [i,j], [i-1,j], [i+1,j], [i,j-1], [i,j+1] is
@@ -533,6 +533,6 @@ Run the code and check the file *output.dat*: it should contain the array T afte
 
 * binary I/O
 * write/read NetCDF from Chapel by calling a C/C++ function
-* take a simple non-linear problem, linearise it, implement a parallel multi-locale linear solver
+* take a simple non-linear problem, linearize it, implement a parallel multi-locale linear solver
   entirely in Chapel
 
