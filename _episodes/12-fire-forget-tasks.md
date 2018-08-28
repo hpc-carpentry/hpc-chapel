@@ -109,11 +109,11 @@ As you can see the order of the output is not what we would expected, and actual
 >
 > Now submit your job asking for different amount of resources, and use system tools such as `top`or `ps` to monitor the execution of the code.
 >> ## Key idea
->> To maximize performance, start as many tasks as cores are avaialble
+>> To maximise performance, start as many tasks as cores are available
 >{:.solution}
 {:.challenge}
 
-A slightly more structured way to start concurrent tasks in Chapel is by using the `cobegin`statement. Here you can start a block of concurrent tasks, one for each statement inside the curly brackets. The main difference between the `begin`and `cobegin` statements is that with the `cobegin`, all the spawned tasks are synchronized at the end of the statement, i.e. the main thread won't continue its execution until all tasks are done. 
+A slightly more structured way to start concurrent tasks in Chapel is by using the `cobegin`statement. Here you can start a block of concurrent tasks, one for each statement inside the curly brackets. The main difference between the `begin`and `cobegin` statements is that with the `cobegin`, all the spawned tasks are synchronised at the end of the statement, i.e. the main thread won't continue its execution until all tasks are done. 
 
 ~~~
 var x=0;
@@ -154,7 +154,7 @@ The last, and most useful way to start concurrent/parallel tasks in Chapel, is t
 coforall index in iterand 
 {instructions}
 ```
-This will start a new task, for each iteration. Each tasks will then perform all the instructions inside the curly brackets. Each task will have a copy of the variable **_index_** with the corresponding value yielded by the iterand. This index allows us to _customize_ the set of instructions for each particular task. 
+This will start a new task, for each iteration. Each tasks will then perform all the instructions inside the curly brackets. Each task will have a copy of the variable **_index_** with the corresponding value yielded by the iterand. This index allows us to _customise_ the set of instructions for each particular task. 
 
 ~~~
 var x=1;
@@ -189,7 +189,7 @@ this message won't appear until all tasks are done...
  ~~~
  {:.output}
  
-Notice how we are able to customize the instructions inside the coforall, to give different results depending on the task that is executing them. Also, notice how, once again, the variables declared outside the coforall can be read by all tasks, while the variables declared inside, are available only to the particular task. 
+Notice how we are able to customise the instructions inside the coforall, to give different results depending on the task that is executing them. Also, notice how, once again, the variables declared outside the coforall can be read by all tasks, while the variables declared inside, are available only to the particular task. 
 
 > ## Exercise 1
 > Would it be possible to print all the messages in the right order? Modify the code in the last example as required.
@@ -320,9 +320,9 @@ this message won't appear until all tasks are done...
 > Time the execution of the original code and this new one. How do they compare?
 >
 >> ## Key idea
->> It is always a good idea to check whether there is _built-in_ functions or methods in the used language, that can do what we want to do as efficiently (or better) than our house-made code. In this case, the _reduce_ statement reduces the given array to a single number using the given operation (in this case max), and it is parallelized and optimized to have a very good performance. 
+>> It is always a good idea to check whether there is _built-in_ functions or methods in the used language, that can do what we want to do as efficiently (or better) than our house-made code. In this case, the _reduce_ statement reduces the given array to a single number using the given operation (in this case max), and it is parallelized and optimised to have a very good performance. 
 >{:.solution}
 {:.challenge}
 
 
-The code in these last Exercises somehow _synchronize_ the tasks to obtain the desired result. In addition, Chapel has specific mechanisms task synchronization, that could help us to achieve fine-grained parallelization. 
+The code in these last Exercises somehow _synchronise_ the tasks to obtain the desired result. In addition, Chapel has specific mechanisms task synchronisation, that could help us to achieve fine-grained parallelization. 

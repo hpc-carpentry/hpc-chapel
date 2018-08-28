@@ -1,5 +1,5 @@
 ---
-title: "Synchronizing tasks"
+title: "Synchronising tasks"
 teaching: 60
 exercises: 30
 questions:
@@ -7,11 +7,11 @@ questions:
 objectives:
 - "First objective."
 keypoints:
-- "You can explicitly synchronize tasks with `sync` statement."
-- "You can also use sync and atomic variables to synchronize tasks."
+- "You can explicitly synchronise tasks with `sync` statement."
+- "You can also use sync and atomic variables to synchronise tasks."
 ---
 
-The keyword `sync` provides all sorts of mechanisms to synchronize tasks in Chapel. 
+The keyword `sync` provides all sorts of mechanisms to synchronise tasks in Chapel. 
 
 We can simply use `sync` to force the _parent_ task to stop and wait until its _spawned-child-task_ ends.
 
@@ -195,7 +195,7 @@ x.writeXF(value)	//will assign the value no matter the state of x, and then set 
 x.readXX()		//will return the value of x regardless its state. The state will remain unchanged
 ~~~
 
-Chapel also implements **_atomic_** operations with variables declared as `atomic`, and this provides another option to synchronize tasks. Atomic operations run completely independently of any other thread or process. This means that when several tasks try to write an atomic variable, only one will succeed at a given moment, providing implicit synchronization between them. There is a number of methods defined for atomic variables, among them `sub()`, `add()`, `write()`, `read()`, and `waitfor()` are very useful to establish explicit synchronization between tasks, as showed in the next code:
+Chapel also implements **_atomic_** operations with variables declared as `atomic`, and this provides another option to synchronise tasks. Atomic operations run completely independently of any other thread or process. This means that when several tasks try to write an atomic variable, only one will succeed at a given moment, providing implicit synchronisation between them. There is a number of methods defined for atomic variables, among them `sub()`, `add()`, `write()`, `read()`, and `waitfor()` are very useful to establish explicit synchronisation between tasks, as showed in the next code:
 
 ~~~
 var lock: atomic int;
@@ -234,7 +234,7 @@ task 4 is done...
 {:.output}
 
 > ## Try this...
-> Comment out the line `lock.waitfor(numtasks)` in the code above to clearly observe the effect of the task synchronization.
+> Comment out the line `lock.waitfor(numtasks)` in the code above to clearly observe the effect of the task synchronisation.
 {:.challenge}
 
 Finally, with all the material studied so far, we should be ready to parallelize our code for the simulation of the heat transfer equation.

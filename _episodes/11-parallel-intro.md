@@ -20,23 +20,23 @@ Suppose that we want to paint the four walls in a room. We'll call this the *pro
 Think of the CPU cores as the painters or workers that will execute your concurrent tasks
 {:.callout}
 
-Now imagine that all workers have to obtain their paint from a central dispenser located at the middle of the room. If each worker is using a different colour, then they can work **_asynchronously_**, however, if they use the same colour, and two of them run out of paint at the same time, then they have to **_synchronize_** to use the dispenser: One must wait while the other is being serviced.  
+Now imagine that all workers have to obtain their paint from a central dispenser located at the middle of the room. If each worker is using a different colour, then they can work **_asynchronously_**, however, if they use the same colour, and two of them run out of paint at the same time, then they have to **_synchronise_** to use the dispenser: One must wait while the other is being serviced.  
 
 > ## Key idea
 Think of the shared memory in your computer as the central dispenser for all your workers
 {:.callout}
 
-Finally, imagine that we have 4 paint dispensers, one for each worker. In this scenario, each worker can complete their task totally on their own. They don't even have to be in the same room, they could be painting walls of different rooms in the house, in different houses in the city, and different cities in the country. We need, however, a communication system in place. Suppose that worker A, for some reason, needs a colour that is only available in the dispenser of worker B, they must then synchronize: worker A must request the paint of worker B and worker B must respond by sending the required colour. 
+Finally, imagine that we have 4 paint dispensers, one for each worker. In this scenario, each worker can complete their task totally on their own. They don't even have to be in the same room, they could be painting walls of different rooms in the house, in different houses in the city, and different cities in the country. We need, however, a communication system in place. Suppose that worker A, for some reason, needs a colour that is only available in the dispenser of worker B, they must then synchronise: worker A must request the paint of worker B and worker B must respond by sending the required colour. 
 
 > ## Key idea
 Think of the memory distributed on each node of a cluster as the different dispensers for your workers
 {:.callout}
 
-A **_fine-grained_** parallel code needs lots of communication or synchronization between tasks, in contrast with a **_coarse-grained_** one. An **_embarrassingly parallel_** problem is one where all tasks can be executed completely independent from each other (no communications required). 
+A **_fine-grained_** parallel code needs lots of communication or synchronisation between tasks, in contrast with a **_coarse-grained_** one. An **_embarrassingly parallel_** problem is one where all tasks can be executed completely independent from each other (no communications required). 
 
 ## Parallel programming in Chapel
 
-Chapel provides high-level abstractions for parallel programming no matter the grain size of your tasks, whether they run in a shared memory or a distributed memory environment, or whether they are executed concurrently or truly in parallel. As a programmer you can focus in the algorithm: how to divide the problem into tasks that make sense in the context of the problem, and be sure that the high-level implementation will run on any hardware configuration. Then you could consider the specificities of the particular system you are going to use (whether it is shared or distributed, the number of cores, etc.) and tune your code/algorithm to obtain a better performance. 
+Chapel provides high-level abstractions for parallel programming no matter the grain size of your tasks, whether they run in a shared memory or a distributed memory environment, or whether they are executed concurrently or truly in parallel. As a programmer you can focus in the algorithm: how to divide the problem into tasks that make sense in the context of the problem, and be sure that the high-level implementation will run on any hardware configuration. Then you could consider the details of the specific system you are going to use (whether it is shared or distributed, the number of cores, etc.) and tune your code/algorithm to obtain a better performance. 
 
 > ## Key idea
 To this effect, **_concurrency_** (the creation and execution of multiple tasks), and **_locality_** (in which set of resources these tasks are executed) are orthogonal concepts in Chapel. 
