@@ -118,7 +118,7 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 ~~~
 {:.output}
 
-This parallel solution, using 4 parallel tasks, took around 17 seconds to finish. Compared with the ~20 seconds needed by the benchmark solution, seems not very impressive. To understand the reason, let's analyse the code's flow. When the program starts, the main thread does all the declarations and initialisations, and then, it enters the main loop of the simulation (the **_while loop_**). Inside this loop, the parallel tasks are launched for the first time. When these tasks finish their computations, the main task resumes its execution, it updates `curdif`, and everything is repeated again. So, in essence, parallel tasks are launched and resumed 7750 times, which introduces a significant amount of overhead (the time the system needs to effectively start and destroy threads in the specific hardware, at each iteration of the while loop). 
+This parallel solution, using 4 parallel tasks, took around 17 seconds to finish. Compared with the ~20 seconds needed by the benchmark solution, seems not very impressive. To understand the reason, let's analyze the code's flow. When the program starts, the main thread does all the declarations and initialisations, and then, it enters the main loop of the simulation (the **_while loop_**). Inside this loop, the parallel tasks are launched for the first time. When these tasks finish their computations, the main task resumes its execution, it updates `curdif`, and everything is repeated again. So, in essence, parallel tasks are launched and resumed 7750 times, which introduces a significant amount of overhead (the time the system needs to effectively start and destroy threads in the specific hardware, at each iteration of the while loop). 
 
 Clearly, a better approach would be to launch the parallel tasks just once, and have them executing all the simulations, before resuming the main task to print the final results. 
 
@@ -176,13 +176,13 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
 ~~~
 {:.source}
     
-The problem with this approach is that now we have to explicitly synchronise the tasks. Before, `curdif` and `past_temp` were updated only by the main task at each iteration; similarly, only the main task was printing results. Now, all these operations must be carried inside the coforall loop, which imposes the need of synchronisation between tasks. 
+The problem with this approach is that now we have to explicitly synchronize the tasks. Before, `curdif` and `past_temp` were updated only by the main task at each iteration; similarly, only the main task was printing results. Now, all these operations must be carried inside the coforall loop, which imposes the need of synchronization between tasks. 
 
-The synchronisation must happen at two points: 
+The synchronization must happen at two points: 
 1. We need to be sure that all tasks have finished with the computations of their part of the grid `temp`, before updating `curdif` and `past_temp` safely.
 2. We need to be sure that all tasks use the updated value of `curdif` to evaluate the condition of the while loop for the next iteration.
 
-To update `curdif` we could have each task computing the greatest difference in temperature in its associated sub-grid, and then, after the synchronisation, have only one task reducing all the sub-grids' maximums.
+To update `curdif` we could have each task computing the greatest difference in temperature in its associated sub-grid, and then, after the synchronization, have only one task reducing all the sub-grids' maximums.
 
 ~~~
 var curdif: atomic real;
@@ -207,7 +207,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do
     }
     myd[taskid] = myd2
     
-    // here comes the synchronisation of tasks
+    // here comes the synchronization of tasks
     
     past_temp[rowi..rowf,coli..colf] = temp[rowi..rowf,coli..colf];
     if taskid==0 then {
@@ -215,14 +215,14 @@ coforall taskid in 0..coltasks*rowtasks-1 do
       if c%n==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
     }
     
-    // here comes the synchronisation of tasks again
+    // here comes the synchronization of tasks again
   }
 }     
 ~~~
 {:.source}
 
 > ## Exercise 4
-> Use `sync` or `atomic` variables to implement the synchronisation required in the code above.
+> Use `sync` or `atomic` variables to implement the synchronization required in the code above.
 >> ## Solution
 >> One possible solution is to use an atomic variable as a _lock_ that opens (using the `waitFor` method) when all the tasks complete the required instructions
 >> ~~~
@@ -239,14 +239,14 @@ coforall taskid in 0..coltasks*rowtasks-1 do
 >>       ...
 >>       myd[taskid]=myd2    
 >>
->>       //here comes the synchronisation of tasks
+>>       //here comes the synchronization of tasks
 >>       lock.add(1);
 >>       lock.waitFor(coltasks*rowtasks);
 >>       
 >>       past_temp[rowi..rowf,coli..colf]=temp[rowi..rowf,coli..colf];
 >>       ...
 >>
->>       //here comes the synchronisation of tasks again
+>>       //here comes the synchronization of tasks again
 >>       lock.sub(1);
 >>       lock.waitFor(0);
 >>    }

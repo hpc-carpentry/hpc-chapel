@@ -8,11 +8,11 @@ objectives:
 - "Write and execute our first chapel program."
 keypoints:
 - "Chapel is a compiled language - any programs we make must be compiled with `chpl`."
-- "The `--fast` flag instructs the Chapel compiler to optimise our code."
+- "The `--fast` flag instructs the Chapel compiler to optimize our code."
 - "The `-o` flag tells the compiler what to name our output (otherwise it gets named `a.out`)"
 ---
 
-**_Chapel_** is a modern programming language, developed by _Cray Inc._, that supports HPC via high-level abstractions for data parallelism and task parallelism. These abstractions allow the users to express parallel codes in a natural, almost intuitive, manner. In contrast with other high-level parallel languages, however, Chapel was designed around a _multi-resolution_ philosophy. This means that users can incrementally add more detail to their original code prototype, to optimise it to a particular computer as closely as required. 
+**_Chapel_** is a modern programming language, developed by _Cray Inc._, that supports HPC via high-level abstractions for data parallelism and task parallelism. These abstractions allow the users to express parallel codes in a natural, almost intuitive, manner. In contrast with other high-level parallel languages, however, Chapel was designed around a _multi-resolution_ philosophy. This means that users can incrementally add more detail to their original code prototype, to optimize it to a particular computer as closely as required. 
 
 In a nutshell, with Chapel we can write parallel code with the simplicity and readability of scripting languages such as Python or MATLAB, but achieving performance comparable to compiled languages like C or Fortran (+ traditional parallel libraries such as MPI or OpenMP).
 
@@ -38,7 +38,7 @@ chpl --fast hello.chpl -o hello.o
 ~~~
 {: .bash}
 
-The flag `--fast` indicates the compiler to optimise the binary to run as fast as possible in the given architecture.
+The flag `--fast` indicates the compiler to optimize the binary to run as fast as possible in the given architecture.
 The `-o` option tells Chapel what to call the final output program, in this case `hello.o`.
 
 To run the code, you execute it as you would any other program:
@@ -54,8 +54,8 @@ If we can see this, everything works!
 
 ## Running on a cluster
 
-Depending on the code, it might utilise several or even all cores on the current node. The command above
-implies that you are allowed to utilise all cores. This might not be the case on an HPC cluster, where a
+Depending on the code, it might utilize several or even all cores on the current node. The command above
+implies that you are allowed to utilize all cores. This might not be the case on an HPC cluster, where a
 login node is shared by many people at the same time, and where it might not be a good idea to occupy all
 cores on a login node with CPU-intensive tasks.
 

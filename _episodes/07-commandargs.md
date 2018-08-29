@@ -24,7 +24,7 @@ config const niter = 500;    //number of iterations
 ~~~
 {:.input}
 
-it can be initialised with a specific value, when executing the code at the command line, using the syntax:
+it can be initialized with a specific value, when executing the code at the command line, using the syntax:
 
 ~~~
 >> ./base_solution --niter=3000
