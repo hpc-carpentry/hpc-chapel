@@ -77,8 +77,8 @@ In Chapel, to declare a variable we must specify the type of the variable, or in
 
 * integer `int` (positive or negative whole numbers)
 * floating-point number `real` (decimal values)
-* Boolean `bool`  (true or false)
-* string `string` (any type of text)
+* boolean `bool`  (true or false)
+* srting `string` (any type of text)
 
 
 If a variable is declared without a type, Chapel will infer it from the given initial value.
@@ -173,7 +173,7 @@ Of course, we can use both, the initial value and the type, when declaring a var
 
 ~~~
 const mindif=0.0001: real;	//smallest difference in temperature that would be accepted before stopping
-const n=20: int;		//the temperature at the desired position will be printed every n iterations
+const n=20: int;		//the temperature at the desired position will be printed every n interations
 ~~~
 {: .source}
 
@@ -191,7 +191,7 @@ const x = 50;                   // row number of the desired position
 const y = 50;                   // column number of the desired position
 var curdif: real;               // here we will store the greatest difference in temperature from one iteration to another 
 var tt: real;                   // for temporary results when computing the temperatures
-const mindif = 0.0001: real;    // smallest difference in temperature that would be accepted before stopping
-const n = 20: int;              // the temperature at the desired position will be printed every n iterations
+const mindif = 0.0001: real;    // smallest difference in temperature that would be accepted before stoping
+const n = 20: int;              // the temperature at the desired position will be printed every n interations
 ```
 {: .source}

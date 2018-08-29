@@ -118,7 +118,7 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 ~~~
 {:.output}
 
-This parallel solution, using 4 parallel tasks, took around 17 seconds to finish. Compared with the ~20 seconds needed by the benchmark solution, seems not very impressive. To understand the reason, let's analyze the code's flow. When the program starts, the main thread does all the declarations and initialisations, and then, it enters the main loop of the simulation (the **_while loop_**). Inside this loop, the parallel tasks are launched for the first time. When these tasks finish their computations, the main task resumes its execution, it updates `curdif`, and everything is repeated again. So, in essence, parallel tasks are launched and resumed 7750 times, which introduces a significant amount of overhead (the time the system needs to effectively start and destroy threads in the specific hardware, at each iteration of the while loop). 
+This parallel solution, using 4 parallel tasks, took around 17 seconds to finish. Compared with the ~20 seconds needed by the benchmark solution, seems not very impressive. To understand the reason, let's analyze the code's flow. When the program starts, the main thread does all the declarations and initializations, and then, it enters the main loop of the simulation (the **_while loop_**). Inside this loop, the parallel tasks are launched for the first time. When these tasks finish their computations, the main task resumes its execution, it updates `curdif`, and everything is repeated again. So, in essence, parallel tasks are launched and resumed 7750 times, which introduces a significant amount of overhead (the time the system needs to effectively start and destroy threads in the specific hardware, at each iteration of the while loop). 
 
 Clearly, a better approach would be to launch the parallel tasks just once, and have them executing all the simulations, before resuming the main task to print the final results. 
 
@@ -299,7 +299,7 @@ var x, y: real;
 for (i,j) in {1..n,1..n} { // serial iteration
   x = ((i:real)-0.5)/n;
   y = ((j:real)-0.5)/n;
-  T[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2)/0.01); // narrow Gaussian peak
+  T[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2)/0.01); // narrow gaussian peak
 }
 coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x20 blocks => 25 tasks
   for k in i..i+stride-1 { // serial loop inside each block

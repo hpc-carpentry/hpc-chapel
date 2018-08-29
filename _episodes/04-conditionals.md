@@ -10,7 +10,7 @@ keypoints:
 - "Conditional statements in Chapel are very similar to these in other languages."
 ---
 
-Chapel, as most *high level programming languages*, has different statements to control the flow of the program or code.  The conditional statements are: the **_if statement_**, and the **_while statement_**.
+Chapel, as most *high level programming languages*, has different staments to control the flow of the program or code.  The conditional statements are: the **_if statement_**, and the **_while statement_**.
 These statements both rely on comparisons between values. 
 Let's try a few comparisons to see how they work (`conditionals.chpl`):
 
@@ -101,7 +101,7 @@ Essentially, what we want is to repeat all the code inside the curly brackets un
 
 To count iterations we just need to keep adding 1 to the counter variable `c`. We could do this with `c=c+1`, or with the compound assignment, `+=`, as in the code above. To program the rest of the logic inside the curly brackets, on the other hand, we will need more elaborated instructions. 
 
-Let's focus, first, on printing the temperature every 20 iterations. To achieve this, we only need to check whether `c` is a multiple of 20, and in that case, to print the temperature at the desired position. This is the type of control that an **_if statement_** give us. The general syntax is: 
+Let's focus, first, on printing the temperature every 20 interations. To achieve this, we only need to check whether `c` is a multiple of 20, and in that case, to print the temperature at the desired position. This is the type of control that an **_if statement_** give us. The general syntax is: 
 
 ```
 if condition then 

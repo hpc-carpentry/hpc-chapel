@@ -36,7 +36,7 @@ A **_fine-grained_** parallel code needs lots of communication or synchronizatio
 
 ## Parallel programming in Chapel
 
-Chapel provides high-level abstractions for parallel programming no matter the grain size of your tasks, whether they run in a shared memory or a distributed memory environment, or whether they are executed concurrently or truly in parallel. As a programmer you can focus in the algorithm: how to divide the problem into tasks that make sense in the context of the problem, and be sure that the high-level implementation will run on any hardware configuration. Then you could consider the details of the specific system you are going to use (whether it is shared or distributed, the number of cores, etc.) and tune your code/algorithm to obtain a better performance. 
+Chapel provides high-level abstractions for parallel programming no matter the grain size of your tasks, whether they run in a shared memory or a distributed memory environment, or whether they are executed concurrently or truly in parallel. As a programmer you can focus in the algorithm: how to divide the problem into tasks that make sense in the context of the problem, and be sure that the high-level implementation will run on any hardware configuration. Then you could consider the specificities of the particular system you are going to use (whether it is shared or distributed, the number of cores, etc.) and tune your code/algorithm to obtain a better performance. 
 
 > ## Key idea
 To this effect, **_concurrency_** (the creation and execution of multiple tasks), and **_locality_** (in which set of resources these tasks are executed) are orthogonal concepts in Chapel. 
