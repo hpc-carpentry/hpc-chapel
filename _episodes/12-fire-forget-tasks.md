@@ -109,7 +109,7 @@ As you can see the order of the output is not what we would expected, and actual
 >
 > Now submit your job asking for different amount of resources, and use system tools such as `top`or `ps` to monitor the execution of the code.
 >> ## Key idea
->> To maximize performance, start as many tasks as cores are avaialble
+>> To maximize performance, start as many tasks as cores are available
 >{:.solution}
 {:.challenge}
 
