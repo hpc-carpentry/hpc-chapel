@@ -240,7 +240,7 @@ writeln("actual number of threads = ", counter);
 {:.source}
 
 If `n=8` in our code is sufficiently large, there are enough array elements per node (8*8/4 = 16 in our
-case) to fully utilize all three available cores on each node, so our output should be
+case) to fully utilise all three available cores on each node, so our output should be
 
 ~~~
 actual number of threads = 12
@@ -336,7 +336,7 @@ writeln(T);
 ~~~
 {:.source}
 
-Here we initialized an initial Gaussian temperature peak in the middle of the mesh. As we evolve our
+Here we initialised an initial Gaussian temperature peak in the middle of the mesh. As we evolve our
 solution in time, this peak should diffuse slowly over the rest of the domain.
 
 > ## Question
@@ -533,6 +533,6 @@ Run the code and check the file *output.dat*: it should contain the array T afte
 
 * binary I/O
 * write/read NetCDF from Chapel by calling a C/C++ function
-* take a simple non-linear problem, line arise it, implement a parallel multi-locale linear solver
+* take a simple non-linear problem, linearise it, implement a parallel multi-locale linear solver
   entirely in Chapel
 
