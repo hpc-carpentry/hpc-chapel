@@ -167,7 +167,7 @@ const distributedMesh: domain(2) dmapped Block(boundingBox=mesh) = mesh;
 var A: [distributedMesh] string; // block-distributed array mapped to locales
 forall a in A { // go in parallel through all n^2 elements in A
   // assign each array element on the locale that stores that index/element
-  a = "%i".format(a.locale.id) + '-' + here.name + '-' + here.maxTaskPar + '  ';
+  a = "%i-%s-%s  ".format(a.locale.id, here.name, here.maxTaskPar);
 }
 writeln(A);
 ~~~~
