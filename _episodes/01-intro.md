@@ -121,7 +121,7 @@ executable `mybinary`.
 
 Along all the Chapel lessons we will be using the following _case study_ as the
 leading thread of the discussion. Essentially, we will be building, step by
-step, a Chapel code to solve the **_Heat transfer_** problem described bellow.
+step, a Chapel code to solve the **_Heat transfer_** problem described below.
 Then we will parallelize the code to improve its performance.
 
 Suppose that we have a square metallic plate with some initial heat
