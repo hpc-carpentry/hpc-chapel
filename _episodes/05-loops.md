@@ -10,46 +10,63 @@ keypoints:
 - "Use `for` statement to organise a loop."
 ---
 
-To compute the current temperature of an element of `temp`, we need to add all the surrounding elements in `past_temp`, and divide the result by 4. And, essentially, we need to repeat this process for all the elements of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterate over a given number of elements, the **_for-loop_** is what we want to use. The for-loop has the following general syntax: 
+To compute the current temperature of an element of `temp`, we need to add all
+the surrounding elements in `past_temp`, and divide the result by 4. And,
+essentially, we need to repeat this process for all the elements of `temp`, or,
+in other words, we need to *iterate* over the elements of `temp`. When it comes
+to iterate over a given number of elements, the **_for-loop_** is what we want
+to use. The for-loop has the following general syntax:
 
 ```
 for index in iterand do
 {instructions}
 ``` 
+{: .source}
 
-The *iterand* is a function or statement that expresses an iteration; it could be the range 1..15, for example. *index* is a variable that exists only in the context of the for-loop, and that will be taking the different values yielded by the iterand. The code flows as follows: index takes the first value yielded by the iterand, and keeps it until all the instructions inside the curly brackets are executed one by one; then, index takes the second value yielded by the iterand, and keeps it until all the instructions are executed again. This pattern is repeated until index takes all the different values expressed by the iterand.
+The *iterand* is a function or statement that expresses an iteration; it could
+be the range 1..15, for example. *index* is a variable that exists only in the
+context of the for-loop, and that will be taking the different values yielded
+by the iterand. The code flows as follows: index takes the first value yielded
+by the iterand, and keeps it until all the instructions inside the curly
+brackets are executed one by one; then, index takes the second value yielded by
+the iterand, and keeps it until all the instructions are executed again. This
+pattern is repeated until index takes all the different values expressed by the
+iterand.
 
 This for loop, for example
 
 ~~~
 //calculate the new current temperatures (temp) using the past temperatures (past_temp)
-for i in 1..rows do   
+for i in 1..rows do
 {
   //do this for every row 
 }
 ~~~
-{:.source}
+{: .source}
 
-will allow us to iterate over the rows of `temp`. Now, for each row we also need to iterate over all the columns in order to access every single element of `temp`. This can be done with nested for loops like this
+will allow us to iterate over the rows of `temp`. Now, for each row we also
+need to iterate over all the columns in order to access every single element of
+`temp`. This can be done with nested for loops like this
 
 ~~~
 //calculate the new current temperatures (temp) using the past temperatures (past_temp)
-for i in 1..rows do   
+for i in 1..rows do
 {
   //do this for every row 
   for j in 1..cols do
   {
     //and this for every column in the row i
   }
-}     
+}
 ~~~
-{:.source}
+{: .source}
 
-Now, inside the inner loop, we can use the indices `i` and `j` to perform the required computations as follows:
+Now, inside the inner loop, we can use the indices `i` and `j` to perform the
+required computations as follows:
 
 ~~~
 //calculate the new current temperatures (temp) using the past temperatures (past_temp)
-for i in 1..rows do   
+for i in 1..rows do
 {
   //do this for every row 
   for j in 1..cols do
@@ -60,9 +77,11 @@ for i in 1..rows do
 }     
 past_temp=temp;
 ~~~
-{:.source}
+{: .source}
 
-Note that at the end of the outer for-loop, when all the elements in `temp` are already calculated, we update `past_temp` with the values of `temp`; this way everything is set up for the next iteration of the main while statement.
+Note that at the end of the outer for-loop, when all the elements in `temp` are
+already calculated, we update `past_temp` with the values of `temp`; this way
+everything is set up for the next iteration of the main while statement.
 
 Now let's compile and execute our code again:
 
@@ -70,13 +89,14 @@ Now let's compile and execute our code again:
 >> chpl base_solution.chpl -o base_solution
 >> ./base_solution
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 The simulation will consider a matrix of 100 by 100 elements,
 it will run up to 500 iterations, or until the largest difference
 in temperature between iterations is less than 0.0001.
-You are interested in the evolution of the temperature at the position (50,50) of the matrix...
+You are interested in the evolution of the temperature at the
+position (50,50) of the matrix...
 
 and here we go...
 Temperature at iteration 0: 25.0
@@ -106,131 +126,165 @@ Temperature at iteration 460: 24.913
 Temperature at iteration 480: 24.8883
 Temperature at iteration 500: 24.8595
 ~~~
-{:.output}
+{: .output}
 
-As we can see, the temperature in the middle of the plate (position 50,50) is slowly decreasing as the plate is cooling down. 
+As we can see, the temperature in the middle of the plate (position 50,50) is
+slowly decreasing as the plate is cooling down.
 
 > ## Exercise 1
-> What would be the temperature at the top right corner of the plate? The border of the plate is in contact with the boundary conditions, which are set to zero, so we expect the temperature at these points to decrease faster. Modify the code to see the temperature at the top right corner.
->> ## Solution
->> To see the evolution of the temperature at the top right corner of the plate, we just need to modify `x` and `y`. This corner correspond to the first row (`x=1`) and the last column (`y=cols`) of the plate. 
->> ~~~
->> >> chpl base_solution.chpl -o base_solution
->> >> ./base_solution
->> ~~~
->> {:.input}
->> ~~~
->> The simulation will consider a matrix of 100 by 100 elements,
->> it will run up to 500 iterations, or until the largest difference
->> in temperature between iterations is less than 0.0001.
->> You are interested in the evolution of the temperature at the position (1,100) of the matrix...
->> 
->> and here we go...
->> Temperature at iteration 0: 25.0
->> Temperature at iteration 20: 1.48171
->> Temperature at iteration 40: 0.767179
->> ...
->> Temperature at iteration 460: 0.068973
->> Temperature at iteration 480: 0.0661081
->> Temperature at iteration 500: 0.0634717
->> ~~~
->> {:.output}
-> {:.solution}
-{:.challenge}
+>
+> What would be the temperature at the top right corner of the plate? The
+> border of the plate is in contact with the boundary conditions, which are set
+> to zero, so we expect the temperature at these points to decrease faster.
+> Modify the code to see the temperature at the top right corner.
+>
+> > ## Solution
+> > To see the evolution of the temperature at the top right corner of the plate, we just need to modify `x` and `y`. This corner correspond to the first row (`x=1`) and the last column (`y=cols`) of the plate. 
+> > ~~~
+> > >> chpl base_solution.chpl -o base_solution
+> > >> ./base_solution
+> > ~~~
+> > {: .bash}
+> > ~~~
+> > The simulation will consider a matrix of 100 by 100 elements,
+> > it will run up to 500 iterations, or until the largest difference
+> > in temperature between iterations is less than 0.0001.
+> > You are interested in the evolution of the temperature at the position (1,100) of the matrix...
+> > 
+> > and here we go...
+> > Temperature at iteration 0: 25.0
+> > Temperature at iteration 20: 1.48171
+> > Temperature at iteration 40: 0.767179
+> > ...
+> > Temperature at iteration 460: 0.068973
+> > Temperature at iteration 480: 0.0661081
+> > Temperature at iteration 500: 0.0634717
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
 
 > ## Exercise 2
-> Now let's have some more interesting boundary conditions. Suppose that the plate is heated by a source of 80 degrees located at the bottom right corner, and that the temperature on the rest of the border decreases linearly as one gets farther form the corner (see the image below). Utilise for loops to setup the described boundary conditions. Compile and run your code to see how the temperature is changing now. 
->> ## Solution
->> To get the linear distribution, the 80 degrees must be divided by the number of rows or columns in our plate. So, the following couple of for loops will give us what we want;
->> ~~~
->> //this setup the boundary conditions
->> for i in 1..rows do
->> {
->>   past_temp[i,cols+1]=i*80.0/rows;
->>   temp[i,cols+1]=i*80.0/rows;
->> }
->> for j in 1..cols do
->> {
->>   past_temp[rows+1,j]=j*80.0/cols;
->>   temp[rows+1,j]=j*80.0/cols;
->> }
->> ~~~
->> {:.source}
->> Note that the boundary conditions must be set in both arrays, `past_temp` and `temp`, otherwise, they will be set to zero again after the first iteration. Also note that 80 degrees are written as a real number 80.0. The division of integers in Chapel returns an integer, then, as `rows` and `cols` are integers, we must have 80 as real so that the quotient is not truncated. 
->> ~~~
->> >> chpl base_solution.chpl -o base_solution
->> >> ./base_solution
->> ~~~
->> {:.input}
->> ~~~
->> The simulation will consider a matrix of 100 by 100 elements,
->> it will run up to 500 iterations, or until the largest difference
->> in temperature between iterations is less than 0.0001.
->> You are interested in the evolution of the temperature at the position (1,100) of the matrix...
->> 
->> and here we go...
->> Temperature at iteration 0: 25.0
->> Temperature at iteration 20: 2.0859
->> Temperature at iteration 40: 1.42663
->> ...
->> Temperature at iteration 460: 0.826941
->> Temperature at iteration 480: 0.824959
->> Temperature at iteration 500: 0.823152
->> ~~~
->> {:.output}
-> {:.solution}
-{:.challenge}
+> Now let's have some more interesting boundary conditions. Suppose that the
+> plate is heated by a source of 80 degrees located at the bottom right corner,
+> and that the temperature on the rest of the border decreases linearly as one
+> gets farther form the corner (see the image below). Utilise for loops to
+> setup the described boundary conditions. Compile and run your code to see how
+> the temperature is changing now.
+>
+> > ## Solution
+> >
+> > To get the linear distribution, the 80 degrees must be divided by the number
+> > of rows or columns in our plate. So, the following couple of for loops will
+> > give us what we want;
+> > ~~~
+> > //this setup the boundary conditions
+> > for i in 1..rows do
+> > {
+> >   past_temp[i,cols+1]=i*80.0/rows;
+> >   temp[i,cols+1]=i*80.0/rows;
+> > }
+> > for j in 1..cols do
+> > {
+> >   past_temp[rows+1,j]=j*80.0/cols;
+> >   temp[rows+1,j]=j*80.0/cols;
+> > }
+> > ~~~
+> > {: .source}
+> >
+> > Note that the boundary conditions must be set in both arrays, `past_temp`
+> > and `temp`, otherwise, they will be set to zero again after the first
+> > iteration. Also note that 80 degrees are written as a real numbe r 80.0.
+> > The division of integers in Chapel returns an integer, then, as `rows`
+> > and `cols` are integers, we must have 80 as real so that the quotient is
+> > not truncated.
+> > ~~~
+> > >> chpl base_solution.chpl -o base_solution
+> > >> ./base_solution
+> > ~~~
+> > {: .bash}
+> > ~~~
+> >
+> > The simulation will consider a matrix of 100 by 100 elements, it will run
+> > up to 500 iterations, or until the largest difference in temperature
+> > between iterations is less than 0.0001. You are interested in the evolution
+> > of the temperature at the position (1,100) of the matrix...
+> > 
+> > and here we go...
+> > Temperature at iteration 0: 25.0
+> > Temperature at iteration 20: 2.0859
+> > Temperature at iteration 40: 1.42663
+> > ...
+> > Temperature at iteration 460: 0.826941
+> > Temperature at iteration 480: 0.824959
+> > Temperature at iteration 500: 0.823152
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
 
 > ## Exercise 3
-> So far, `curdif` has been always equal to `mindif`, which means that our main while loop will always run the 500 iterations. So let's update `curdif` after each iteration. Use what we have studied so far to write the required piece of code.
->> ## Solution
->> The idea is simple, after each iteration of the while loop, we must compare all elements of `temp` and `past_temp`, find the greatest difference, and update `curdif` with that value. The next nested for loops do the job:
->> ~~~
->> //update curdif, the greatest difference between temp and past_temp
->> curdif=0;
->> for i in 1..rows do
->> {
->>   for j in 1..cols do
->>   {
->>     tt=abs(temp[i,j]-past_temp[i,j]);
->>     if tt>curdif then curdif=tt;
->>   }
->> }
->> ~~~
->> {:.source}
->> Clearly there is no need to keep the difference at every single position in the array, we just need to update `curdif` if we find a greater one. 
->> ~~~
->> >> chpl base_solution.chpl -o base_solution
->> >> ./base_solution
->> ~~~
->> {:.input}
->> ~~~
->> The simulation will consider a matrix of 100 by 100 elements,
->> it will run up to 500 iterations, or until the largest difference
->> in temperature between iterations is less than 0.0001.
->> You are interested in the evolution of the temperature at the position (1,100) of the matrix...
->> 
->> and here we go...
->> Temperature at iteration 0: 25.0
->> Temperature at iteration 20: 2.0859
->> Temperature at iteration 40: 1.42663
->> ...
->> Temperature at iteration 460: 0.826941
->> Temperature at iteration 480: 0.824959
->> Temperature at iteration 500: 0.823152
->> ~~~
->> {:.output}
-> {:.solution}
-{:.challenge}
+>
+> So far, `curdif` has been always equal to `mindif`, which means that our main
+> while loop will always run the 500 iterations. So let's update `curdif` after
+> each iteration. Use what we have studied so far to write the required piece
+> of code.
+> > ## Solution
+> >
+> > The idea is simple, after each iteration of the while loop, we must compare
+> > all elements of `temp` and `past_temp`, find the greatest difference, and
+> > update `curdif` with that value. The next nested for loops do the job:
+> >
+> > ~~~
+> > //update curdif, the greatest difference between temp and past_temp
+> > curdif=0;
+> > for i in 1..rows do
+> > {
+> >   for j in 1..cols do
+> >   {
+> >     tt=abs(temp[i,j]-past_temp[i,j]);
+> >     if tt>curdif then curdif=tt;
+> >   }
+> > }
+> > ~~~
+> > {: .source}
+> >
+> > Clearly there is no need to keep the difference at every single position in
+> > the array, we just need to update `curdif` if we find a greater one.
+> > ~~~
+> > >> chpl base_solution.chpl -o base_solution
+> > >> ./base_solution
+> > ~~~
+> > {: .bash}
+> > ~~~
+> > The simulation will consider a matrix of 100 by 100 elements,
+> > it will run up to 500 iterations, or until the largest difference
+> > in temperature between iterations is less than 0.0001.
+> > You are interested in the evolution of the temperature at the
+> > position (1,100) of the matrix...
+> > 
+> > and here we go...
+> > Temperature at iteration 0: 25.0
+> > Temperature at iteration 20: 2.0859
+> > Temperature at iteration 40: 1.42663
+> > ...
+> > Temperature at iteration 460: 0.826941
+> > Temperature at iteration 480: 0.824959
+> > Temperature at iteration 500: 0.823152
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
 
-Now, after Exercise 3 we should have a working program to simulate our heat transfer equation. Let's just print some additional useful information,
+Now, after Exercise 3 we should have a working program to simulate our heat
+transfer equation. Let's just print some additional useful information,
 
 ~~~
 //print final information
 writeln('\nFinal temperature at the desired position after ',c,' iterations is: ',temp[x,y]);
 writeln('The difference in temperatures between the last two iterations was: ',curdif,'\n');
 ~~~
-{:.source}
+{: .source}
 
 and compile and execute our final code,
 
@@ -238,13 +292,14 @@ and compile and execute our final code,
 >> chpl base_solution.chpl -o base_solution
 >> ./base_solution
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 The simulation will consider a matrix of 100 by 100 elements,
 it will run up to 500 iterations, or until the largest difference
 in temperature between iterations is less than 0.0001.
-You are interested in the evolution of the temperature at the position (1,100) of the matrix...
+You are interested in the evolution of the temperature at the
+position (1,100) of the matrix...
 
 and here we go...
 Temperature at iteration 0: 25.0
@@ -277,4 +332,4 @@ Temperature at iteration 500: 0.823152
 Final temperature at the desired position after 500 iterations is: 0.823152
 The greatest difference in temperatures between the last two iterations was: 0.0258874
 ~~~
-{:.output}
+{: .output}

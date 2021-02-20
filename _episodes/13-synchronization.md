@@ -11,9 +11,11 @@ keypoints:
 - "You can also use sync and atomic variables to synchronise tasks."
 ---
 
-The keyword `sync` provides all sorts of mechanisms to synchronise tasks in Chapel. 
+The keyword `sync` provides all sorts of mechanisms to synchronise tasks in
+Chapel.
 
-We can simply use `sync` to force the _parent_ task to stop and wait until its _spawned-child-task_ ends.
+We can simply use `sync` to force the _parent_ task to stop and wait until its
+_spawned-child-task_ ends.
 
 ~~~
 var x=0;
@@ -46,13 +48,13 @@ begin
 
 writeln('this is main thread, I am done...');
 ~~~
-{:.source}
+{: .source}
 
 ~~~
 >> chpl sync_example_1.chpl -o sync_example_1
 >> ./sync_example_1 
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 This is the main thread starting a synchronous task
@@ -80,55 +82,64 @@ thread 2: 8
 thread 2: 9
 thread 2: 10
 ~~~
-{:.output}
+{: .output}
 
 > ## Discussion
+>
 > What would happen if we write instead 
 > ~~~
-begin
-{
-  sync
-  {
-    var c=0;
-    while c<10
-    {
-      c+=1;
-      writeln('thread 1: ',x+c);
-    }
-  }
-}
-writeln("The first task is done...");
+> begin
+> {
+>   sync
+>   {
+>     var c=0;
+>     while c<10
+>     {
+>       c+=1;
+>       writeln('thread 1: ',x+c);
+>     }
+>   }
+> }
+> writeln("The first task is done...");
 > ~~~
-> {:.source}
-> Discuss your observations. 
-{:.discussion}
+> {: .source}
+{: .discussion}
 
 > ## Exercise 3
-> Use `begin` and `sync` statements to reproduce the functionality of `cobegin` in cobegin_example.chpl.
->> ## Solution
->> ~~~
->> var x=0;
->> writeln("This is the main thread, my value of x is ",x);
->>
->> sync
->> {
->>     begin
->>     {
->>        var x=5;
->>        writeln("this is task 1, my value of x is ",x);
->>     }
->>     begin writeln("this is task 2, my value of x is ",x);
->>  }
->>
->> writeln("this message won't appear until all tasks are done...");
->> ~~~
->> {:.source}
-> {:.solution}
-{:.challenge}
+>
+> Use `begin` and `sync` statements to reproduce the functionality of `cobegin`
+> in `cobegin_example.chpl`.
+>
+> > ## Solution
+> > ~~~
+> > var x=0;
+> > writeln("This is the main thread, my value of x is ",x);
+> >
+> > sync
+> > {
+> >     begin
+> >     {
+> >        var x=5;
+> >        writeln("this is task 1, my value of x is ",x);
+> >     }
+> >     begin writeln("this is task 2, my value of x is ",x);
+> >  }
+> >
+> > writeln("this message won't appear until all tasks are done...");
+> > ~~~
+> > {: .source}
+> {: .solution}
+{: .challenge}
 
-A more elaborated and powerful use of `sync` is as a type qualifier for variables. When a variable is declared as _sync_, a state that can be **_full_** or **_empty_** is associated to it.  
+A more elaborated and powerful use of `sync` is as a type qualifier for
+variables. When a variable is declared as _sync_, a state that can be
+**_full_** or **_empty_** is associated to it.
 
-To assign a new value to a _sync_ variable,  its state must be _empty_ (after the assignment operation is completed, the state will be set as _full_). On the contrary, to read a value from a _sync_ variable, its state must be _full_ (after the read operation is completed, the state will be set as _empty_ again).
+To assign a new value to a _sync_ variable, its state must be _empty_ (after
+the assignment operation is completed, the state will be set as _full_). On the
+contrary, to read a value from a _sync_ variable, its state must be _full_
+(after the read operation is completed, the state will be set as _empty_
+again).
 
 ~~~
 var x: sync int, a: int;
@@ -143,13 +154,13 @@ writeln("this is main task after launching new task... I will wait until  it is 
 a = x;   // don't run this line until the variable x is written in the other task
 writeln("and now it is done");
 ~~~
-{:.source}
+{: .source}
 
 ~~~
 >> chpl sync_example_2.chpl -o sync_example_2
 >> ./sync_example_2
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 this is main task launching a new task
@@ -167,13 +178,19 @@ this is new task working: 10
 New task finished
 and now it is done
 ~~~
-{:.output}
+{: .output}
 
 > ## Discussion
-> What would happen if we assign a value to _x_ right before launching the new task? What would happen if we assign a value to _x_ right before launching the new task and after the _writeln("and now it is done");_ statement? Discuss your observations
-{:.discussion}
+>
+> What would happen if we assign a value to _x_ right before launching the new
+> task? What would happen if we assign a value to _x_ right before launching
+> the new task and after the _writeln("and now it is done");_ statement?
+>
+> Discuss your observations.
+{: .discussion}
 
-There are a number of methods defined for _sync_ variables. Suppose _x_ is a sync variable of a given type, 
+There are a number of methods defined for _sync_ variables. Suppose _x_ is a
+sync variable of a given type,
 
 ~~~
 // general methods
@@ -194,8 +211,16 @@ x.readFF()		//will block until the state of x is full,
 x.writeXF(value)	//will assign the value no matter the state of x, and then set the state as full
 x.readXX()		//will return the value of x regardless its state. The state will remain unchanged
 ~~~
+{: .source}
 
-Chapel also implements **_atomic_** operations with variables declared as `atomic`, and this provides another option to synchronise tasks. Atomic operations run completely independently of any other thread or process. This means that when several tasks try to write an atomic variable, only one will succeed at a given moment, providing implicit synchronisation between them. There is a number of methods defined for atomic variables, among them `sub()`, `add()`, `write()`, `read()`, and `waitfor()` are very useful to establish explicit synchronisation between tasks, as showed in the next code:
+Chapel also implements **_atomic_** operations with variables declared as
+`atomic`, and this provides another option to synchronise tasks. Atomic
+operations run completely independently of any other thread or process. This
+means that when several tasks try to write an atomic variable, only one will
+succeed at a given moment, providing implicit synchronisation between them.
+There is a number of methods defined for atomic variables, among them `sub()`,
+`add()`, `write()`, `read()`, and `waitfor()` are very useful to establish
+explicit synchronisation between tasks, as showed in the next code:
 
 ~~~
 var lock: atomic int;
@@ -206,18 +231,18 @@ lock.write(0);  //the main task set lock to zero
 coforall id in 1..numtasks
 {
     writeln("greetings form task ",id,"... I am waiting for all tasks to say hello");
-    lock.add(1);				//task id says hello and atomically adds 1 to lock
-    lock.waitFor(numtasks);			//then it waits for lock to be equal numtasks (which will happen when all tasks say hello)
+    lock.add(1);                //task id says hello and atomically adds 1 to lock
+    lock.waitFor(numtasks);     //then it waits for lock to be equal numtasks (which will happen when all tasks say hello)
     writeln("task ",id," is done...");
 }
 ~~~
-{:.source}
+{: .source}
 
 ~~~
 >> chpl atomic_example.chpl -o atomic_example
 >> ./atomic_example
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 greetings form task 4... I am waiting for all tasks to say hello
@@ -231,10 +256,13 @@ task 2 is done...
 task 3 is done...
 task 4 is done...
 ~~~
-{:.output}
+{: .output}
 
 > ## Try this...
-> Comment out the line `lock.waitfor(numtasks)` in the code above to clearly observe the effect of the task synchronisation.
-{:.challenge}
+>
+> Comment out the line `lock.waitfor(numtasks)` in the code above to clearly
+> observe the effect of the task synchronisation.
+{: .challenge}
 
-Finally, with all the material studied so far, we should be ready to parallelize our code for the simulation of the heat transfer equation.
+Finally, with all the material studied so far, we should be ready to
+parallelize our code for the simulation of the heat transfer equation.

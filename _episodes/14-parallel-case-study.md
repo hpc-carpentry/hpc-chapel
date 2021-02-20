@@ -10,9 +10,16 @@ keypoints:
 - "There are many ways to implement task parallelism for the diffusion solver."
 ---
 
-The parallelization of our base solution for the heat transfer equation can be achieved following the ideas of Exercise 2. The entire grid of points can be divided and assigned to multiple tasks. Each tasks should compute the new temperature of its assigned points, and then we must perform a **_reduction_**, over the whole grid, to update the greatest difference in temperature. 
+The parallelization of our base solution for the heat transfer equation can be
+achieved following the ideas of Exercise 2. The entire grid of points can be
+divided and assigned to multiple tasks. Each tasks should compute the new
+temperature of its assigned points, and then we must perform a **_reduction_**,
+over the whole grid, to update the greatest difference in temperature.
 
-For the reduction of the grid we can simply use the `max reduce` statement, which is already parallelized. Now, let's divide the grid into `rowtasks` x `coltasks` sub-grids, and assign each sub-grid to a task using the `coforall` loop (we will have `rowtasks*coltasks` tasks in total).
+For the reduction of the grid we can simply use the `max reduce` statement,
+which is already parallelized. Now, let's divide the grid into `rowtasks` x
+`coltasks` sub-grids, and assign each sub-grid to a task using the `coforall`
+loop (we will have `rowtasks*coltasks` tasks in total).
 
 ~~~
 config const rowtasks = 2;
@@ -33,13 +40,16 @@ while (c<niter && curdif>=mindif) do {
 
   curdif = max reduce (temp-past_temp);
   past_temp = temp;
-  
+
   if c%n == 0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
 }
 ~~~
-{:.source}
+{: .source}
 
-Note that now the nested for loops run from `rowi` to `rowf` and from `coli` to `colf` which are, respectively, the initial and final row and column of the sub-grid associated to the task `taskid`. To compute these limits, based on `taskid`, we can again follow the same ideas as in Exercise 2.
+Note that now the nested for loops run from `rowi` to `rowf` and from `coli` to
+`colf` which are, respectively, the initial and final row and column of the
+sub-grid associated to the task `taskid`. To compute these limits, based on
+`taskid`, we can again follow the same ideas as in Exercise 2.
 
 ~~~
 config const rowtasks = 2;
@@ -66,7 +76,7 @@ while (c<niter && curdif>=mindif) do {
       rowi=(taskr*nr)+1+taskr;
       rowf=(taskr*nr)+nr+taskr+1;
     }
-	else {
+    else {
       rowi = (taskr*nr)+1+rr;
       rowf = (taskr*nr)+nr+rr;
     }
@@ -82,19 +92,23 @@ while (c<niter && curdif>=mindif) do {
 
     for i in rowi..rowf do {
       for j in coli..colf do {
-	  ...
-	
+      ...
 }
 ~~~
-{:.source}
+{: .source}
 
-As you can see, to divide a data set (the array `temp` in this case) between concurrent tasks, could be cumbersome. Chapel provides high-level abstractions for data parallelism that take care of all the data distribution for us. We will study data parallelism in the following lessons, but for now, let's compare the benchmark solution with our `coforall` parallelization to see how the performance improved. 
+As you can see, to divide a data set (the array `temp` in this case) between
+concurrent tasks, could be cumbersome. Chapel provides high-level abstractions
+for data parallelism that take care of all the data distribution for us. We
+will study data parallelism in the following lessons, but for now, let's
+compare the benchmark solution with our `coforall` parallelization to see how
+the performance improved.
 
 ~~~
->> chpl --fast parallel_solution_1.chpl -o parallel1
->> ./parallel1 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+> > chpl --fast parallel_solution_1.chpl -o parallel1
+> > ./parallel1 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 The simulation will consider a matrix of 650 by 650 elements,
@@ -116,11 +130,24 @@ The simulation took 17.0193 seconds
 Final temperature at the desired position after 7750 iterations is: 24.9671
 The greatest difference in temperatures between the last two iterations was: 0.00199985
 ~~~
-{:.output}
+{: .output}
 
-This parallel solution, using 4 parallel tasks, took around 17 seconds to finish. Compared with the ~20 seconds needed by the benchmark solution, seems not very impressive. To understand the reason, let's analyse the code's flow. When the program starts, the main thread does all the declarations and initialisations, and then, it enters the main loop of the simulation (the **_while loop_**). Inside this loop, the parallel tasks are launched for the first time. When these tasks finish their computations, the main task resumes its execution, it updates `curdif`, and everything is repeated again. So, in essence, parallel tasks are launched and resumed 7750 times, which introduces a significant amount of overhead (the time the system needs to effectively start and destroy threads in the specific hardware, at each iteration of the while loop). 
+This parallel solution, using 4 parallel tasks, took around 17 seconds to
+finish. Compared with the ~20 seconds needed by the benchmark solution, seems
+not very impressive. To understand the reason, let's analyse the code's flow.
+When the program starts, the main thread does all the declarations and
+initialisations, and then, it enters the main loop of the simulation (the
+**_while loop_**). Inside this loop, the parallel tasks are launched for the
+first time. When these tasks finish their computations, the main task resumes
+its execution, it updates `curdif`, and everything is repeated again. So, in
+essence, parallel tasks are launched and resumed 7750 times, which introduces a
+significant amount of overhead (the time the system needs to effectively start
+and destroy threads in the specific hardware, at each iteration of the while
+loop).
 
-Clearly, a better approach would be to launch the parallel tasks just once, and have them executing all the simulations, before resuming the main task to print the final results. 
+Clearly, a better approach would be to launch the parallel tasks just once, and
+have them executing all the simulations, before resuming the main task to print
+the final results.
 
 ~~~
 config const rowtasks = 2;
@@ -161,28 +188,38 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
 
   while (c<niter && curdif>=mindif) do {
     c = c+1;
-    
+
     for i in rowi..rowf do {
       for j in coli..colf do {
         temp[i,j] = (past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
       }
     }
-        
+
     //update curdif
     //update past_temp
     //print temperature in desired position
   }
 }
 ~~~
-{:.source}
-    
-The problem with this approach is that now we have to explicitly synchronise the tasks. Before, `curdif` and `past_temp` were updated only by the main task at each iteration; similarly, only the main task was printing results. Now, all these operations must be carried inside the coforall loop, which imposes the need of synchronisation between tasks. 
+{: .source}
 
-The synchronisation must happen at two points: 
-1. We need to be sure that all tasks have finished with the computations of their part of the grid `temp`, before updating `curdif` and `past_temp` safely.
-2. We need to be sure that all tasks use the updated value of `curdif` to evaluate the condition of the while loop for the next iteration.
+The problem with this approach is that now we have to explicitly synchronise
+the tasks. Before, `curdif` and `past_temp` were updated only by the main task
+at each iteration; similarly, only the main task was printing results. Now, all
+these operations must be carried inside the coforall loop, which imposes the
+need of synchronisation between tasks.
 
-To update `curdif` we could have each task computing the greatest difference in temperature in its associated sub-grid, and then, after the synchronisation, have only one task reducing all the sub-grids' maximums.
+The synchronisation must happen at two points:
+
+1. We need to be sure that all tasks have finished with the computations of
+   their part of the grid `temp`, before updating `curdif` and `past_temp`
+   safely.
+2. We need to be sure that all tasks use the updated value of `curdif` to
+   evaluate the condition of the while loop for the next iteration.
+
+To update `curdif` we could have each task computing the greatest difference in
+temperature in its associated sub-grid, and then, after the synchronisation,
+have only one task reducing all the sub-grids' maximums.
 
 ~~~
 var curdif: atomic real;
@@ -194,11 +231,11 @@ coforall taskid in 0..coltasks*rowtasks-1 do
 {
   var myd2: real;
   ...
-  
+
   while (c<niter && curdif>=mindif) do {
     c = c+1;
     ...
-  
+
     for i in rowi..rowf do {
       for j in coli..colf do {
         temp[i,j] = (past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
@@ -206,63 +243,71 @@ coforall taskid in 0..coltasks*rowtasks-1 do
       }
     }
     myd[taskid] = myd2
-    
+
     // here comes the synchronisation of tasks
-    
+
     past_temp[rowi..rowf,coli..colf] = temp[rowi..rowf,coli..colf];
     if taskid==0 then {
       curdif.write(max reduce myd);
       if c%n==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
     }
-    
+
     // here comes the synchronisation of tasks again
   }
-}     
+}
 ~~~
-{:.source}
+{: .source}
 
 > ## Exercise 4
-> Use `sync` or `atomic` variables to implement the synchronisation required in the code above.
->> ## Solution
->> One possible solution is to use an atomic variable as a _lock_ that opens (using the `waitFor` method) when all the tasks complete the required instructions
->> ~~~
->> var lock: atomic int;
->> lock.write(0);
->> ...
->> //this is the main loop of the simulation
->> curdif.write(mindif);
->> coforall taskid in 0..coltasks*rowtasks-1 do
->> {
->>    ...
->>    while (c<niter && curdif>=mindif) do   
->>    {
->>       ...
->>       myd[taskid]=myd2    
->>
->>       //here comes the synchronisation of tasks
->>       lock.add(1);
->>       lock.waitFor(coltasks*rowtasks);
->>       
->>       past_temp[rowi..rowf,coli..colf]=temp[rowi..rowf,coli..colf];
->>       ...
->>
->>       //here comes the synchronisation of tasks again
->>       lock.sub(1);
->>       lock.waitFor(0);
->>    }
->> }
->> ~~~
->> {:.source} 
-> {:.solution}
-{:.challenge} 
+>
+> Use `sync` or `atomic` variables to implement the synchronisation required in
+> the code above.
+>
+> > ## Solution
+> >
+> > One possible solution is to use an atomic variable as a _lock_ that opens
+> > (using the `waitFor` method) when all the tasks complete the required
+> > instructions
+> >
+> > ~~~
+> > var lock: atomic int;
+> > lock.write(0);
+> > ...
+> > //this is the main loop of the simulation
+> > curdif.write(mindif);
+> > coforall taskid in 0..coltasks*rowtasks-1 do
+> > {
+> >    ...
+> >    while (c<niter && curdif>=mindif) do
+> >    {
+> >       ...
+> >       myd[taskid]=myd2
+> >
+> >       //here comes the synchronisation of tasks
+> >       lock.add(1);
+> >       lock.waitFor(coltasks*rowtasks);
+> >
+> >       past_temp[rowi..rowf,coli..colf]=temp[rowi..rowf,coli..colf];
+> >       ...
+> >
+> >       //here comes the synchronisation of tasks again
+> >       lock.sub(1);
+> >       lock.waitFor(0);
+> >    }
+> > }
+> > ~~~
+> > {: .source}
+> {: .solution}
+{: .challenge}
 
-Using the solution in the Exercise 4, we can now compare the performance with the benchmark solution
+Using the solution in the Exercise 4, we can now compare the performance with
+the benchmark solution
 
 ~~~
 >> chpl --fast parallel_solution_2.chpl -o parallel2
 >> ./parallel2 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 The simulation will consider a matrix of 650 by 650 elements,
@@ -284,12 +329,13 @@ The simulation took 4.2733 seconds
 Final temperature at the desired position after 7750 iterations is: 24.9671
 The greatest difference in temperatures between the last two iterations was: 0.00199985
 ~~~
-{:.output}
+{: .output}
 
-to see that we now have a code that performs 5x faster. 
+to see that we now have a code that performs 5x faster.
 
-We finish this section by providing another, elegant version of the 2D heat transfer solver (without time
-stepping) using data parallelism on a single locale:
+We finish this section by providing another, elegant version of the 2D heat
+transfer solver (without time stepping) using data parallelism on a single
+locale:
 
 ~~~
 const n = 100, stride = 20;
@@ -309,6 +355,6 @@ coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x
   }
 }
 ~~~
-{:.source}
+{: .source}
 
 We will study data parallelism in more detail in the next section.

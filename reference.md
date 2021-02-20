@@ -5,4 +5,3 @@ permalink: /reference/
 
 ## Glossary
 
-FIXME

@@ -10,20 +10,26 @@ keypoints:
 - "Use UNIX `time` command or instrument your Chapel code to measure performance."
 ---
 
-The code generated after Exercise 4 is the basic implementation of our simulation. We will use it as a benchmark, to see how much we can improve the performance when introducing the parallel programming features of the language in the following lessons. 
+The code generated after Exercise 4 is the basic implementation of our
+simulation. We will use it as a benchmark, to see how much we can improve the
+performance when introducing the parallel programming features of the language
+in the following lessons.
 
-But first, we need a quantitative way to measure the performance of our code. The easiest way to do it is to see how long it takes to finish a simulation. The UNIX command `time` could be used to this effect
+But first, we need a quantitative way to measure the performance of our code.
+The easiest way to do it is to see how long it takes to finish a simulation.
+The UNIX command `time` could be used to this effect
 
 ~~~
 >> time ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 The simulation will consider a matrix of 650 by 650 elements,
 it will run up to 10000 iterations, or until the largest difference
 in temperature between iterations is less than 0.002.
-You are interested in the evolution of the temperature at the position (200,300) of the matrix...
+You are interested in the evolution of the temperature at the 
+position (200,300) of the matrix...
 
 and here we go...
 Temperature at iteration 0: 25.0
@@ -43,13 +49,21 @@ real	0m20.381s
 user	0m20.328s
 sys	0m0.053s
 ~~~
-{:.output}
+{: .output}
 
-The real time is what interests us. Our code is taking around 20 seconds from the moment it is called at the command line until it returns. 
+The real time is what interests us. Our code is taking around 20 seconds from
+the moment it is called at the command line until it returns.
 
-Some times, however, it could be useful to take the execution time of specific parts of the code. This can be achieved by modifying the code to output the information that we need. This process is called **_instrumentation of code_**.
+Some times, however, it could be useful to take the execution time of specific
+parts of the code. This can be achieved by modifying the code to output the
+information that we need. This process is called **_instrumentation of code_**.
 
-An easy way to instrument our code with Chapel is by using the module `Time`. **_Modules_** in Chapel are libraries of useful functions and methods that can be used once the module is loaded. To load a module we use the keyword `use` followed by the name of the module. Once the Time module is loaded we can create a variable of the type `Timer`, and use the methods `start`,`stop`and `elapsed` to instrument our code.
+An easy way to instrument our code with Chapel is by using the module `Time`.
+**_Modules_** in Chapel are libraries of useful functions and methods that can
+be used once the module is loaded. To load a module we use the keyword `use`
+followed by the name of the module. Once the Time module is loaded we can
+create a variable of the type `Timer`, and use the methods `start`,`stop`and
+`elapsed` to instrument our code.
 
 ~~~
 use Time;
@@ -70,19 +84,20 @@ writeln('\nThe simulation took ',watch.elapsed(),' seconds');
 writeln('Final temperature at the desired position after ',c,' iterations is: ',temp[x,y]);
 writeln('The greatest difference in temperatures between the last two iterations was: ',curdif,'\n');
 ~~~
-{:.source}
+{: .source}
 
 ~~~
 >> chpl base_solution.chpl -o base_solution
 >> ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ~~~
-{:.input}
+{: .bash}
 
 ~~~
 The simulation will consider a matrix of 650 by 650 elements,
 it will run up to 10000 iterations, or until the largest difference
 in temperature between iterations is less than 0.002.
-You are interested in the evolution of the temperature at the position (200,300) of the matrix...
+You are interested in the evolution of the temperature at the 
+position (200,300) of the matrix...
 
 and here we go...
 Temperature at iteration 0: 25.0
@@ -98,4 +113,4 @@ The simulation took 20.1621 seconds
 Final temperature at the desired position after 7750 iterations is: 24.9671
 The greatest difference in temperatures between the last two iterations was: 0.00199985
 ~~~
-{:.output}
+{: .output}
