@@ -5,4 +5,6 @@
 # Each line is a file pattern followed by one or more owners.
 # The sequence matters: later patterns take precedence.
 
-*       alex.razoumov@westgrid.ca
+# FILES  OWNERS
+*        alex.razoumov@westgrid.ca
+*        @hpc-carpentry/hpc-chapel-maintainers
