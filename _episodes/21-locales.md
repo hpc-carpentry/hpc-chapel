@@ -61,7 +61,7 @@ scheduling jobs by-core and not by-node, since part of a node should be
 allocated to someone else's job.
 
 Note that on Compute Canada clusters this launching method works without problem. On these clusters
-multi-locale Chapel is provided by chapel-ofi (for the OmniPath interconnect on Cedar) and chapel-ucx (for the
+multi-locale Chapel is provided by `chapel-ofi` (for the OmniPath interconnect on Cedar) and `chapel-ucx` (for the
 InfiniBand interconnect on Graham, Béluga, Narval) modules, so -- depending on the cluster -- you will load
 Chapel using one of the two lines below:
 
