@@ -84,8 +84,7 @@ are logged into Cedar or Graham, you'll need to load the single-locale Chapel
 module:
 
 ~~~
-module load gcc
-module load chapel-single
+module load gcc chapel-multicore
 ~~~
 {: .bash}
 

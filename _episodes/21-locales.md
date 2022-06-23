@@ -54,27 +54,27 @@ $ ./mybinary -nl 2
 {: .bash}
 
 The exact parameters of the job such as the maximum runtime and the requested
-memory can be specified with Chapel environment variables. One drawback of this
-launching method is that Chapel will have access to all physical cores on each
+memory can be specified with Chapel environment variables. One possible drawback of this
+launching method is that, depending on your cluster setup, Chapel might have access to all physical cores on each
 node participating in the run -- this will present problems if you are
 scheduling jobs by-core and not by-node, since part of a node should be
 allocated to someone else's job.
 
-The Compute Canada clusters Cedar and Graham employ two different physical
-interconnects, and since we use exactly the same multi-locale Chapel module on
-both clusters
+Note that on Compute Canada clusters this launching method works without problem. On these clusters
+multi-locale Chapel is provided by chapel-ofi (for the OmniPath interconnect on Cedar) and chapel-ucx (for the
+InfiniBand interconnect on Graham, Béluga, Narval) modules, so -- depending on the cluster -- you will load
+Chapel using one of the two lines below:
 
 ~~~
-$ module load gcc
-$ module load chapel-slurm-gasnetrun_ibv/1.15.0
-$ export GASNET_PHYSMEM_MAX=1G      # needed for faster job launch
-$ export GASNET_PHYSMEM_NOPROBE=1   # needed for faster job launch
+$ module load gcc chapel-ofi   # for the OmniPath interconnect on Cedar cluster
+$ module load gcc chapel-ucx   # for the InfiniBand interconnect on Graham, Béluga, Narval clusters
 ~~~
 {: .bash}
 
-We cannot configure the same single launcher for both. Therefore, we launch
-multi-locale Chapel codes using the real executable `mybinary_real`. For
-example, for an interactive job you would type:
+<!-- We cannot configure the same single launcher for both. Therefore, we launch -->
+
+We can also launch multi-locale Chapel codes using the real executable `mybinary_real`. For example, for an
+interactive job you would type:
 
 ~~~
 $ salloc --time=0:30:0 --nodes=4 --cpus-per-task=3 --mem-per-cpu=1000 --account=def-guest
