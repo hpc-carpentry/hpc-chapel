@@ -162,8 +162,9 @@ pattern as the underlying domain. Let us print out
    running
 
 Instead of printing these values to the screen, we will store this output
-inside each element of A as a string: `a = "%i".format(int) + string + int` is
-a shortcut for `a = "%i".format(int) + string + "%i".format(int)`.
+inside each element of A as a string
+`a.locale.id:string + '-' + here.name + '-' + here.maxTaskPar:string`, adding a separator `'  '` at the
+end of each element.
 
 ~~~
 use BlockDist; // use standard block distribution module to partition the domain into blocks
@@ -173,7 +174,7 @@ const distributedMesh: domain(2) dmapped Block(boundingBox=mesh) = mesh;
 var A: [distributedMesh] string; // block-distributed array mapped to locales
 forall a in A { // go in parallel through all n^2 elements in A
   // assign each array element on the locale that stores that index/element
-  a = "%i-%s-%s  ".format(a.locale.id, here.name, here.maxTaskPar);
+  a = a.locale.id:string + '-' + here.name + '-' + here.maxTaskPar:string + '  ';
 }
 writeln(A);
 ~~~~
@@ -282,7 +283,7 @@ const mesh: domain(2) = {1..n, 1..n};  // a 2D domain defined in shared memory o
 const m2: domain(2) dmapped Cyclic(startIdx=mesh.low) = mesh; // mesh.low is the first index (1,1)
 var A2: [m2] string;
 forall a in A2 {
-  a = "%i".format(a.locale.id) + '-' + here.name + '-' + here.maxTaskPar + '  ';
+  a = a.locale.id:string + '-' + here.name + '-' + here.maxTaskPar:string + '  ';
 }
 writeln(A2);
 ~~~
@@ -393,7 +394,7 @@ locales as T, by adding the following to our code:
 ~~~
 var nodeID: [largerMesh] string;
 forall m in nodeID do
-  m = "%i".format(here.id);
+  m = here.id:string;
 writeln(nodeID);
 ~~~
 {: .source}
@@ -422,7 +423,7 @@ The outer perimeter in the partition below are the *ghost points*:
 > > ## Solution
 > >
 > > Something along the lines:
-> >   `m = "%i".format(here.id) + '-' + m.locale.id`
+> >   `m = here.id:string + '-' + m.locale.id:string`
 > {: .solution}
 {: .challenge}
 
@@ -511,8 +512,8 @@ conditions, as the energy is leaving the system.
 > > ~~~
 > > var nodeID: [largerMesh] string = 'empty';
 > > forall (i,j) in nodeID.domain[1..n,1..n] do
-> >   nodeID[i,j] = "%i".format(here.id) + nodeID[i,j].locale.id + nodeID[i-1,j].locale.id +
-> >     nodeID[i+1,j].locale.id + nodeID[i,j-1].locale.id + nodeID[i,j+1].locale.id + '  ';
+> >   nodeID[i,j] = here.id:string + nodeID[i,j].locale.id:string + nodeID[i-1,j].locale.id:string +
+> >     nodeID[i+1,j].locale.id:string + nodeID[i,j-1].locale.id:string + nodeID[i,j+1].locale.id:string + '  ';
 > > writeln(nodeID);
 > > ~~~
 > > {: .source}
@@ -569,6 +570,7 @@ Let us write the final solution to disk. There are several caveats:
 We'll add the following to our code to write ASCII:
 
 ~~~
+use IO;
 var myFile = open("output.dat", iomode.cw); // open the file for writing
 var myWritingChannel = myFile.writer(); // create a writing channel starting at file offset 0
 myWritingChannel.write(T); // write the array

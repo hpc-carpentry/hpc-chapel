@@ -161,7 +161,7 @@ We can print few other attributes of each locale. Here it is actually useful to
 revert to the serial loop `for` so that the print statements appear in order:
 
 ~~~
-use Memory;
+use Memory.Diagnostics;
 for loc in Locales do
   on loc {
     writeln("locale #", here.id, "...");
