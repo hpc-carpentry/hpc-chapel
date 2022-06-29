@@ -6,4 +6,4 @@
 # The sequence matters: later patterns take precedence.
 
 # FILES  OWNERS
-*        alex.razoumov@westgrid.ca @hpc-carpentry/hpc-chapel-maintainers
+*        @hpc-carpentry/hpc-chapel-maintainers
