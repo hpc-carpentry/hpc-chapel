@@ -5,7 +5,7 @@
 # ensuring that the author list and other fields remain accurate.
 
 cff-version: 1.2.0
-title: FIXME
+title: Introduction to High-Performance Computing in Chapel
 message: >-
   Please cite this lesson using the information in this file
   when you refer to it in publications, and/or if you
@@ -13,10 +13,17 @@ message: >-
   training material.
 type: dataset
 authors:
-  - given-names: FIXME
-    family-names: FIXME
+  - given-names: Alex
+    family-names: Razoumov
+    email: alex.razoumov@westdri.ca
+    affiliation: SFU
+  - given-names: Juan
+    family-names: Zuniga
+repository-code: 'https://github.com/hpc-carpentry/hpc-chapel'
+url: 'https://www.hpc-carpentry.org/hpc-chapel'
 abstract: >-
-  FIXME Replace this with a short abstract describing the
-  lesson, e.g. its target audience and main intended
-  learning objectives.
+  This lesson is an introduction to high-performance
+  computing using Chapel parallel language.
+keywords:
+  - 'Chapel, HPC, parallel'
 license: CC-BY-4.0
