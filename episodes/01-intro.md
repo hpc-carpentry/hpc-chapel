@@ -110,7 +110,7 @@ points, and to evaluate the temperature on each point at each iteration, accordi
 **_difference equation_**:
 
 ```chpl
-T[i,j] = 0.25 (Tp[i-1,j] + Tp[i+1,j] + Tp[i,j-1] + Tp[i,j+1])
+T[i,j] = 0.25 * (Tp[i-1,j] + Tp[i+1,j] + Tp[i,j-1] + Tp[i,j+1])
 ```
 
 Here `T` stands for the temperature at the current iteration, while `Tp` contains the temperature calculated
