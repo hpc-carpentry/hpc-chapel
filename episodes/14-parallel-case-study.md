@@ -12,10 +12,12 @@ exercises: 30
 - "First objective."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-The parallelization of our base solution for the heat transfer equation can be achieved following the ideas of
-Exercise 2. The entire grid of points can be divided and assigned to multiple tasks. Each tasks should compute
-the new temperature of its assigned points, and then we must perform a **_reduction_**, over the whole grid,
-to update the greatest difference in temperature.
+Here is our plan to task-parallelize the heat transfer equation:
+
+1. divide the entire grid of points into blocks and assign blocks to individual tasks,
+1. each task should compute the new temperature of its assigned points,
+1. perform a **_reduction_** over the whole grid, to update the greatest temperature difference between `Tnew`
+   and `T`.
 
 For the reduction of the grid we can simply use the `max reduce` statement, which is already
 parallelized. Now, let's divide the grid into `rowtasks` x `coltasks` sub-grids, and assign each sub-grid to a
@@ -45,9 +47,11 @@ while (c<niter && curdif>=mindif) do {
 }
 ```
 
-Note that now the nested for loops run from `rowi` to `rowf` and from `coli` to `colf` which are,
+Note that now the nested `for` loops run from `rowi` to `rowf` and from `coli` to `colf` which are,
 respectively, the initial and final row and column of the sub-grid associated to the task `taskid`. To compute
-these limits, based on `taskid`, we can again follow the same ideas as in Exercise 2.
+these limits, based on `taskid`, we need to compute the number of rows and columns per task (`nr` and `nc`,
+respectively) and account for possible non-zero remainders (`rr` and `rc`) that we should add to the last row
+and column:
 
 ```chpl
 config const rowtasks = 2;
