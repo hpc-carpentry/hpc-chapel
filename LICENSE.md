@@ -4,9 +4,9 @@ title: "Licenses"
 
 ## Instructional Material
 
-All Carpentries (Software Carpentry, Data Carpentry, and Library Carpentry)
-instructional material is made available under the [Creative Commons
-Attribution license][cc-by-human]. The following is a human-readable summary of
+All High Performance Computing Carpentry instructional material is
+made available under the [Creative Commons Attribution
+license][cc-by-human]. The following is a human-readable summary of
 (and not a substitute for) the [full legal text of the CC BY 4.0
 license][cc-by-legal].
 
@@ -23,8 +23,8 @@ terms.
 Under the following terms:
 
 - **Attribution**---You must give appropriate credit (mentioning that your work
-  is derived from work that is Copyright (c) The Carpentries and, where
-  practical, linking to <https://carpentries.org/>), provide a [link to the
+  is derived from work that is Copyright (c) High Performance Computing Carpentry and, where
+  practical, linking to <https://github.com/hpc-carpentry>), provide a [link to the
   license][cc-by-human], and indicate if changes were made. You may do so in
   any reasonable manner, but not in any way that suggests the licensor endorses
   you or your use.
@@ -45,7 +45,7 @@ Notices:
 ## Software
 
 Except where otherwise noted, the example programs and other software provided
-by The Carpentries are made available under the [OSI][osi]-approved [MIT
+by High Performance Computing Carpentry are made available under the [OSI][osi]-approved [MIT
 license][mit-license].
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
