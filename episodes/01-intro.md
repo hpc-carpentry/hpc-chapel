@@ -62,15 +62,14 @@ If we can see this, everything works!
 Depending on the code, it might utilise several or even all cores on the current node. The command above
 implies that you are allowed to utilise all cores. This might not be the case on an HPC cluster, where a login
 node is shared by many people at the same time, and where it might not be a good idea to occupy all cores on a
-login node with CPU-intensive tasks.
+login node with CPU-intensive tasks. Instead, you will need to submit your Chapel run as a job to the
+scheduler asking for a specific number of CPU cores.
 
-On Compute Canada clusters Cedar and Graham we have two versions of Chapel, one is a single-locale
-(single-node) Chapel, and the other is a multi-locale (multi-node) Chapel. For now, we will start with
-single-locale Chapel. If you are logged into Cedar or Graham, you'll need to load the single-locale Chapel
-module:
+Use `module avail chapel` to list Chapel packages on your HPC cluster, and select the best fit for Chapel,
+e.g. the single-locale Chapel module:
 
 ```bash
-module load gcc chapel-multicore
+module load chapel-multicore
 ```
 
 Then, for running a test code on a cluster you would submit an interactive job to the queue
@@ -134,7 +133,6 @@ So, our objective is to:
 >    the cluster
 > 3. Use data parallelism to improve the performance of the code and run it in
 >    the cluster.
-{: .checklist}
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 - "Chapel is a compiled language - any programs we make must be compiled with `chpl`."
