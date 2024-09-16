@@ -342,5 +342,9 @@ coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x
 We will study data parallelism in more detail in the next section.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
-- "There are many ways to implement task parallelism for the diffusion solver."
+- "To parallelize the diffusion solver with tasks, you divide the 2D domain into blocks and assign each block
+  to a task."
+- "To get the maximum performance, you need to launch the parallel tasks only once, and run the temporal loop
+  of the simulation with the same set of tasks, resuming the main task only to print the final results."
+- "Parallelizing with tasks is more laborious than parallelizing with data (covered in the next section)."
 ::::::::::::::::::::::::::::::::::::::::::::::::
