@@ -21,26 +21,26 @@ carpentry_description: 'Introduction to parallel programming in Chapel'
 title: 'Introduction to High-Performance Computing in Chapel'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
-created: ~ # FIXME
+created: 2017-09-14
 
 # Comma-separated list of keywords for the lesson
-keywords: 'software, data, lesson, The Carpentries, HPC, Chapel' # FIXME
+keywords: 'software, data, lesson, The Carpentries, HPC, Chapel'
 
 # Life cycle stage of the lesson
 # possible values: pre-alpha, alpha, beta, stable
-life_cycle: 'alpha' # FIXME
+life_cycle: 'alpha'
 
 # License of the lesson
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://github.com/carpentries/workbench-template-md' # FIXME
+source: 'https://github.com/hpc-carpentry/hpc-chapel'
 
 # Default branch of your lesson
 branch: 'main'
 
 # Who to contact if there are any issues
-contact: 'team@carpentries.org' # FIXME
+contact: 'maintainers-hpc@lists.carpentries.org'
 
 # Navigation ------------------------------------------------
 #
