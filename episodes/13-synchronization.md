@@ -224,7 +224,7 @@ lock.write(0);  //the main task set lock to zero
 
 coforall id in 1..numtasks
 {
-    writeln("greetings form task ",id,"... I am waiting for all tasks to say hello");
+    writeln("greetings from task ",id,"... I am waiting for all tasks to say hello");
     lock.add(1);                //task id says hello and atomically adds 1 to lock
     lock.waitFor(numtasks);     //then it waits for lock to be equal numtasks (which will happen when all tasks say hello)
     writeln("task ",id," is done...");
@@ -237,11 +237,11 @@ coforall id in 1..numtasks
 ```
 
 ```output
-greetings form task 4... I am waiting for all tasks to say hello
-greetings form task 5... I am waiting for all tasks to say hello
-greetings form task 2... I am waiting for all tasks to say hello
-greetings form task 3... I am waiting for all tasks to say hello
-greetings form task 1... I am waiting for all tasks to say hello
+greetings from task 4... I am waiting for all tasks to say hello
+greetings from task 5... I am waiting for all tasks to say hello
+greetings from task 2... I am waiting for all tasks to say hello
+greetings from task 3... I am waiting for all tasks to say hello
+greetings from task 1... I am waiting for all tasks to say hello
 task 1 is done...
 task 5 is done...
 task 2 is done...
