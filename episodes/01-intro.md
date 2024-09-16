@@ -12,7 +12,7 @@ exercises: 15
 - "Write and execute our first chapel program."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-**_Chapel_** is a modern programming language, developed by _Cray Inc._, that supports HPC via high-level
+**_Chapel_** is a modern, open-source programming language that supports HPC via high-level
 abstractions for data parallelism and task parallelism. These abstractions allow the users to express parallel
 codes in a natural, almost intuitive, manner. In contrast with other high-level parallel languages, however,
 Chapel was designed around a _multi-resolution_ philosophy.  This means that users can incrementally add more
