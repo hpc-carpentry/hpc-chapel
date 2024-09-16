@@ -178,8 +178,8 @@ writeln('Temperature at start is: ', temp[x, y]);
 ```
 
 ```bash
->> chpl base_solution.chpl -o base_solution
->> ./base_solution
+chpl base_solution.chpl -o base_solution
+./base_solution
 ```
 
 ```output

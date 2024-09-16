@@ -104,8 +104,8 @@ distribution for us. We will study data parallelism in the following lessons, bu
 benchmark solution with our `coforall` parallelization to see how the performance improved.
 
 ```bash
-> > chpl --fast parallel_solution_1.chpl -o parallel1
-> > ./parallel1 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+chpl --fast parallel_solution_1.chpl -o parallel1
+./parallel1 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ```
 
 ```output
@@ -290,8 +290,8 @@ coforall taskid in 0..coltasks*rowtasks-1 do
 Using the solution in the Exercise 4, we can now compare the performance with the benchmark solution
 
 ```bash
->> chpl --fast parallel_solution_2.chpl -o parallel2
->> ./parallel2 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+chpl --fast parallel_solution_2.chpl -o parallel2
+./parallel2 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ```
 
 ```output

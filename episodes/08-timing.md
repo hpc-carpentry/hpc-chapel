@@ -20,7 +20,7 @@ But first, we need a quantitative way to measure the performance of our code.  T
 see how long it takes to finish a simulation.  The UNIX command `time` could be used to this effect
 
 ```bash
->> time ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+time ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ```
 
 ```output
@@ -81,8 +81,8 @@ writeln('The greatest difference in temperatures between the last two iterations
 ```
 
 ```bash
->> chpl base_solution.chpl -o base_solution
->> ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+chpl base_solution.chpl -o base_solution
+./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ```
 
 ```output

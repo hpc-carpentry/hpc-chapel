@@ -79,8 +79,8 @@ statement.
 Now let's compile and execute our code again:
 
 ```bash
->> chpl base_solution.chpl -o base_solution
->> ./base_solution
+chpl base_solution.chpl -o base_solution
+./base_solution
 ```
 
 ```output
@@ -136,8 +136,8 @@ To see the evolution of the temperature at the top right corner of the plate, we
 `y`. This corner correspond to the first row (`x=1`) and the last column (`y=cols`) of the plate.
 
 ```bash
->> chpl base_solution.chpl -o base_solution
->> ./base_solution
+chpl base_solution.chpl -o base_solution
+./base_solution
 ```
 
 ```output
@@ -193,8 +193,8 @@ The division of integers in Chapel returns an integer, then, as `rows` and `cols
 80 as real so that the quotient is not truncated.
 
 ```bash
->> chpl base_solution.chpl -o base_solution
->> ./base_solution
+chpl base_solution.chpl -o base_solution
+./base_solution
 ```
 
 ```output
@@ -247,8 +247,8 @@ Clearly there is no need to keep the difference at every single position in the 
 `curdif` if we find a greater one.
 
 ```bash
->> chpl base_solution.chpl -o base_solution
->> ./base_solution
+chpl base_solution.chpl -o base_solution
+./base_solution
 ```
 
 ```output
@@ -283,8 +283,8 @@ writeln('The difference in temperatures between the last two iterations was: ',c
 and compile and execute our final code,
 
 ```bash
->> chpl base_solution.chpl -o base_solution
->> ./base_solution
+chpl base_solution.chpl -o base_solution
+./base_solution
 ```
 
 ```output

@@ -29,13 +29,13 @@ config const niter = 500;    //number of iterations
 ```
 
 ```bash
->> chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl -o base_solution
 ```
 
 it can be initialised with a specific value, when executing the code at the command line, using the syntax:
 
 ```bash
->> ./base_solution --niter=3000
+./base_solution --niter=3000
 ```
 
 ```output
@@ -71,7 +71,7 @@ for 10000 iterations or until the difference of temperature between iterations i
 print the temperature every 1000 iterations.
 
 ```bash
->> ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
 ```
 
 ```output

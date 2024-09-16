@@ -45,8 +45,8 @@ writeln('this is main thread, I am done...');
 ```
 
 ```bash
->> chpl begin_example.chpl -o begin_example
->> ./begin_example
+chpl begin_example.chpl -o begin_example
+./begin_example
 ```
 
 ```output
@@ -157,8 +157,8 @@ writeln("this message won't appear until all tasks are done...");
 ```
 
 ```bash
->> chpl cobegin_example.chpl -o cobegin_example
->> ./cobegin_example
+chpl cobegin_example.chpl -o cobegin_example
+./cobegin_example
 ```
 
 ```output
@@ -199,8 +199,8 @@ writeln("this message won't appear until all tasks are done...");
 ```
 
 ```bash
-> > chpl coforall_example.chpl -o coforall_example
-> > ./coforall_example --numoftasks=5
+chpl coforall_example.chpl -o coforall_example
+./coforall_example --numoftasks=5
 ```
 
 ```output
@@ -326,8 +326,8 @@ for i in 0..numoftasks-1 do
 ```
 
 ```bash
-> > chpl --fast exercise_coforall_2.chpl -o exercise_coforall_2
-> > ./exercise_coforall_2
+chpl --fast exercise_coforall_2.chpl -o exercise_coforall_2
+./exercise_coforall_2
 ```
 
 ```output

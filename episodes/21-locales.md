@@ -22,8 +22,8 @@ a multi-locale cluster, so you would compile and launch multi-locale Chapel code
 number of locales with `-nl` flag:
 
 ```bash
-$ chpl --fast mycode.chpl -o mybinary
-$ ./mybinary -nl 4
+chpl --fast mycode.chpl -o mybinary
+./mybinary -nl 4
 ```
 
 Inside the Docker container on multiple locales your code will not run any faster than on a single locale,
@@ -42,8 +42,8 @@ be always possible due to a number of factors), then you would simply compile th
 binary `mybinary` to submit the job to the queue:
 
 ```bash
-$ chpl --fast mycode.chpl -o mybinary
-$ ./mybinary -nl 2
+chpl --fast mycode.chpl -o mybinary
+./mybinary -nl 2
 ```
 
 The exact parameters of the job such as the maximum runtime and the requested memory can be specified with
@@ -58,8 +58,8 @@ the InfiniBand interconnect on Graham, Béluga, Narval) modules, so -- depending
 load Chapel using one of the two lines below:
 
 ```bash
-$ module load gcc chapel-ofi   # for the OmniPath interconnect on Cedar cluster
-$ module load gcc chapel-ucx   # for the InfiniBand interconnect on Graham, Béluga, Narval clusters
+module load gcc chapel-ofi   # for the OmniPath interconnect on Cedar cluster
+module load gcc chapel-ucx   # for the InfiniBand interconnect on Graham, Béluga, Narval clusters
 ```
 
 <!-- We cannot configure the same single launcher for both. Therefore, we launch -->
@@ -68,9 +68,9 @@ We can also launch multi-locale Chapel codes using the real executable `mybinary
 interactive job you would type:
 
 ```bash
-$ salloc --time=0:30:0 --nodes=4 --cpus-per-task=3 --mem-per-cpu=1000 --account=def-guest
-$ chpl --fast mycode.chpl -o mybinary
-$ srun ./mybinary_real -nl 4   # will run on four locales with max 3 cores per locale
+salloc --time=0:30:0 --nodes=4 --cpus-per-task=3 --mem-per-cpu=1000 --account=def-guest
+chpl --fast mycode.chpl -o mybinary
+srun ./mybinary_real -nl 4   # will run on four locales with max 3 cores per locale
 ```
 
 Production jobs would be launched with `sbatch` command and a Slurm launch script as usual.

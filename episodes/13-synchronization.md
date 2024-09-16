@@ -49,8 +49,8 @@ writeln('this is main thread, I am done...');
 ```
 
 ```bash
->> chpl sync_example_1.chpl -o sync_example_1
->> ./sync_example_1 
+chpl sync_example_1.chpl -o sync_example_1
+./sync_example_1 
 ```
 
 ```output
@@ -154,8 +154,8 @@ writeln("and now it is done");
 ```
 
 ```bash
->> chpl sync_example_2.chpl -o sync_example_2
->> ./sync_example_2
+chpl sync_example_2.chpl -o sync_example_2
+./sync_example_2
 ```
 
 ```output
@@ -232,8 +232,8 @@ coforall id in 1..numtasks
 ```
 
 ```bash
->> chpl atomic_example.chpl -o atomic_example
->> ./atomic_example
+chpl atomic_example.chpl -o atomic_example
+./atomic_example
 ```
 
 ```output
