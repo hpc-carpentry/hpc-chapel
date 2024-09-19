@@ -15,7 +15,7 @@ exercises: 15
 - "Know how to define and use data stored as variables."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-Basic maths in Chapel works the same as other programming languages. Try compiling the following code to see
+Using basic maths in Chapel is fairly intuitive. Try compiling the following code to see
 how the different mathematical operators work.
 
 ```chpl
