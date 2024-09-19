@@ -134,7 +134,7 @@ chpl variables.chpl -o variables.o
 ```
 
 ```error
-variables.chpl:2: error: illegal lvalue in assignment
+variables.chpl:2: error: cannot assign to const variable
 ```
 
 The compiler threw an error, and did not compile our program. This is a feature of compiled languages - if
@@ -150,8 +150,8 @@ troubleshoot our programs.
   should carefully read the output and consider if it necessitates changing our code.  Errors must be fixed,
   as they will block the code from compiling.
 
-* `illegal lvalue in assignment` indicates that the left hand side of our assignment expression (`lvalue`) was
-  illegal. We were trying to reassign a `const` variable, which is explicitly not allowed in Chapel.
+* `cannot assign to const variable` indicates that we were trying to reassign a `const` variable, which is
+  explicitly not allowed in Chapel.
 
 To fix this error, we can change `const` to `var` when declaring our `test` variable. `var` indicates a
 variable that can be reassigned.
