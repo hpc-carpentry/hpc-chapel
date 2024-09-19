@@ -69,7 +69,28 @@ data while executing a program. A variable has three elements:
 Variables in Chapel are declared with the `var` or `const` keywords. When a variable declared as const is
 initialised, its value cannot be modified anymore during the execution of the program.
 
-In Chapel, to declare a variable we must specify the type of the variable, or initialise it in place with some
+
+
+::::::::::::::::::::::::::::::::::::: callout
+
+In the following code (saved as `variables.chpl`) we have not initialised the variable `test` before trying to
+use it in line 2:
+
+```chpl
+const test;  // declare 'test' variable
+writeln('The value of test is: ', test);
+```
+```error
+variables.chpl:1: error: 'test' is not initialized and has no type
+variables.chpl:1: note: cannot find initialization point to split-init this variable
+variables.chpl:2: note: 'test' is used here before it is initialized
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+In Chapel, to initialize a variable we must specify the type of the variable, or initialise it in place with some
 value. The common variable types in Chapel are:
 
 * integer `int` (positive or negative whole numbers)
