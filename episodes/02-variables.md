@@ -66,10 +66,6 @@ data while executing a program. A variable has three elements:
 2. a **_type_**, that indicates the kind of data that we can store in it, and
 3. a **_value_**, the actual information or data stored in the variable.
 
-When we store a value in a variable for the first time, we say that we **_initialised_** it. Further changes
-to the value of a variable are called **_assignments_**, in general, `x=a` means that we assign the value *a*
-to the variable *x*.
-
 Variables in Chapel are declared with the `var` or `const` keywords. When a variable declared as const is
 initialised, its value cannot be modified anymore during the execution of the program.
 
