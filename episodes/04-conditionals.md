@@ -90,8 +90,8 @@ The main loop in our simulation can be programmed using a while statement like t
 ```chpl
 //this is the main loop of the simulation
 var c = 0;
-var curdif = mindif;
-while (c < niter && curdif >= mindif) do
+var delta = tolerance;
+while (c < niter && delta >= tolerance) do
 {
   c += 1;
   // actual simulation calculations will go here
@@ -100,18 +100,19 @@ while (c < niter && curdif >= mindif) do
 
 Essentially, what we want is to repeat all the code inside the curly brackets until the number of iterations
 is greater than or equal to `niter`, or the difference of temperature between iterations is less than
-`mindif`. (Note that in our case, as `curdif` was not initialised when declared -and thus Chapel assigned it
+`tolerance`. (Note that in our case, as `delta` was not initialised when declared -and thus Chapel assigned it
 the default real value 0.0-, we need to assign it a value greater than or equal to 0.001, or otherwise the
-condition of the while statement will never be satisfied. A good starting point is to simple say that `curdif`
-is equal to `mindif`).
+condition of the while statement will never be satisfied. A good starting point is to simple say that `delta`
+is equal to `tolerance`).
 
 To count iterations we just need to keep adding 1 to the counter variable `c`.  We could do this with `c=c+1`,
 or with the compound assignment, `+=`, as in the code above. To program the rest of the logic inside the curly
 brackets, on the other hand, we will need more elaborated instructions.
 
-Let's focus, first, on printing the temperature every 20 iterations. To achieve this, we only need to check
-whether `c` is a multiple of 20, and in that case, to print the temperature at the desired position. This is
-the type of control that an **_if statement_** give us. The general syntax is:
+Let's focus, first, on printing the temperature every `outputFrequency = 20` iterations. To achieve this, we
+only need to check whether `c` is a multiple of `outputFrequency`, and in that case, to print the temperature
+at the desired position. This is the type of control that an **_if statement_** give us. The general syntax
+is:
 
 ```chpl
 if condition then 
@@ -126,7 +127,7 @@ executed otherwise (the else part of the if statement is optional).
 So, in our case this would do the trick:
 
 ```chpl
-if (c % 20 == 0)
+if (c % outputFrequency == 0)
 {
   writeln('Temperature at iteration ', c, ': ', temp[x, y]);
 }
@@ -134,7 +135,7 @@ if (c % 20 == 0)
 
 Note that when only one instruction will be executed, there is no need to use the curly brackets. `%` is the
 modulo operator, it returns the remainder after the division (i.e. it returns zero when `c` is multiple of
-20).
+`outputFrequency`).
 
 Let's compile and execute our code to see what we get until now
 
@@ -144,8 +145,9 @@ const cols = 100;
 const niter = 500;
 const x = 50;                   // row number of the desired position
 const y = 50;                   // column number of the desired position
-const mindif = 0.0001;          // smallest difference in temperature that
+const tolerance = 0.0001;       // smallest difference in temperature that
                                 // would be accepted before stopping
+const outputFrequency = 20: int;   // the temperature will be printed every outputFrequency iterations
 
 // this is our "plate"
 var temp: [0..rows+1, 0..cols+1] real = 25;
@@ -158,7 +160,7 @@ var c = 0;
 while (c < niter) do
 {
   c += 1;
-  if (c % 20 == 0)
+  if (c % outputFrequency == 0)
   {
     writeln('Temperature at iteration ', c, ': ', temp[x, y]);
   }

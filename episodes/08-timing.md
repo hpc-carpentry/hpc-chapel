@@ -20,7 +20,7 @@ But first, we need a quantitative way to measure the performance of our code.  T
 see how long it takes to finish a simulation.  The UNIX command `time` could be used to this effect
 
 ```bash
-time ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+time ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
 ```
 
 ```output
@@ -66,8 +66,8 @@ var watch: Timer;
 watch.start();
 
 //this is the main loop of the simulation
-curdif=mindif;
-while (c<niter && curdif>=mindif) do
+delta=tolerance;
+while (c<niter && delta>=tolerance) do
 {
 ...
 }
@@ -77,12 +77,12 @@ watch.stop();
 //print final information
 writeln('\nThe simulation took ',watch.elapsed(),' seconds');
 writeln('Final temperature at the desired position after ',c,' iterations is: ',temp[x,y]);
-writeln('The greatest difference in temperatures between the last two iterations was: ',curdif,'\n');
+writeln('The greatest difference in temperatures between the last two iterations was: ',delta,'\n');
 ```
 
 ```bash
 chpl base_solution.chpl -o base_solution
-./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
 ```
 
 ```output

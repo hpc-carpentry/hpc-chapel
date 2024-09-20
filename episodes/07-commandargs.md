@@ -13,7 +13,7 @@ exercises: 30
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 From the last run of our code, we can see that 500 iterations is not enough to get to a _steady state_ (a
-state where the difference in temperature does not vary too much, i.e. `curdif`<`mindif`). Now, if we want to
+state where the difference in temperature does not vary too much, i.e. `delta`<`tolerance`). Now, if we want to
 change the number of iterations we would need to modify `niter` in the code, and compile it again.  What if we
 want to change the number of rows and columns in our grid to have more precision, or if we want to see the
 evolution of the temperature at a different point (x,y)? The answer would be the same, modify the code and
@@ -61,7 +61,7 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 
 ## Challenge 4: Can you do it?
 
-Make `n`, `x`, `y`, `mindif`, `rows` and `cols` configurable variables, and test the code simulating different
+Make `n`, `x`, `y`, `tolerance`, `rows` and `cols` configurable variables, and test the code simulating different
 configurations. What can you conclude about the performance of the code?
 
 :::::::::::::::::::::::: solution
@@ -71,7 +71,7 @@ for 10000 iterations or until the difference of temperature between iterations i
 print the temperature every 1000 iterations.
 
 ```bash
-./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
 ```
 
 ```output

@@ -28,8 +28,8 @@ config const rowtasks = 2;
 config const coltasks = 2;
 
 // this is the main loop of the simulation
-curdif = mindif;
-while (c<niter && curdif>=mindif) do {
+delta = tolerance;
+while (c<niter && delta>=tolerance) do {
   c += 1;
 
   coforall taskid in 0..coltasks*rowtasks-1 do {
@@ -40,10 +40,10 @@ while (c<niter && curdif>=mindif) do {
     }
   }
 
-  curdif = max reduce (temp-past_temp);
+  delta = max reduce (temp-past_temp);
   past_temp = temp;
 
-  if c%n == 0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
+  if c%outputFrequency == 0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
 }
 ```
 
@@ -63,8 +63,8 @@ const nc = cols/coltasks;
 const rc = cols-nc*coltasks;
 
 // this is the main loop of the simulation
-curdif = mindif;
-while (c<niter && curdif>=mindif) do {
+delta = tolerance;
+while (c<niter && delta>=tolerance) do {
   c+=1;
 
   coforall taskid in 0..coltasks*rowtasks-1 do {
@@ -105,7 +105,7 @@ benchmark solution with our `coforall` parallelization to see how the performanc
 
 ```bash
 chpl --fast parallel_solution_1.chpl -o parallel1
-./parallel1 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+./parallel1 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
 ```
 
 ```output
@@ -134,7 +134,7 @@ seconds needed by the benchmark solution, seems not very impressive. To understa
 the code's flow.  When the program starts, the main thread does all the declarations and initialisations, and
 then, it enters the main loop of the simulation (the **_while loop_**). Inside this loop, the parallel tasks
 are launched for the first time. When these tasks finish their computations, the main task resumes its
-execution, it updates `curdif`, and everything is repeated again. So, in essence, parallel tasks are launched
+execution, it updates `delta`, and everything is repeated again. So, in essence, parallel tasks are launched
 and resumed 7750 times, which introduces a significant amount of overhead (the time the system needs to
 effectively start and destroy threads in the specific hardware, at each iteration of the while loop).
 
@@ -151,7 +151,7 @@ const nc = cols/coltasks;
 const rc = cols-nc*coltasks;
 
 // this is the main loop of the simulation
-curdif = mindif;
+delta = tolerance;
 coforall taskid in 0..coltasks*rowtasks-1 do {
   var rowi, coli, rowf, colf: int;
   var taskr, taskc: int;
@@ -178,7 +178,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
     colf = (taskc*nc)+nc+rc;
   }
 
-  while (c<niter && curdif>=mindif) do {
+  while (c<niter && delta>=tolerance) do {
     c = c+1;
 
     for i in rowi..rowf do {
@@ -187,14 +187,14 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
       }
     }
 
-    //update curdif
+    //update delta
     //update past_temp
     //print temperature in desired position
   }
 }
 ```
 
-The problem with this approach is that now we have to explicitly synchronise the tasks. Before, `curdif` and
+The problem with this approach is that now we have to explicitly synchronise the tasks. Before, `delta` and
 `past_temp` were updated only by the main task at each iteration; similarly, only the main task was printing
 results. Now, all these operations must be carried inside the coforall loop, which imposes the need of
 synchronisation between tasks.
@@ -202,25 +202,25 @@ synchronisation between tasks.
 The synchronisation must happen at two points:
 
 1. We need to be sure that all tasks have finished with the computations of their part of the grid `temp`,
-   before updating `curdif` and `past_temp` safely.
-2. We need to be sure that all tasks use the updated value of `curdif` to evaluate the condition of the while
+   before updating `delta` and `past_temp` safely.
+2. We need to be sure that all tasks use the updated value of `delta` to evaluate the condition of the while
    loop for the next iteration.
 
-To update `curdif` we could have each task computing the greatest difference in temperature in its associated
+To update `delta` we could have each task computing the greatest difference in temperature in its associated
 sub-grid, and then, after the synchronisation, have only one task reducing all the sub-grids' maximums.
 
 ```chpl
-var curdif: atomic real;
+var delta: atomic real;
 var myd: [0..coltasks*rowtasks-1] real;
 ...
 //this is the main loop of the simulation
-curdif.write(mindif);
+delta.write(tolerance);
 coforall taskid in 0..coltasks*rowtasks-1 do
 {
   var myd2: real;
   ...
 
-  while (c<niter && curdif>=mindif) do {
+  while (c<niter && delta>=tolerance) do {
     c = c+1;
     ...
 
@@ -236,8 +236,8 @@ coforall taskid in 0..coltasks*rowtasks-1 do
 
     past_temp[rowi..rowf,coli..colf] = temp[rowi..rowf,coli..colf];
     if taskid==0 then {
-      curdif.write(max reduce myd);
-      if c%n==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
+      delta.write(max reduce myd);
+      if c%outputFrequency==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
     }
 
     // here comes the synchronisation of tasks again
@@ -261,11 +261,11 @@ var lock: atomic int;
 lock.write(0);
 ...
 //this is the main loop of the simulation
-curdif.write(mindif);
+delta.write(tolerance);
 coforall taskid in 0..coltasks*rowtasks-1 do
 {
    ...
-   while (c<niter && curdif>=mindif) do
+   while (c<niter && delta>=tolerance) do
    {
       ...
       myd[taskid]=myd2
@@ -291,7 +291,7 @@ Using the solution in the Exercise 4, we can now compare the performance with th
 
 ```bash
 chpl --fast parallel_solution_2.chpl -o parallel2
-./parallel2 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --mindif=0.002 --n=1000
+./parallel2 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
 ```
 
 ```output

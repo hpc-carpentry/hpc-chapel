@@ -168,7 +168,8 @@ const cols = 100;
 const niter = 500;
 const x = 50;                   // row number of the desired position
 const y = 50;                   // column number of the desired position
-const mindif = 0.0001;          // smallest difference in temperature that would be accepted before stopping
+const tolerance = 0.0001;       // smallest difference in temperature that would be accepted before stopping
+const outputFrequency = 20: int;   // the temperature will be printed every outputFrequency iterations
 
 // this is our "plate"
 var temp: [0..rows+1, 0..cols+1] real = 25;

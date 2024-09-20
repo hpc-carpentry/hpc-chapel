@@ -220,31 +220,31 @@ Temperature at iteration 500: 0.823152
 
 ## Challenge 3: Can you do it?
 
-So far, `curdif` has been always equal to `mindif`, which means that our main while loop will always run the
-500 iterations. So let's update `curdif` after each iteration. Use what we have studied so far to write the
+So far, `delta` has been always equal to `tolerance`, which means that our main while loop will always run the
+500 iterations. So let's update `delta` after each iteration. Use what we have studied so far to write the
 required piece of code.
 
 :::::::::::::::::::::::: solution
 
 The idea is simple, after each iteration of the while loop, we must compare all elements of `temp` and
-`past_temp`, find the greatest difference, and update `curdif` with that value. The next nested for loops do
+`past_temp`, find the greatest difference, and update `delta` with that value. The next nested for loops do
 the job:
 
 ```chpl
-// update curdif, the greatest difference between temp and past_temp
-curdif=0;
+// update delta, the greatest difference between temp and past_temp
+delta=0;
 for i in 1..rows do
 {
   for j in 1..cols do
   {
-    tt=abs(temp[i,j]-past_temp[i,j]);
-    if tt>curdif then curdif=tt;
+    tmp = abs(temp[i,j]-past_temp[i,j]);
+    if tmp > delta then delta = tmp;
   }
 }
 ```
 
 Clearly there is no need to keep the difference at every single position in the array, we just need to update
-`curdif` if we find a greater one.
+`delta` if we find a greater one.
 
 ```bash
 chpl base_solution.chpl -o base_solution
@@ -277,7 +277,7 @@ transfer equation. Let's just print some additional useful information,
 ```chpl
 // print final information
 writeln('\nFinal temperature at the desired position after ',c,' iterations is: ',temp[x,y]);
-writeln('The difference in temperatures between the last two iterations was: ',curdif,'\n');
+writeln('The difference in temperatures between the last two iterations was: ',delta,'\n');
 ```
 
 and compile and execute our final code,

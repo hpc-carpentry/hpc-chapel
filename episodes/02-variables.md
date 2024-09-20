@@ -182,15 +182,15 @@ default value depending on the declared type (0.0 for real variables, for exampl
 will be created as real floating point numbers equal to 0.0.
 
 ```chpl
-var curdif: real;	//here we will store the greatest difference in temperature from one iteration to another 
-var tt: real;		//for temporary results when computing the temperatures
+var delta: real;	//here we will store the greatest difference in temperature from one iteration to another 
+var tmp: real;		//for temporary results when computing the temperatures
 ```
 
 Of course, we can use both, the initial value and the type, when declaring a variable as follows:
 
 ```chpl
-const mindif=0.0001: real;	//smallest difference in temperature that would be accepted before stopping
-const n=20: int;		//the temperature at the desired position will be printed every n iterations
+const tolerance=0.0001: real;	//smallest difference in temperature that would be accepted before stopping
+const outputFrequency = 20: int;   // the temperature will be printed every outputFrequency iterations
 ```
 
 *This is not necessary, but it could help to make the code more readable.*
@@ -202,13 +202,13 @@ examples, our simulation will be in the file `base_solution.chpl`.
 ```chpl
 const rows = 100;               // number of rows in matrix
 const cols = 100;               // number of columns in matrix
-const niter = 500;              // number of iterations
+const niter = 500;              // maximum number of iterations
 const x = 50;                   // row number of the desired position
 const y = 50;                   // column number of the desired position
-var curdif: real;               // here we will store the greatest difference in temperature from one iteration to another 
-var tt: real;                   // for temporary results when computing the temperatures
-const mindif = 0.0001: real;    // smallest difference in temperature that would be accepted before stopping
-const n = 20: int;              // the temperature at the desired position will be printed every n iterations
+var delta: real;                // here we will store the greatest difference in temperature from one iteration to another 
+var tmp: real;                  // for temporary results when computing the temperatures
+const tolerance = 0.0001: real; // smallest difference in temperature that would be accepted before stopping
+const outputFrequency = 20: int;   // the temperature will be printed every outputFrequency iterations
 ```
 
 ::::::::::::::::::::::::::::::::::::: keypoints
