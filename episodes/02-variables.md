@@ -59,7 +59,7 @@ It can span as many lines as you want!
 
 Granted, we probably want to do more than basic maths with Chapel. We will need to store the results of
 complex operations using variables. Variables in programming are not the same as the mathematical concept. In
-programming, a variable is an allocated space in the memory of the computer, where we can store information or
+programming, a variable represents (or references) a location in the memory of the computer where we can store information or
 data while executing a program. A variable has three elements:
 
 1. a **_name_** or label, to identify the variable 
