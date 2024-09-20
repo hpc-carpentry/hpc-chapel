@@ -186,12 +186,29 @@ var delta: real;	//here we will store the greatest difference in temperature fro
 var tmp: real;		//for temporary results when computing the temperatures
 ```
 
-Of course, we can use both, the initial value and the type, when declaring a variable as follows:
+When declaring a variable, we can assign its type in addition to its initial value:
 
 ```chpl
-const tolerance=0.0001: real;	//smallest difference in temperature that would be accepted before stopping
-const outputFrequency = 20: int;   // the temperature will be printed every outputFrequency iterations
+const tolerance: real = 0.0001; //smallest difference in temperature that would be accepted before stopping
+const outputFrequency: int = 20;   // the temperature will be printed every outputFrequency iterations
 ```
+
+
+
+::::::::::::::::::::::::::::::::::::: callout
+
+Note that these two notations are different, but produce the same result in the end:
+
+```chpl
+var a: real = 10.0;   // we specify both the type and the value
+var a = 10: real;     // we specify only the value (10 converted to real)
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
 
 *This is not necessary, but it could help to make the code more readable.*
 
@@ -207,8 +224,8 @@ const x = 50;                   // row number of the desired position
 const y = 50;                   // column number of the desired position
 var delta: real;                // here we will store the greatest difference in temperature from one iteration to another 
 var tmp: real;                  // for temporary results when computing the temperatures
-const tolerance = 0.0001: real; // smallest difference in temperature that would be accepted before stopping
-const outputFrequency = 20: int;   // the temperature will be printed every outputFrequency iterations
+const tolerance: real = 0.0001; // smallest difference in temperature that would be accepted before stopping
+const outputFrequency: int = 20;   // the temperature will be printed every outputFrequency iterations
 ```
 
 ::::::::::::::::::::::::::::::::::::: keypoints
