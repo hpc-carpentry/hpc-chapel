@@ -138,7 +138,7 @@ variables.chpl:2: error: cannot assign to const variable
 ```
 
 The compiler threw an error, and did not compile our program. This is a feature of compiled languages - if
-there is something wrong, we will typically see an error while writing our program, instead of while running
+there is something wrong, we will typically see an error at compile-time, instead of while running
 it. Although we already kind of know why the error was caused (we tried to reassign the value of a `const`
 variable, which by definition cannot be changed), let's walk through the error as an example of how to
 troubleshoot our programs.
