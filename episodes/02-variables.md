@@ -200,16 +200,29 @@ Now we know how to set, use, and change a variable, as well as the implications 
 also know how to read and interpret errors.
 
 Let's practice defining variables and use this as the starting point of our simulation code. The code will be
-stored in the file `base_solution.chpl`.
+stored in the file `base_solution.chpl`. We will be solving the heat transfer problem introduced in the
+previous section, starting with some initial temperature and computing a new temperature at each iteration. We
+will then compute the greatest difference between the old and the new temperature and will check if it is
+smaller than a preset `tolerance`. If no, we will continue iterating. If yes, we will stop iterations and will
+print the final temperature. We will also stop iterations if we reach the maximum number of iterations
+`niter`.
+
+Our grid will be of size `rows` by `cols`, and every `outputFrequency`th iteration we will print temperature
+at coordinates `x` and `y`.
+
+The variable `delta` will store the greatest difference in temperature from one iteration to another. The
+variable `tmp` will store some temporary results when computing the temperatures.
+
+Let's define our variables:
 
 ```chpl
-const rows = 100;               // number of rows in matrix
-const cols = 100;               // number of columns in matrix
+const rows = 100;               // number of rows in the grid
+const cols = 100;               // number of columns in the grid
 const niter = 500;              // maximum number of iterations
-const x = 50;                   // row number of the desired position
-const y = 50;                   // column number of the desired position
-var delta: real;                // here we will store the greatest difference in temperature from one iteration to another 
-var tmp: real;                  // for temporary results when computing the temperatures
+const x = 50;                   // row number for a printout
+const y = 50;                   // column number for a printout
+var delta: real;                // greatest difference in temperature from one iteration to another 
+var tmp: real;                  // for temporary results
 const tolerance: real = 0.0001; // smallest difference in temperature that would be accepted before stopping
 const outputFrequency: int = 20;   // the temperature will be printed every outputFrequency iterations
 ```
