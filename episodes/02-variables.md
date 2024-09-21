@@ -230,5 +230,5 @@ const outputFrequency: int = 20;   // the temperature will be printed every outp
 ::::::::::::::::::::::::::::::::::::: keypoints
 - "A comment is preceded with `//` or surrounded by `/* and `*/`"
 - "All variables hold a certain type of data."
-- "Using `const` instead of `var` prevents reassignment."
+- "Reassigning a new value to a `const` variable will produce an error during compilation. If you want to assign a new value to a variable, declare that variable with the `var` keyword."
 ::::::::::::::::::::::::::::::::::::::::::::::::
