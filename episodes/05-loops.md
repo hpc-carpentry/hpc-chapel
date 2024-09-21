@@ -5,7 +5,7 @@ exercises: 30
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions
-- "How do I get run the same piece of code repeatedly?"
+- "How do I run the same piece of code repeatedly?"
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
