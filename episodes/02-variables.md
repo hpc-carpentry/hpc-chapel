@@ -66,61 +66,9 @@ data while executing a program. A variable has three elements:
 2. a **_type_**, that indicates the kind of data that we can store in it, and
 3. a **_value_**, the actual information or data stored in the variable.
 
-Variables in Chapel are declared with the `var` or `const` keywords. When a variable declared as const is
-initialised, its value cannot be modified anymore during the execution of the program.
-
-
-
-::::::::::::::::::::::::::::::::::::: callout
-
-In the following code (saved as `variables.chpl`) we have not initialised the variable `test` before trying to
-use it in line 2:
-
-```chpl
-const test;  // declare 'test' variable
-writeln('The value of test is: ', test);
-```
-```error
-variables.chpl:1: error: 'test' is not initialized and has no type
-variables.chpl:1: note: cannot find initialization point to split-init this variable
-variables.chpl:2: note: 'test' is used here before it is initialized
-```
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
-In Chapel, to initialize a variable we must specify the type of the variable, or initialise it in place with some
-value. The common variable types in Chapel are:
-
-* integer `int` (positive or negative whole numbers)
-* floating-point number `real` (decimal values)
-* Boolean `bool`  (true or false)
-* string `string` (any type of text)
-
-If a variable is declared without a type, Chapel will infer it from the given
-initial value. We can use the stored variable simply by using its name anywhere
-in our code (called `variables.chpl`).
-
-```chpl
-const test = 100;
-writeln('The value of test is: ', test);
-writeln(test / 4);
-```
-
-```bash
-chpl variables.chpl -o variables.o --fast
-./variables.o
-```
-
-```output
-The value of test is: 100
-25
-```
-
-This constant variable `test` will be created as an integer, and initialised with the value 100. No other
-values can be assigned to these variables during the execution of the program. What happens if we try to
-modify a constant variable like `test`?
+Variables in Chapel are declared with the `var` or `const` keywords. When a variable declared as `const` is
+initialised, its value cannot be modified anymore during the execution of the program. What happens if we try to
+modify a constant variable like `test` below?
 
 ```chpl
 const test = 100;
@@ -128,11 +76,9 @@ test = 200;
 writeln('The value of test is: ', test);
 writeln(test / 4);
 ```
-
 ```bash
-chpl variables.chpl -o variables.o
+chpl variables.chpl
 ```
-
 ```error
 variables.chpl:2: error: cannot assign to const variable
 ```
@@ -162,42 +108,68 @@ test = 200;
 writeln('The value of test is: ', test);
 writeln(test / 4);
 ```
-
 ```bash
 chpl variables.chpl -o variables.o
 ```
-
 ```output
 The value of test is: 200
 50
 ```
 
-It worked! Now we know both how to set, use, and change a variable, as well as the implications of using `var`
-and `const`. We also know how to read and interpret errors.
 
-## Uninitialised variables
 
-On the other hand, if a variable is declared without an initial value, Chapel will initialise it with a
-default value depending on the declared type (0.0 for real variables, for example). The following variables
-will be created as real floating point numbers equal to 0.0.
+
+
+In Chapel, to initialize a variable we must specify the type of the variable, or initialise it in place with
+some value. The common variable types in Chapel are:
+
+* integer `int` (positive or negative whole numbers)
+* floating-point number `real` (decimal values)
+* Boolean `bool`  (true or false)
+* string `string` (any type of text)
+
+These two variables below are initialized with the type. If no initial value is given, Chapel will initialise
+a variable with a default value depending on the declared type, for example 0 for integers and 0.0 for real
+variables.
 
 ```chpl
-var delta: real;	//here we will store the greatest difference in temperature from one iteration to another 
-var tmp: real;		//for temporary results when computing the temperatures
+var counter: int;
+var delta: real;
+writeln("counter is ", counter, " and delta is ", delta);
+```
+```bash
+chpl variables.chpl
+./variables.o
+```
+```output
+counter is 0 and delta is 0.0
 ```
 
-When declaring a variable, we can assign its type in addition to its initial value:
+If a variable is initialised with a value but without a type, Chapel will infer its type from the given
+initial value:
 
 ```chpl
-const tolerance: real = 0.0001; //smallest difference in temperature that would be accepted before stopping
-const outputFrequency: int = 20;   // the temperature will be printed every outputFrequency iterations
+const test = 100;
+writeln('The value of test is ', test, ' and its type is ', test.type:string);
+```
+```bash
+chpl variables.chpl
+./variables.o
+```
+```output
+The value of test is 100 and its type is int(64)
 ```
 
+When initialising a variable, we can also assign its type in addition to its value:
 
+```chpl
+const tolerance: real = 0.0001;
+const outputFrequency: int = 20;
+```
 
 ::::::::::::::::::::::::::::::::::::: callout
 
-Note that these two notations are different, but produce the same result in the end:
+Note that these two notations below are different, but produce the same result in the end:
 
 ```chpl
 var a: real = 10.0;   // we specify both the type and the value
@@ -207,14 +179,28 @@ var a = 10: real;     // we specify only the value (10 converted to real)
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 
+::::::::::::::::::::::::::::::::::::: callout
 
+In the following code (saved as `variables.chpl`) we have not initialised the variable `test` before trying to
+use it in line 2:
 
+```chpl
+const test;  // declare 'test' variable
+writeln('The value of test is: ', test);
+```
+```error
+variables.chpl:1: error: 'test' is not initialized and has no type
+variables.chpl:1: note: cannot find initialization point to split-init this variable
+variables.chpl:2: note: 'test' is used here before it is initialized
+```
 
-*This is not necessary, but it could help to make the code more readable.*
+::::::::::::::::::::::::::::::::::::::::::::::::
 
+Now we know how to set, use, and change a variable, as well as the implications of using `var` and `const`. We
+also know how to read and interpret errors.
 
-Let's practice defining variables and use this as the starting point of our simulation code. In these
-examples, our simulation will be in the file `base_solution.chpl`.
+Let's practice defining variables and use this as the starting point of our simulation code. The code will be
+stored in the file `base_solution.chpl`.
 
 ```chpl
 const rows = 100;               // number of rows in matrix
