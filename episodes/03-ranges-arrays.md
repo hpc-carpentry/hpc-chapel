@@ -33,7 +33,8 @@ chpl ranges.chpl -o ranges.o
 Our example range was set to: 0..10
 ```
 
-An array is a multidimensional sequence of values. Arrays can be any size, and are defined using ranges: Let's
+An array is a multidimensional collection of values of the same type. Arrays can be any size, and are defined
+using ranges. Let's
 define a 1-dimensional array of the size `example_range` and see what it looks like. Notice how the size of an
 array is included with its type.
 
@@ -45,7 +46,7 @@ writeln('Our example array is now: ', example_array);
 ```
 
 We can reassign the values in our example array the same way we would reassign a variable. An array can either
-be set all to a single value, or a sequence of values.
+be set all to a single value, or to a sequence of values.
 
 ```chpl
 var example_range = 0..10;
@@ -190,7 +191,7 @@ Temperature at start is: 25.0
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 - "A range is a sequence of integers."
-- "An array holds a sequence of values."
+- "An array holds a non-negative number of values of the same type."
 - "Chapel arrays can start at any index, not just 0 or 1."
 - "You can index arrays with the `[]` brackets."
 ::::::::::::::::::::::::::::::::::::::::::::::::
