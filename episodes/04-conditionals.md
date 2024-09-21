@@ -206,5 +206,11 @@ Of course the temperature is always 25.0 at any iteration other than the initial
 computation yet.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
-- "Conditional statements in Chapel are very similar to these in other languages."
+- "Use `if <condition> then {instructions A} else {instructions B}` syntax to execute one set of instructions
+  if the condition is satisfied, and the other set of instructions if the condition is not satisfied."
+- This syntax can be simplified to `if <condition> then {instructions}` if we only want to execute the
+  instructions within the curly brackets if the condition is satisfied.
+- "Use `while <condition> do {instructions}` to repeatedly execute the instructions within the curly brackets
+  while the condition is satisfied. The instructions will be executed over and over again until the condition
+  does not hold anymore."
 ::::::::::::::::::::::::::::::::::::::::::::::::
