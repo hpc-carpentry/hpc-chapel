@@ -28,13 +28,10 @@ this is to use **_config_** variables. When a variable is declared with the `con
 config const niter = 500;    //number of iterations
 ```
 
-```bash
-chpl base_solution.chpl
-```
-
 it can be initialised with a specific value, when executing the code at the command line, using the syntax:
 
 ```bash
+chpl base_solution.chpl
 ./base_solution --niter=3000
 ```
 
