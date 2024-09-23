@@ -20,7 +20,7 @@ But first, we need a quantitative way to measure the performance of our code.  T
 see how long it takes to finish a simulation.  The UNIX command `time` could be used to this effect
 
 ```bash
-time ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
+time ./base_solution --rows=650 --cols=650 --x=200 --y=300 --tolerance=0.002 --outputFrequency=1000
 ```
 
 ```output
@@ -58,11 +58,11 @@ achieved by modifying the code to output the information that we need. This proc
 An easy way to instrument our code with Chapel is by using the module `Time`.  **_Modules_** in Chapel are
 libraries of useful functions and methods that can be used once the module is loaded. To load a module we use
 the keyword `use` followed by the name of the module. Once the Time module is loaded we can create a variable
-of the type `Timer`, and use the methods `start`,`stop`and `elapsed` to instrument our code.
+of the type `stopwatch`, and use the methods `start`,`stop`and `elapsed` to instrument our code.
 
 ```chpl
 use Time;
-var watch: Timer;
+var watch: stopwatch;
 watch.start();
 
 //this is the main loop of the simulation
@@ -82,7 +82,7 @@ writeln('The greatest difference in temperatures between the last two iterations
 
 ```bash
 chpl base_solution.chpl
-./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
+./base_solution --rows=650 --cols=650 --x=200 --y=300 --tolerance=0.002 --outputFrequency=1000
 ```
 
 ```output
@@ -108,5 +108,5 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 ```
 
 ::::::::::::::::::::::::::::::::::::: keypoints
-- "Use UNIX `time` command or instrument your Chapel code to measure performance."
+- "To measure performance, instrument your Chapel code using a stopwatch from the `Time` module."
 ::::::::::::::::::::::::::::::::::::::::::::::::
