@@ -16,8 +16,8 @@ Here is our plan to task-parallelize the heat transfer equation:
 
 1. divide the entire grid of points into blocks and assign blocks to individual tasks,
 1. each task should compute the new temperature of its assigned points,
-1. perform a **_reduction_** over the whole grid, to update the greatest temperature difference between `Tnew`
-   and `T`.
+1. perform a **_reduction_** over the whole grid, to update the greatest temperature difference between
+   `temp_new` and `temp`.
 
 For the reduction of the grid we can simply use the `max reduce` statement, which is already
 parallelized. Now, let's divide the grid into `rowtasks` x `coltasks` sub-grids, and assign each sub-grid to a
@@ -35,13 +35,13 @@ while (c<niter && delta>=tolerance) do {
   coforall taskid in 0..coltasks*rowtasks-1 do {
     for i in rowi..rowf do {
       for j in coli..colf do {
-        temp[i,j] = (past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1]) / 4;
+        temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
       }
     }
   }
 
-  delta = max reduce (temp-past_temp);
-  past_temp = temp;
+  delta = max reduce (temp_new-temp);
+  temp = temp_new;
 
   if c%outputFrequency == 0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
 }
@@ -183,26 +183,26 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
 
     for i in rowi..rowf do {
       for j in coli..colf do {
-        temp[i,j] = (past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
+        temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
       }
     }
 
     //update delta
-    //update past_temp
+    //update temp
     //print temperature in desired position
   }
 }
 ```
 
 The problem with this approach is that now we have to explicitly synchronise the tasks. Before, `delta` and
-`past_temp` were updated only by the main task at each iteration; similarly, only the main task was printing
+`temp` were updated only by the main task at each iteration; similarly, only the main task was printing
 results. Now, all these operations must be carried inside the coforall loop, which imposes the need of
 synchronisation between tasks.
 
 The synchronisation must happen at two points:
 
 1. We need to be sure that all tasks have finished with the computations of their part of the grid `temp`,
-   before updating `delta` and `past_temp` safely.
+   before updating `delta` and `temp` safely.
 2. We need to be sure that all tasks use the updated value of `delta` to evaluate the condition of the while
    loop for the next iteration.
 
@@ -226,15 +226,15 @@ coforall taskid in 0..coltasks*rowtasks-1 do
 
     for i in rowi..rowf do {
       for j in coli..colf do {
-        temp[i,j] = (past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
-        myd2 = max(abs(temp[i,j]-past_temp[i,j]),myd2);
+        temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
+        myd2 = max(abs(temp_new[i,j]-temp[i,j]),myd2);
       }
     }
     myd[taskid] = myd2
 
     // here comes the synchronisation of tasks
 
-    past_temp[rowi..rowf,coli..colf] = temp[rowi..rowf,coli..colf];
+    temp[rowi..rowf,coli..colf] = temp_new[rowi..rowf,coli..colf];
     if taskid==0 then {
       delta.write(max reduce myd);
       if c%outputFrequency==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
@@ -274,7 +274,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do
       lock.add(1);
       lock.waitFor(coltasks*rowtasks);
 
-      past_temp[rowi..rowf,coli..colf]=temp[rowi..rowf,coli..colf];
+      temp[rowi..rowf,coli..colf] = temp_new[rowi..rowf,coli..colf];
       ...
 
       //here comes the synchronisation of tasks again
@@ -322,18 +322,18 @@ stepping) using data parallelism on a single locale:
 
 ```chpl
 const n = 100, stride = 20;
-var T: [0..n+1, 0..n+1] real;
-var Tnew: [1..n,1..n] real;
+var temp: [0..n+1, 0..n+1] real;
+var temp_new: [1..n,1..n] real;
 var x, y: real;
 for (i,j) in {1..n,1..n} { // serial iteration
   x = ((i:real)-0.5)/n;
   y = ((j:real)-0.5)/n;
-  T[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2)/0.01); // narrow Gaussian peak
+  temp[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2)/0.01); // narrow Gaussian peak
 }
 coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x20 blocks => 25 tasks
   for k in i..i+stride-1 { // serial loop inside each block
     for l in j..j+stride-1 do {
-      Tnew[k,l] = (T[k-1,l] + T[k+1,l] + T[k,l-1] + T[k,l+1]) / 4;
+      temp_new[k,l] = (temp[k-1,l] + temp[k+1,l] + temp[k,l-1] + temp[k,l+1]) / 4;
     }
   }
 }

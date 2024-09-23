@@ -299,17 +299,17 @@ const mesh: domain(2) = {1..n, 1..n};  // local 2D n^2 domain
 ```
 
 We will add a larger (n+2)^2 block-distributed domain `largerMesh` with a layer of *ghost points* on
-*perimeter locales*, and define a temperature array T on top of it, by adding the following to our code:
+*perimeter locales*, and define a temperature array `temp` on top of it, by adding the following to our code:
 
 ```chpl
 const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1, 0..n+1};
-var T: [largerMesh] real; // a block-distributed array of temperatures
+var temp: [largerMesh] real; // a block-distributed array of temperatures
 forall (i,j) in T.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real); // x, y are local to each task
   var y = ((j:real)-0.5)/(n:real);
-  T[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01); // narrow Gaussian peak
+  temp[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01); // narrow Gaussian peak
 }
-writeln(T);
+writeln(temp);
 ```
 
 Here we initialised an initial Gaussian temperature peak in the middle of the mesh. As we evolve our solution
@@ -340,7 +340,7 @@ The code above will print the initial temperature distribution:
 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0  
 ```
 
-Let us define an array of strings `nodeID` with the same distribution over locales as T, by adding the
+Let us define an array of strings `nodeID` with the same distribution over locales as `temp`, by adding the
 following to our code:
 
 ```chpl
@@ -381,11 +381,11 @@ Something along the lines: `m = here.id:string + '-' + m.locale.id:string`
 Now we implement the parallel solver, by adding the following to our code (*contains a mistake on purpose!*):
 
 ```chpl
-var Tnew: [largerMesh] real;
+var temp_new: [largerMesh] real;
 for step in 1..5 { // time-stepping
   forall (i,j) in mesh do
-    Tnew[i,j] = (T[i-1,j] + T[i+1,j] + T[i,j-1] + T[i,j+1]) / 4;
-  T[mesh] = Tnew[mesh]; // uses parallel forall underneath
+    temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
+  temp[mesh] = temp_new[mesh]; // uses parallel forall underneath
 }
 ```
 
@@ -399,7 +399,7 @@ Can anyone spot a mistake in the last code?
 
 It should be
 
-`forall (i,j) in Tnew.domain[1..n,1..n] do`
+`forall (i,j) in temp_new.domain[1..n,1..n] do`
 
 instead of
 
@@ -418,30 +418,30 @@ use BlockDist;
 config const n = 8;
 const mesh: domain(2) = {1..n,1..n};
 const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1,0..n+1};
-var T, Tnew: [largerMesh] real;
-forall (i,j) in T.domain[1..n,1..n] {
+var temp, temp_new: [largerMesh] real;
+forall (i,j) in temp.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real);
   var y = ((j:real)-0.5)/(n:real);
-  T[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01);
+  temp[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01);
 }
 for step in 1..5 {
-  forall (i,j) in Tnew.domain[1..n,1..n] {
-    Tnew[i,j] = (T[i-1,j]+T[i+1,j]+T[i,j-1]+T[i,j+1])/4.0;
+  forall (i,j) in temp_new.domain[1..n,1..n] {
+    temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4.0;
   }
-  T = Tnew;
-  writeln((step,T[n/2,n/2],T[1,1]));
+  temp = temp_new;
+  writeln((step, " ", temp[n/2,n/2], " ", temp[1,1]));
 }
 ```
 
-This is the entire parallel solver! Note that we implemented an open boundary: T on *ghost points* is
+This is the entire parallel solver! Note that we implemented an open boundary: `temp` on the *ghost points* is
 always 0. Let us add some printout and also compute the total energy on the mesh, by adding the following to
 our code:
 
 ```chpl
-  writeln((step, T[n/2,n/2], T[2,2]));
+  writeln((step, " ", temp[n/2,n/2], " ", temp[2,2]));
   var total: real = 0;
   forall (i,j) in mesh with (+ reduce total) do
-    total += T[i,j];
+    total += temp[i,j];
   writeln("total = ", total);
 ```
 
@@ -454,7 +454,7 @@ system.
 ## Challenge 5: Can you do it?
 
 Write a code to print how the finite-difference stencil [i,j], [i-1,j], [i+1,j], [i,j-1], [i,j+1] is
-distributed among nodes, and compare that to the ID of the node where T[i,i] is computed.
+distributed among nodes, and compare that to the ID of the node where temp[i,i] is computed.
 
 :::::::::::::::::::::::: solution
 
@@ -487,7 +487,7 @@ empty 222222   222222   222222   222223   333323   333333   333333   333333   em
 empty empty empty empty empty empty empty empty empty empty
 ```
 
-Note that T[i,j] is always computed on the same node where that element is stored, which makes sense.
+Note that temp[i,j] is always computed on the same node where that element is stored, which makes sense.
 
 ## Periodic boundary conditions
 
@@ -496,10 +496,10 @@ need to set elements on the *ghost points* to their respective values on the *op
 following to our code:
 
 ```chpl
-  T[0,1..n] = T[n,1..n]; // periodic boundaries on all four sides; these will run via parallel forall
-  T[n+1,1..n] = T[1,1..n];
-  T[1..n,0] = T[1..n,n];
-  T[1..n,n+1] = T[1..n,1];
+  temp[0,1..n] = temp[n,1..n]; // periodic boundaries on all four sides; these will run via parallel forall
+  temp[n+1,1..n] = temp[1,1..n];
+  temp[1..n,0] = temp[1..n,n];
+  temp[1..n,n+1] = temp[1..n,1];
 ```
 
 Now total energy should be conserved, as nothing leaves the domain.

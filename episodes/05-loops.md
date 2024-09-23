@@ -12,9 +12,9 @@ exercises: 30
 - "First objective."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-To compute the current temperature of an element of `temp`, we need to add all the surrounding elements in
-`past_temp`, and divide the result by 4. And, essentially, we need to repeat this process for all the elements
-of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterating over
+To compute the new temperature, i.e. each element of `temp_new`, we need to add all the surrounding elements in
+`temp` and divide the result by 4. And, essentially, we need to repeat this process for all the elements
+of `temp_new`, or, in other words, we need to *iterate* over the elements of `temp_new`. When it comes to iterating over
 a given number of elements, the **_for-loop_** is what we want to use. The for-loop has the following general
 syntax:
 
@@ -33,18 +33,19 @@ again. This pattern is repeated until index takes all the different values expre
 This for loop, for example
 
 ```chpl
-// calculate the new current temperatures (temp) using the past temperatures (past_temp)
+// calculate the new temperatures (temp_new) using the past temperatures (temp)
 for i in 1..rows do
 {
   // do this for every row 
 }
 ```
 
-will allow us to iterate over the rows of `temp`. Now, for each row we also need to iterate over all the
-columns in order to access every single element of `temp`. This can be done with nested for loops like this
+will allow us to iterate over the rows of `temp_new`. Now, for each row we also need to iterate over all the
+columns in order to access every single element of `temp_new`. This can be done with nested `for` loops like
+this:
 
 ```chpl
-// calculate the new current temperatures (temp) using the past temperatures (past_temp)
+// calculate the new temperatures (temp_new) using the past temperatures (temp)
 for i in 1..rows do
 {
   // do this for every row 
@@ -59,21 +60,21 @@ Now, inside the inner loop, we can use the indices `i` and `j` to perform the re
 follows:
 
 ```chpl
-// calculate the new current temperatures (temp) using the past temperatures (past_temp)
+// calculate the new temperatures (temp_new) using the past temperatures (temp)
 for i in 1..rows do
 {
   // do this for every row 
   for j in 1..cols do
   {
     // and this for every column in the row i
-    temp[i,j]=(past_temp[i-1,j]+past_temp[i+1,j]+past_temp[i,j-1]+past_temp[i,j+1])/4;
+    temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
   }
 }     
-past_temp=temp;
+temp=temp_new;
 ```
 
-Note that at the end of the outer for-loop, when all the elements in `temp` are already calculated, we update
-`past_temp` with the values of `temp`; this way everything is set up for the next iteration of the main while
+Note that at the end of the outer `for` loop, when all the elements in `temp_new` are already calculated, we update
+`temp` with the values of `temp_new`; this way everything is set up for the next iteration of the main `while`
 statement.
 
 Now let's compile and execute our code again:
@@ -174,26 +175,18 @@ boundary conditions. Compile and run your code to see how the temperature is cha
 :::::::::::::::::::::::: solution
 
 To get the linear distribution, the 80 degrees must be divided by the number of rows or columns in our
-plate. So, the following couple of for loops will give us what we want:
+plate. So, the following couple of `for` loops at the start of time iteration will give us what we want:
 
 ```chpl
-// this setup the boundary conditions
+// set the boundary conditions
 for i in 1..rows do
-{
-  past_temp[i,cols+1]=i*80.0/rows;
-  temp[i,cols+1]=i*80.0/rows;
-}
+  temp[i,cols+1] = i*80.0/rows;   // right side
 for j in 1..cols do
-{
-  past_temp[rows+1,j]=j*80.0/cols;
-  temp[rows+1,j]=j*80.0/cols;
-}
+  temp[rows+1,j] = j*80.0/cols;   // bottom side
 ```
 
-Note that the boundary conditions must be set in both arrays, `past_temp` and `temp`, otherwise, they will be
-set to zero again after the first iteration. Also note that 80 degrees are written as a real numbe r 80.0.
-The division of integers in Chapel returns an integer, then, as `rows` and `cols` are integers, we must have
-80 as real so that the quotient is not truncated.
+Note that 80 degrees is written as a real number 80.0. The division of integers in Chapel returns an integer,
+then, as `rows` and `cols` are integers, we must have 80 as real so that the result is not truncated.
 
 ```bash
 chpl base_solution.chpl -o base_solution
@@ -229,18 +222,18 @@ required piece of code.
 
 :::::::::::::::::::::::: solution
 
-The idea is simple, after each iteration of the while loop, we must compare all elements of `temp` and
-`past_temp`, find the greatest difference, and update `delta` with that value. The next nested for loops do
+The idea is simple, after each iteration of the while loop, we must compare all elements of `temp_new` and
+`temp`, find the greatest difference, and update `delta` with that value. The next nested for loops do
 the job:
 
 ```chpl
-// update delta, the greatest difference between temp and past_temp
+// update delta, the greatest difference between temp_new and temp
 delta=0;
 for i in 1..rows do
 {
   for j in 1..cols do
   {
-    tmp = abs(temp[i,j]-past_temp[i,j]);
+    tmp = abs(temp_new[i,j]-temp[i,j]);
     if tmp > delta then delta = tmp;
   }
 }

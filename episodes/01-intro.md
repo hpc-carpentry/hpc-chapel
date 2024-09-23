@@ -110,10 +110,10 @@ points, and to evaluate the temperature on each point at each iteration, accordi
 **_difference equation_**:
 
 ```chpl
-T[i,j] = 0.25 * (Tp[i-1,j] + Tp[i+1,j] + Tp[i,j-1] + Tp[i,j+1])
+temp_new[i,j] = 0.25 * (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1])
 ```
 
-Here `T` stands for the temperature at the current iteration, while `Tp` contains the temperature calculated
+Here `temp_new` stands for the new temperature at the current iteration, while `temp` contains the temperature calculated
 at the past iteration (or the initial conditions in case we are at the first iteration). The indices `i` and
 `j` indicate that we are working on the point of the grid located at the *i*th row and the *j*th column.
 
@@ -125,7 +125,7 @@ So, our objective is to:
 >
 >    * It should work for any given number of rows and columns in the grid.
 >    * It should run for a given number of iterations, or until the difference
->      between `T` and `Tp` is smaller than a given tolerance value.
+>      between `temp_new` and `temp` is smaller than a given tolerance value.
 >    * It should output the temperature at a desired position on the grid every
 >      given number of iterations.
 >
