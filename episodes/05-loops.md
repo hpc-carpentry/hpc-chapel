@@ -30,7 +30,7 @@ iterand, and keeps it until all the instructions inside the curly brackets are e
 index takes the second value yielded by the iterand, and keeps it until all the instructions are executed
 again. This pattern is repeated until index takes all the different values expressed by the iterand.
 
-This for loop, for example
+This `for` loop, for example
 
 ```chpl
 // calculate the new temperatures (temp_new) using the past temperatures (temp)
@@ -335,5 +335,9 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 ```
 
 ::::::::::::::::::::::::::::::::::::: keypoints
-- "Use `for` statement to organise a loop."
+- "You can organize loops with `for` and `while` statements. Use a `for` loop to run over every element of the
+  iterand, e.g. `for i in 1..rows do { ...}` will run over all integers from 1 to `rows`. Use a `while`
+  statement to repeatedly execute a code block until the condition does not hold anymore, e.g. `while (c <
+  niter && delta >= tolerance) do {...}` will repeatedly execute the commands in curly braces until one of the
+  two conditions turns false."
 ::::::::::::::::::::::::::::::::::::::::::::::::
