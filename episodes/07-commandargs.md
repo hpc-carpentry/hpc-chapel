@@ -58,17 +58,32 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 
 ## Challenge 4: Can you do it?
 
-Make `n`, `x`, `y`, `tolerance`, `rows` and `cols` configurable variables, and test the code simulating different
+Make `outputFrequency`, `x`, `y`, `tolerance`, `rows` and `cols` configurable variables, and test the code
+simulating different
 configurations. What can you conclude about the performance of the code?
 
 :::::::::::::::::::::::: solution
 
-For example, lets use a 650 x 650 grid and observe the evolution of the temperature at the position (200,300)
-for 10000 iterations or until the difference of temperature between iterations is less than 0.002; also, let's
-print the temperature every 1000 iterations.
+Let's prepend `config` to the following lines in our code:
+
+```chpl
+config const rows = 100;               // number of rows in the grid
+config const cols = 100;               // number of columns in the grid
+config const niter = 10_000;           // maximum number of iterations
+config const x = 1;                    // row number for a printout
+config const y = cols;                 // column number for a printout
+config const tolerance: real = 0.0001; // smallest difference in temperature that would be accepted before stopping
+config const outputFrequency: int = 20;   // the temperature will be printed every outputFrequency iterations
+```
+
+We can then recompile the code and try modifying some of these parameters from the command line. For example,
+let's use a 650 x 650 grid and observe the evolution of the temperature at the position (200,300) for 10,000
+iterations or until the difference of temperature between iterations is less than 0.002; also, let's print the
+temperature every 1000 iterations.
 
 ```bash
-./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
+chpl base_solution.chpl
+./base_solution --rows=650 --cols=650 --x=200 --y=300 --tolerance=0.002 --outputFrequency=1000
 ```
 
 ```output
