@@ -31,7 +31,7 @@ painters could executed the tasks **_truly in parallel_**.
 
 ::::::::::::::::::::::::::::::::::::: callout
 
-Think of the CPU cores as the painters or workers that will execute your concurrent tasks
+Think of the CPU cores as the painters or workers that will execute your concurrent tasks.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -42,7 +42,7 @@ use the dispenser: One must wait while the other is being serviced.
 
 ::::::::::::::::::::::::::::::::::::: callout
 
-Think of the shared memory in your computer as the central dispenser for all your workers
+Think of the shared memory in your computer as the central dispenser for all your workers.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -55,7 +55,7 @@ the paint of worker B and worker B must respond by sending the required colour.
 
 ::::::::::::::::::::::::::::::::::::: callout
 
-Think of the memory distributed on each node of a cluster as the different dispensers for your workers
+Think of the memory distributed on each node of a cluster as the different dispensers for your workers.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
