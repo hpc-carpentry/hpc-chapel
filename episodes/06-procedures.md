@@ -1,5 +1,5 @@
 ---
-title: "Procedures for functional programming"
+title: "Procedures"
 teaching: 15
 exercises: 0
 ---
