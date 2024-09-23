@@ -105,7 +105,7 @@ benchmark solution with our `coforall` parallelization to see how the performanc
 
 ```bash
 chpl --fast parallel1.chpl
-./parallel1 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
+./parallel1 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --outputFrequency=1000
 ```
 
 ```output
@@ -291,7 +291,7 @@ Using the solution in the Exercise 4, we can now compare the performance with th
 
 ```bash
 chpl --fast parallel2.chpl
-./parallel2 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
+./parallel2 --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --outputFrequency=1000
 ```
 
 ```output
