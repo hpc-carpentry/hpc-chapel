@@ -100,8 +100,8 @@ while (c < niter && delta >= tolerance) do
 
 Essentially, what we want is to repeat all the code inside the curly brackets until the number of iterations
 is greater than or equal to `niter`, or the difference of temperature between iterations is less than
-`tolerance`. (Note that in our case, as `delta` was not initialised when declared -and thus Chapel assigned it
-the default real value 0.0-, we need to assign it a value greater than or equal to 0.001, or otherwise the
+`tolerance`. (Note that in our case, as `delta` was not initialised when declared -- and thus Chapel assigned it
+the default real value 0.0 -- we need to assign it a value greater than or equal to 0.001, or otherwise the
 condition of the while statement will never be satisfied. A good starting point is to simple say that `delta`
 is equal to `tolerance`).
 
