@@ -216,8 +216,17 @@ Temperature at iteration 500: 0.823152
 
 ## Challenge 3: Can you do it?
 
-So far, `delta` has been always equal to `tolerance`, which means that our main while loop will always run the
-500 iterations. So let's update `delta` after each iteration. Use what we have studied so far to write the
+Let us increase the maximum number of iterations to `niter = 10_000`. The code now does 10_000 iterations:
+
+```output
+...
+Temperature at iteration 9960: 0.79214
+Temperature at iteration 9980: 0.792139
+Temperature at iteration 10000: 0.792139
+```
+
+So far, `delta` has been always equal to `tolerance`, which means that our main `while` loop will always run
+`niter` iterations. So let's update `delta` after each iteration. Use what we have studied so far to write the
 required piece of code.
 
 :::::::::::::::::::::::: solution
@@ -249,7 +258,7 @@ chpl base_solution.chpl -o base_solution
 
 ```output
 The simulation will consider a matrix of 100 by 100 elements,
-it will run up to 500 iterations, or until the largest difference
+it will run up to 10000 iterations, or until the largest difference
 in temperature between iterations is less than 0.0001.
 You are interested in the evolution of the temperature at the
 position (1,100) of the matrix...
@@ -259,9 +268,12 @@ Temperature at iteration 0: 25.0
 Temperature at iteration 20: 2.0859
 Temperature at iteration 40: 1.42663
 ...
-Temperature at iteration 460: 0.826941
-Temperature at iteration 480: 0.824959
-Temperature at iteration 500: 0.823152
+Temperature at iteration 7460: 0.792283
+Temperature at iteration 7480: 0.792281
+Temperature at iteration 7500: 0.792279
+
+Final temperature at the desired position after 7505 iterations is: 0.792279
+The difference in temperatures between the last two iterations was: 9.99834e-05
 ```
 
 :::::::::::::::::::::::::::::::::

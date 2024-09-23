@@ -90,7 +90,7 @@ The main loop in our simulation can be programmed using a while statement like t
 ```chpl
 //this is the main loop of the simulation
 var c = 0;
-var delta = tolerance;
+delta = tolerance;
 while (c < niter && delta >= tolerance) do
 {
   c += 1;
@@ -157,7 +157,8 @@ writeln('Temperature at start is: ', temp[x, y]);
 
 //this is the main loop of the simulation
 var c = 0;
-while (c < niter) do
+delta = tolerance;
+while (c < niter && delta >= tolerance) do
 {
   c += 1;
   if (c % outputFrequency == 0)
