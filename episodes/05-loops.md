@@ -14,7 +14,7 @@ exercises: 30
 
 To compute the current temperature of an element of `temp`, we need to add all the surrounding elements in
 `past_temp`, and divide the result by 4. And, essentially, we need to repeat this process for all the elements
-of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterate over
+of `temp`, or, in other words, we need to *iterate* over the elements of `temp`. When it comes to iterating over
 a given number of elements, the **_for-loop_** is what we want to use. The for-loop has the following general
 syntax:
 
@@ -126,9 +126,12 @@ is cooling down.
 
 ## Challenge 1: Can you do it?
 
-What would be the temperature at the top right corner of the plate? The border of the plate is in contact with
-the boundary conditions, which are set to zero, so we expect the temperature at these points to decrease
-faster. Modify the code to see the temperature at the top right corner.
+What would be the temperature at the top right corner of the plate? In our current setup we have a layer of
+ghost points around the internal grid. While the temperature on the internal grid was initially set to 25.0,
+the temperature at the ghost points was set to 0.0. Note that during our iterations we do not compute the
+temperature at the ghost points -- it is permanently set to 0.0. Consequently, any point close to the ghost
+layer will be influenced by this zero temperature, so we expect the temperature near the border of the plate
+to decrease faster. Modify the code to see the temperature at the top right corner.
 
 :::::::::::::::::::::::: solution
 
