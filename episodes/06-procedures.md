@@ -32,7 +32,10 @@ proc fibonacci(n: int): int {
 writeln(fibonacci(10));
 ```
 
-They can take a variable number of parameters:
+Procedures can take a varying number of parameters. In this example the procedure `maxOf` takes two or more
+parameters of the same type. This group of parameters is referred to as a *tuple* and is named `x` inside the
+procedure. The number of elements `k` in this tuple is inferred from the number of parameters passed to the
+procedure and is used to organize the calculations inside the procedure:
 
 ```chpl
 proc maxOf(x ...?k) { // take a tuple of one type with k elements
@@ -41,6 +44,11 @@ proc maxOf(x ...?k) { // take a tuple of one type with k elements
   return maximum;
 }
 writeln(maxOf(1, -5, 123, 85, -17, 3));
+writeln(maxOf(1.12, 0.85, 2.35));
+```
+```output
+123
+2.35
 ```
 
 Procedures can have default parameter values:
@@ -61,6 +69,6 @@ parallelism, so we refer the interested readers to the official Chapel documenta
 ::::::::::::::::::::::::::::::::::::: keypoints
 - "Functions in Chapel are called procedures."
 - "Procedures can be recursive."
-- "Procedures can take a variable number of parameters."
+- "Procedures can take a varying number of parameters."
 - "Procedures can have default parameter values."
 ::::::::::::::::::::::::::::::::::::::::::::::::
