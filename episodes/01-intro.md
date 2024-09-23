@@ -42,7 +42,7 @@ writeln('If we can see this, everything works!');
 This program can then be compiled with the following bash command:
 
 ```bash
-chpl --fast hello.chpl -o hello.o
+chpl --fast hello.chpl
 ```
 
 The flag `--fast` indicates the compiler to optimise the binary to run as fast as possible in the given
@@ -81,14 +81,14 @@ salloc --time=0:30:0 --ntasks=1 --cpus-per-task=3 --mem-per-cpu=1000 --account=d
 and then inside that job compile and run the test code
 
 ```bash
-chpl --fast hello.chpl -o hello.o
+chpl --fast hello.chpl
 ./hello.o
 ```
 
 For production jobs, you would compile the code and then submit a batch script to the queue:
 
 ```bash
-chpl --fast hello.chpl -o hello.o
+chpl --fast hello.chpl
 sbatch script.sh
 ```
 

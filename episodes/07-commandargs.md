@@ -29,7 +29,7 @@ config const niter = 500;    //number of iterations
 ```
 
 ```bash
-chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl
 ```
 
 it can be initialised with a specific value, when executing the code at the command line, using the syntax:

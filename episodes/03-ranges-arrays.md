@@ -25,7 +25,7 @@ writeln('Our example range was set to: ', example_range);
 ```
 
 ```bash
-chpl ranges.chpl -o ranges.o
+chpl ranges.chpl
 ./ranges.o
 ```
 
@@ -60,7 +60,7 @@ writeln('When set to a range: ', example_array);
 ```
 
 ```bash
-chpl ranges.chpl -o ranges.o
+chpl ranges.chpl
 ./ranges.o
 ```
 
@@ -96,7 +96,7 @@ writeln(example_array);
 ```
 
 ```bash
-chpl ranges.chpl -o ranges.o
+chpl ranges.chpl
 ./ranges.o
 ```
 
@@ -131,7 +131,7 @@ writeln(example_array);
 ```
 
 ```bash
-chpl ranges.chpl -o ranges.o
+chpl ranges.chpl
 ./ranges.o
 ```
 
@@ -187,7 +187,7 @@ writeln('Temperature at start is: ', temp[x, y]);
 ```
 
 ```bash
-chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl
 ./base_solution
 ```
 

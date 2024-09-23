@@ -30,7 +30,7 @@ writeln(4 ** 5);  // exponentiation
 In this example, our code is called `operators.chpl`. You can compile it with the following commands:
 
 ```bash
-chpl operators.chpl --fast -o operators.o
+chpl operators.chpl --fast
 ./operators.o
 ```
 
@@ -109,7 +109,7 @@ writeln('The value of test is: ', test);
 writeln(test / 4);
 ```
 ```bash
-chpl variables.chpl -o variables.o
+chpl variables.chpl
 ```
 ```output
 The value of test is: 200

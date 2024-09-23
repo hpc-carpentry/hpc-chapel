@@ -80,7 +80,7 @@ statement.
 Now let's compile and execute our code again:
 
 ```bash
-chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl
 ./base_solution
 ```
 
@@ -140,7 +140,7 @@ To see the evolution of the temperature at the top right corner of the plate, we
 `y`. This corner correspond to the first row (`x=1`) and the last column (`y=cols`) of the plate.
 
 ```bash
-chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl
 ./base_solution
 ```
 
@@ -189,7 +189,7 @@ Note that 80 degrees is written as a real number 80.0. The division of integers 
 then, as `rows` and `cols` are integers, we must have 80 as real so that the result is not truncated.
 
 ```bash
-chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl
 ./base_solution
 ```
 
@@ -252,7 +252,7 @@ Clearly there is no need to keep the difference at every single position in the 
 `delta` if we find a greater one.
 
 ```bash
-chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl
 ./base_solution
 ```
 
@@ -291,7 +291,7 @@ writeln('The difference in temperatures between the last two iterations was: ',d
 and compile and execute our final code,
 
 ```bash
-chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl
 ./base_solution
 ```
 

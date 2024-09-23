@@ -27,7 +27,7 @@ writeln(1 <= 2);
 ```
 
 ```bash
-chpl conditionals.chpl -o conditionals.o
+chpl conditionals.chpl
 ./conditionals.o
 ```
 
@@ -56,7 +56,7 @@ writeln(true || false);
 ```
 
 ```bash
-chpl conditionals.chpl -o conditionals.o
+chpl conditionals.chpl
 ./conditionals.o
 ```
 
@@ -169,7 +169,7 @@ while (c < niter && delta >= tolerance) do
 ```
 
 ```bash
-chpl base_solution.chpl -o base_solution.o
+chpl base_solution.chpl
 ./base_solution.o
 ```
 

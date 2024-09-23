@@ -81,7 +81,7 @@ writeln('The greatest difference in temperatures between the last two iterations
 ```
 
 ```bash
-chpl base_solution.chpl -o base_solution
+chpl base_solution.chpl
 ./base_solution --rows=650 --cols=650 --x=200 --y=300 --niter=10000 --tolerance=0.002 --n=1000
 ```
 
