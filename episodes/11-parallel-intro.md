@@ -66,7 +66,8 @@ executed completely independent from each other (no communications required).
 ## Parallel programming in Chapel
 
 Chapel provides high-level abstractions for parallel programming no matter the grain size of your tasks,
-whether they run in a shared memory or a distributed memory environment, or whether they are executed
+whether they run in a shared memory on one node or use memory distributed across multiple compute nodes,
+or whether they are executed
 concurrently or truly in parallel. As a programmer you can focus in the algorithm: how to divide the problem
 into tasks that make sense in the context of the problem, and be sure that the high-level implementation will
 run on any hardware configuration. Then you could consider the details of the specific system you are going to
@@ -87,10 +88,10 @@ In summary, we can have a set of several tasks; these tasks could be running:
 3. in parallel by several processors distributed in different compute nodes, or
 4. serially (one by one) by several processors distributed in different compute nodes.
 
-Similarly, each of these tasks could be using variables located in: 
+Similarly, each of these tasks could be using variables
 
-1. the local memory on the compute node where it is running, or 
-2. on distributed memory located in other compute nodes. 
+1. located in the local memory on the compute node where it is running, or 
+2. stored on other compute nodes.
 
 And again, Chapel could take care of all the stuff required to run our algorithm in most of the scenarios, but
 we can always add more specific detail to gain performance when targeting a particular scenario.
