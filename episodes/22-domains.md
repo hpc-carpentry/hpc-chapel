@@ -520,7 +520,7 @@ We'll add the following to our code to write ASCII:
 use IO;
 var myFile = open("output.dat", iomode.cw); // open the file for writing
 var myWritingChannel = myFile.writer(); // create a writing channel starting at file offset 0
-myWritingChannel.write(T); // write the array
+myWritingChannel.write(temp); // write the array
 myWritingChannel.close(); // close the channel
 ```
 
