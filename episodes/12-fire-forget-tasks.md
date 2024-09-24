@@ -5,7 +5,7 @@ exercises: 30
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions
-- "How do execute work in parallel?"
+- "How do we execute work in parallel?"
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
