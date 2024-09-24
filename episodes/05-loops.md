@@ -9,7 +9,8 @@ exercises: 30
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
-- "First objective."
+- "Learn to use `for` loops to run over every element of an iterand."
+- "Learn the difference between using `for` loops and using a `while` statement to repeatedly execute a code block.
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 To compute the new temperature, i.e. each element of `temp_new`, we need to add all the surrounding elements in

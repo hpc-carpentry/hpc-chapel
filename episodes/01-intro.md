@@ -9,7 +9,7 @@ exercises: 15
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
-- "Write and execute our first chapel program."
+- "Write and execute our first Chapel program."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 **_Chapel_** is a modern, open-source programming language that supports HPC via high-level

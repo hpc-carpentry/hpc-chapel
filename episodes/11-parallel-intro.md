@@ -9,7 +9,7 @@ exercises: 30
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
-- "First objective."
+- "Discuss some common concepts in parallel computing."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 The basic concept of parallel computing is simple to understand: we divide our job into tasks that can be

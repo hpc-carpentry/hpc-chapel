@@ -9,7 +9,8 @@ exercises: 30
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
-- "First objective."
+- "Launching multiple threads to execute tasks in parallel."
+- "Learn how to use `begin`, `cobegin`, and `coforall` to spawn new tasks."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 A Chapel program always start as a single main thread. You can then start concurrent tasks with the `begin`
@@ -334,7 +335,7 @@ chpl --fast exercise_coforall_2.chpl
 the maximum value in x is: 1.0
 ```
 
-We use the coforall to spawn tasks that work concurrently in a fraction of the array. The trick here is to
+We use the `coforall` loop to spawn tasks that work concurrently in a fraction of the array. The trick here is to
 determine, based on the _taskid_, the initial and final indices that the task will use. Each task obtains the
 maximum in its fraction of the array, and finally, after the coforall is done, the main task obtains the
 maximum of the array from the maximums of all tasks.

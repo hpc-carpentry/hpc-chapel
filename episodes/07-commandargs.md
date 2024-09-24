@@ -9,7 +9,7 @@ exercises: 30
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
-- "First objective."
+- "Modifying code's constant parameters without re-compiling the code."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 From the last run of our code, we can see that 500 iterations is not enough to get to a _steady state_ (a

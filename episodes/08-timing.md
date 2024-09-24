@@ -9,7 +9,7 @@ exercises: 30
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
-- "First objective."
+- "Measuring code performance by instrumenting the code."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 The code generated after Exercise 4 is the basic implementation of our simulation. We will use it as a
