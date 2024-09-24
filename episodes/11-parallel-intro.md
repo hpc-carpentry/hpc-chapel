@@ -27,7 +27,7 @@ can be executed simultaneously or in parallel. It all depends on the amount of r
 tasks.  If there is only one painter, this guy could work for a while in one wall, then start painting another
 one, then work for a little bit on the third one, and so on. **_The tasks are being executed concurrently but
 not in parallel_**. If we have two painters for the job, then more parallelism can be introduced. Four
-painters could executed the tasks **_truly in parallel_**.
+painters could execute the tasks **_truly in parallel_**.
 
 ::::::::::::::::::::::::::::::::::::: callout
 
@@ -55,7 +55,7 @@ the paint of worker B and worker B must respond by sending the required colour.
 
 ::::::::::::::::::::::::::::::::::::: callout
 
-Think of the memory distributed on each node of a cluster as the different dispensers for your workers.
+Think of the memory on each node of a cluster as a separate dispenser for your workers.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
