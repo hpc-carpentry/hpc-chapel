@@ -148,17 +148,26 @@ To assign a new value to a _sync_ variable, its state must be _empty_ (after the
 completed, the state will be set as _full_). On the contrary, to read a value from a _sync_ variable, its
 state must be _full_ (after the read operation is completed, the state will be set as _empty_ again).
 
+Starting from Chapel 2.x, you must use functions `writeEF` and `readFF` to perform blocking write and read
+with sync variables. Below is an example to demonstrate the use of sync variables. Here we launch a new task
+that is busy for a short time executing the loop. While this loop is running, the main task continues printing
+the message "this is main task after launching new task... I will wait until it is done". As it takes time to
+spawn a new thread, it is very likely that you will see this message before the output from the loop. Next,
+the main task will attempt to read `x` and assign it to `a` which it can only do when `x` is full. We write
+into `x` after the loop, so you will see the final message "and now it is done" only after the message "New
+task finished". In other words, reading `x`, we pause the execution of the main thread.
+
 ```chpl
 var x: sync int, a: int;
 writeln("this is main task launching a new task");
 begin {
   for i in 1..10 do writeln("this is new task working: ",i);
-  x.writeEF(2);
+  x.writeEF(2);   // assign 2 to x
   writeln("New task finished");
 }
 
-writeln("this is main task after launching new task... I will wait until  it is done");
-a = x.readFF();   // don't run this line until the variable x is written in the other task
+writeln("this is main task after launching new task... I will wait until it is done");
+a = x.readFE();   // don't run this line until the variable x is written in the other task
 writeln("and now it is done");
 ```
 
@@ -169,7 +178,7 @@ chpl sync_example_2.chpl
 
 ```output
 this is main task launching a new task
-this is main task after launching new task... I will wait until  it is done
+this is main task after launching new task... I will wait until it is done
 this is new task working: 1
 this is new task working: 2
 this is new task working: 3
@@ -188,21 +197,28 @@ and now it is done
 
 ## Discussion
 
-What would happen if we assign a value to _x_ right before launching the new task? What would happen if we
-assign a value to _x_ right before launching the new task and after the _writeln("and now it is done");_
-statement?
+What would happen if we try to read `x` inside the new task as well, i.e. we have the following `begin`
+statement, without changing the rest of the code:
 
-Discuss your observations.
+```chpl
+begin {
+  for i in 1..10 do writeln("this is new task working: ",i);
+  x.writeEF(2);
+  writeln("New task finished");
+  x.readFE();
+}
+```
+:::::::::::::::::::::::: solution
 
+The code will block (run forever), and you would need to press *Ctrl-C* to halt its execution. In this example
+we try to read `x` in two places: the main task and the new task. When we read a sync variable with `readFE`,
+the state of the sync variable is set to empty when this method completes. In other words, one of the two
+`readFE` calls will succeed (which one -- depends on the runtime) and will mark the variable as empty. The
+other `readFE` will then attempt to read it but it will block waiting for `x` to become full again (which will
+never happen). In the end, the execution of either the main thread or the child thread will block, hanging the
+entire code.
 
-
-abc
-
-
-
-
-
-
+:::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
 There are a number of methods defined for _sync_ variables. Suppose _x_ is a sync variable of a given type,
