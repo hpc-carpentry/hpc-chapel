@@ -229,6 +229,7 @@ const outputFrequency: int = 20;   // the temperature will be printed every outp
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 - "A comment is preceded with `//` or surrounded by `/* and `*/`"
-- "All variables hold a certain type of data."
+- "All variables in Chapel have a type, whether assigned explicitly by the user, or chosen by the Chapel
+  compiler based on its value."
 - "Reassigning a new value to a `const` variable will produce an error during compilation. If you want to assign a new value to a variable, declare that variable with the `var` keyword."
 ::::::::::::::::::::::::::::::::::::::::::::::::
