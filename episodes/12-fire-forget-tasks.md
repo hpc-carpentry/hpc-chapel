@@ -80,24 +80,97 @@ As you can see the order of the output is not what we would expected, and actual
 unpredictable. This is a well known effect of concurrent tasks accessing the same shared resource at the same
 time (in this case the screen); the system decides in which order the tasks could write to the screen.
 
-::::::::::::::::::::::::::::::::::::::: discussion
 
-## Discussion
 
-- What would happen if in the last code we declare `c` in the main thread?
-- What would happen if we try to modify the value of `x` inside a begin statement?
 
-Discuss your observations.
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 1: what if `c` is defined globally?
+
+What would happen if in the last code we *move* the definition of `c` into the main thread, but try to assign
+it from threads 1 and 2? Select one answer from these:
+
+1. The code will fail to compile.
+1. The code will compile and run, but `c` will be updated by both threads at the same time (a *race
+   condition*), so that its final value will vary from one run to another.
+1. The code will compile and run, and the two threads will be taking turns updating `c`, so that its final
+   value will always be the same.
+
+:::::::::::::::::::::::: solution
+
+We'll get an error at compilation ("cannot assign to const variable"), since then `c` would be defined within
+the scope of the main thread, and we could modify its value only in the main thread. Any attempt to modify its
+value inside threads 1 or 2 will produce a compilation error.
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+
+
+::::::::::::::::::::::::::::::::::::: challenge
+
+## Challenge 2: what if we have a second, local definition of `x`?
+
+What would happen if we try to insert a second definition `var x = 10;` inside the first `begin` statement?
+Select one answer from these:
+
+1. The code will fail to compile.
+1. The code will compile and run, and the inside the first `begin` statement the value `x = 10` will be used,
+   whereas inside the second `begin` statement the value `x = 0` will be used.
+1. The new value `x = 10` will overwrite the global value `x = 0` in both threads 1 and 2.
+
+:::::::::::::::::::::::: solution
+
+The code will compile and run, and you will see the following output:
+
+```output
+This is the main thread starting first task
+This is the main thread starting second task
+this is main thread, I am done...
+thread 1: 11
+thread 1: 12
+thread 1: 13
+thread 1: 14
+thread 1: 15
+thread 1: 16
+thread 1: 17
+thread 1: 18
+thread 1: 19
+thread 1: 20
+thread 2: 1
+thread 2: 2
+thread 2: 3
+thread 2: 4
+thread 2: 5
+thread 2: 6
+thread 2: 7
+thread 2: 8
+thread 2: 9
+thread 2: 10
+```
+
+:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: callout
 
-All variables have a **_scope_** in which they can be used. The variables declared inside a concurrent tasks
-are accessible only by the task. The variables declared in the main task can be read everywhere, but Chapel
-won't allow two concurrent tasks to try to modify them.
+All variables have a **_scope_** in which they can be used. The variables declared inside a concurrent task
+are accessible only by that task. The variables declared in the main task can be read everywhere, but Chapel
+won't allow other concurrent tasks to modify them.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+
 
 ::::::::::::::::::::::::::::::::::::::: discussion
 
@@ -216,7 +289,7 @@ can be read by all tasks, while the variables declared inside, are available onl
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
-## Challenge 1: Can you do it?
+## Challenge 3: Can you do it?
 
 Would it be possible to print all the messages in the right order? Modify the code in the last example as
 required.
@@ -270,7 +343,7 @@ Note that `+` is a **_polymorphic_** operand in Chapel. In this case it concaten
 
 ::::::::::::::::::::::::::::::::::::: challenge
 
-## Challenge 2: Can you do it?
+## Challenge 4: Can you do it?
 
 Consider the following code:
 
