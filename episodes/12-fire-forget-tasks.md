@@ -18,27 +18,27 @@ statement. A task spawned by the `begin` statement will run in a different threa
 continues its normal execution. Consider the following example:
 
 ```chpl
-var x=0;
+var x = 0;
 
 writeln("This is the main thread starting first task");
 begin
 {
-  var c=0;
-  while c<100
+  var c = 0;
+  while c < 10
   {
-    c+=1;
-    writeln('thread 1: ',x+c);
+    c += 1;
+    writeln('thread 1: ', x+c);
   }
 }
 
 writeln("This is the main thread starting second task");
 begin
 {
-  var c=0;
-  while c<100
+  var c = 0;
+  while c < 10
   {
-    c+=1;
-    writeln('thread 2: ',x+c);
+    c += 1;
+    writeln('thread 2: ', x+c);
   }
 }
 
@@ -54,6 +54,16 @@ chpl begin_example.chpl
 This is the main thread starting first task
 This is the main thread starting second task
 this is main thread, I am done...
+thread 1: 1
+thread 1: 2
+thread 1: 3
+thread 1: 4
+thread 1: 5
+thread 1: 6
+thread 1: 7
+thread 1: 8
+thread 1: 9
+thread 1: 10
 thread 2: 1
 thread 2: 2
 thread 2: 3
@@ -64,20 +74,6 @@ thread 2: 7
 thread 2: 8
 thread 2: 9
 thread 2: 10
-thread 2: 11
-thread 2: 12
-thread 2: 13
-thread 1: 1
-thread 2: 14
-thread 1: 2
-thread 2: 15
-...
-thread 2: 99
-thread 1: 97
-thread 2: 100
-thread 1: 98
-thread 1: 99
-thread 1: 100
 ```
 
 As you can see the order of the output is not what we would expected, and actually it is completely
