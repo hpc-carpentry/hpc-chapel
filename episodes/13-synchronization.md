@@ -153,12 +153,12 @@ var x: sync int, a: int;
 writeln("this is main task launching a new task");
 begin {
   for i in 1..10 do writeln("this is new task working: ",i);
-  x = 2;
+  x.writeEF(2);
   writeln("New task finished");
 }
 
 writeln("this is main task after launching new task... I will wait until  it is done");
-a = x;   // don't run this line until the variable x is written in the other task
+a = x.readFF();   // don't run this line until the variable x is written in the other task
 writeln("and now it is done");
 ```
 
@@ -193,6 +193,15 @@ assign a value to _x_ right before launching the new task and after the _writeln
 statement?
 
 Discuss your observations.
+
+
+
+abc
+
+
+
+
+
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
