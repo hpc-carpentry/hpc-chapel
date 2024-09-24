@@ -120,13 +120,13 @@ at the past iteration (or the initial conditions in case we are at the first ite
 So, our objective is to:
 
 > ## Goals
-> 1. Write a code to implement the difference equation above.The code should
+> 1. Write a code to implement the difference equation above. The code should
 >    have the following requirements:
 >
->    * It should work for any given number of rows and columns in the grid.
->    * It should run for a given number of iterations, or until the difference
+>    - It should work for any given number of rows and columns in the grid.
+>    - It should run for a given number of iterations, or until the difference
 >      between `temp_new` and `temp` is smaller than a given tolerance value.
->    * It should output the temperature at a desired position on the grid every
+>    - It should output the temperature at a desired position on the grid every
 >      given number of iterations.
 >
 > 2. Use task parallelism to improve the performance of the code and run it in

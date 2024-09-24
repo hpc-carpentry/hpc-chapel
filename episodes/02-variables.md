@@ -89,14 +89,14 @@ it. Although we already kind of know why the error was caused (we tried to reass
 variable, which by definition cannot be changed), let's walk through the error as an example of how to
 troubleshoot our programs.
 
-* `variables.chpl:2:` indicates that the error was caused on line 2 of our `variables.chpl` file.
+- `variables.chpl:2:` indicates that the error was caused on line 2 of our `variables.chpl` file.
 
-* `error:` indicates that the issue was an error, and blocks compilation.  Sometimes the compiler will just
+- `error:` indicates that the issue was an error, and blocks compilation.  Sometimes the compiler will just
   give us warning or information, not necessarily errors. When we see something that is not an error, we
   should carefully read the output and consider if it necessitates changing our code.  Errors must be fixed,
   as they will block the code from compiling.
 
-* `cannot assign to const variable` indicates that we were trying to reassign a `const` variable, which is
+- `cannot assign to const variable` indicates that we were trying to reassign a `const` variable, which is
   explicitly not allowed in Chapel.
 
 To fix this error, we can change `const` to `var` when declaring our `test` variable. `var` indicates a
@@ -123,10 +123,10 @@ The value of test is: 200
 In Chapel, to initialize a variable we must specify the type of the variable, or initialise it in place with
 some value. The common variable types in Chapel are:
 
-* integer `int` (positive or negative whole numbers)
-* floating-point number `real` (decimal values)
-* Boolean `bool`  (true or false)
-* string `string` (any type of text)
+- integer `int` (positive or negative whole numbers)
+- floating-point number `real` (decimal values)
+- Boolean `bool`  (true or false)
+- string `string` (any type of text)
 
 These two variables below are initialized with the type. If no initial value is given, Chapel will initialise
 a variable with a default value depending on the declared type, for example 0 for integers and 0.0 for real

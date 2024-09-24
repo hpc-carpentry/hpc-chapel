@@ -508,10 +508,10 @@ Now total energy should be conserved, as nothing leaves the domain.
 
 Let us write the final solution to disk. There are several caveats:
 
-* works only with ASCII
-* Chapel can also write binary data but nothing can read it (checked: not the
+- works only with ASCII
+- Chapel can also write binary data but nothing can read it (checked: not the
   endians problem!)
-* would love to write NetCDF and HDF5, probably can do this by calling C/C++
+- would love to write NetCDF and HDF5, probably can do this by calling C/C++
   functions from Chapel
 
 We'll add the following to our code to write ASCII:
@@ -528,9 +528,9 @@ Run the code and check the file *output.dat*: it should contain the array T afte
 
 <!-- # Ideas for future topics or homework -->
 
-<!-- * binary I/O -->
-<!-- * write/read NetCDF from Chapel by calling a C/C++ function -->
-<!-- * take a simple non-linear problem, linearise it, implement a parallel -->
+<!-- - binary I/O -->
+<!-- - write/read NetCDF from Chapel by calling a C/C++ function -->
+<!-- - take a simple non-linear problem, linearise it, implement a parallel -->
 <!--   multi-locale linear solver entirely in Chapel -->
 
 ::::::::::::::::::::::::::::::::::::: keypoints
