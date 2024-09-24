@@ -15,7 +15,8 @@ exercises: 30
   and learn how to recognize and solve these problems."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-The keyword `sync` provides all sorts of mechanisms to synchronise tasks in Chapel.
+In Chapel the keyword `sync` can be either a statement or a type qualifier, providing two different
+synchronization mechanisms for threads. Let's start with using `sync` as a statement.
 
 As we saw in the previous section, the `begin` statement will start a concurrent (or *child*) task that will
 run in a different thread while the main (or *parent*) thread continues its normal execution. In this sense
