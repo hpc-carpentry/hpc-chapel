@@ -17,7 +17,12 @@ exercises: 30
 
 The keyword `sync` provides all sorts of mechanisms to synchronise tasks in Chapel.
 
-We can simply use `sync` to force the _parent_ task to stop and wait until its _spawned-child-task_ ends.
+As we saw in the previous section, the `begin` statement will start a concurrent (or *child*) task that will
+run in a different thread while the main (or *parent*) thread continues its normal execution. In this sense
+the `begin` statement is non-blocking. If you want to pause the execution of the main thread and wait until
+the child thread ends, you can prepend the `begin` statement with the `sync` statement. Consider the following
+code; running this code, after the initial output line, you will first see all output from thread 1 and only
+then the line "The first task is done..." and the rest of the output:
 
 ```chpl
 var x=0;
