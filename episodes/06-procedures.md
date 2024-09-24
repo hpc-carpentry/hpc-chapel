@@ -16,9 +16,14 @@ Similar to other programming languages, Chapel lets you define your own function
 'procedures' in Chapel and have an easy-to-understand syntax:
 
 ```chpl
-proc addOne(n) { // n is an.bash parameter
+proc addOne(n) { // n is an input parameter
   return n + 1;
 }
+```
+
+To call this procedure, you would use its name:
+
+```chpl
 writeln(addOne(10));
 ```
 
@@ -32,6 +37,8 @@ proc fibonacci(n: int): int { // input parameter type and procedure return type,
   if n <= 1 then return n;
   return fibonacci(n-1) + fibonacci(n-2);
 }
+```
+```chpl
 writeln(fibonacci(10));
 ```
 
@@ -62,6 +69,8 @@ proc maxOf(x ...?k) { // take a tuple of one type with k elements
   for i in 2..k do maximum = if maximum < x[i] then x[i] else maximum;
   return maximum;
 }
+```
+```chpl
 writeln(maxOf(1, -5, 123, 85, -17, 3));
 writeln(maxOf(1.12, 0.85, 2.35));
 ```
@@ -81,6 +90,8 @@ returns a *tuple* (a structure) with two numbers inside, one integer and one rea
 proc returnTuple(x: int, y: real = 3.1415926): (int,real) {
   return (x,y);
 }
+```
+```chpl
 writeln(returnTuple(1));
 writeln(returnTuple(x=2));
 writeln(returnTuple(x=-10, y=10));
