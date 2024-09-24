@@ -13,10 +13,7 @@ exercises: 30
 - "Learn how to use `begin`, `cobegin`, and `coforall` to spawn new tasks."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-
-
-
-
+::::::::::::::::::::::::::::::::::::: callout
 
 In the very first chapter where we showed how to run single-node Chapel codes. As a refresher, let's go over
 this again. If you are running Chapel on your own computer, then you are all set, and you can simply compile
@@ -36,11 +33,7 @@ count means that we can run 3 threads in parallel, each on its own CPU core. Onc
 you can compile and run the Chapel codes below. Inside your Chapel code, when new threads start, they will be
 able to utilize our 3 allocated CPU cores.
 
-
-
-
-
-
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 A Chapel program always start as a single main thread. You can then start concurrent tasks with the `begin`
 statement. A task spawned by the `begin` statement will run in a different thread while the main thread
@@ -207,23 +200,44 @@ won't allow other concurrent tasks to modify them.
 
 Are the concurrent tasks, spawned by the last code, running truly in parallel?
 
-The answer is: it depends on the number of cores available to your job. To verify this, let's modify the code
-to get the tasks into an infinite loop.
+The answer is: it depends on the number of cores available to your Chapel code. To verify this, let's modify the code
+to get both threads 1 and 2 into an infinite loop:
 
 ```chpl
 begin
 {
   var c=0;
-  while c>-1
+  while c > -1
   {
-       c+=1;
-      //writeln('thread 1: ',x+c);
+       c += 1;
+      // the rest of the code in the thread
    }
 }
 ```
 
-Now submit your job asking for different amount of resources, and use system tools such as `top`or `ps` to
-monitor the execution of the code.
+Compile and run the code:
+
+```sh
+chpl begin_example.chpl
+./begin_example
+```
+
+If you are running this on your own computer, you can run `top` or `htop` or `ps` commands in another terminal
+to check Chapel's CPU usage. If you are running inside an interactive job on a cluster, you can open a
+different terminal, log in to the cluster, and open a bash shell on the node that is running your job (if your
+cluster setup allows this):
+
+```sh
+squeue -u $USER                   # check the jobID number
+srun --jobid=<jobID> --pty bash   # put your jobID here
+htop -u $USER -s PERCENT_CPU      # display CPU usage and other information
+```
+
+In the output of `htop` you will see a table with the list of your processes, and in the "CPU%" column you
+will see the percentage consumed by each process. Find the Chapel process, and if it shows that your CPU usage
+is close to 300%, you are using 3 CPU cores. What do you see?
+
+Now exit `htop` by pressing *Q*. Also exit your interactive run by pressing *Ctrl-C*.
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
