@@ -13,6 +13,35 @@ exercises: 30
 - "Learn how to use `begin`, `cobegin`, and `coforall` to spawn new tasks."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+
+
+
+
+
+In the very first chapter where we showed how to run single-node Chapel codes. As a refresher, let's go over
+this again. If you are running Chapel on your own computer, then you are all set, and you can simply compile
+and run Chapel codes. If you are on a cluster, you will need to run Chapel codes inside interactive jobs. Here
+so far we are covering only single-locale Chapel, so -- from the login node -- you can submit an interactive
+job to the scheduler with a command like this one:
+
+```sh
+salloc --time=2:0:0 --ntasks=1 --cpus-per-task=3 --mem-per-cpu=1000
+```
+
+The details may vary depending on your cluster, e.g. different scheduler, requirement to specify an account or
+reservation, etc, but the general idea remains the same: on a cluster you need to ask for resources before you
+can run calculations. In this case we are asking for 2 hours maximum runtime, single MPI task (sufficient for
+our parallelism in this chapter), 3 CPU cores inside that task, and 1000M maximum memory per core. The core
+count means that we can run 3 threads in parallel, each on its own CPU core. Once your interactive job starts,
+you can compile and run the Chapel codes below. Inside your Chapel code, when new threads start, they will be
+able to utilize our 3 allocated CPU cores.
+
+
+
+
+
+
+
 A Chapel program always start as a single main thread. You can then start concurrent tasks with the `begin`
 statement. A task spawned by the `begin` statement will run in a different thread while the main thread
 continues its normal execution. Consider the following example:
