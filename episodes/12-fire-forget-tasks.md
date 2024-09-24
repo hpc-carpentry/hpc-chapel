@@ -346,17 +346,16 @@ the array in order.
 The following code is a possible solution:
 
 ```chpl
-var x=1;
-config var numoftasks=2;
+var x = 1;
+config var numoftasks = 2;
 var messages: [1..numoftasks] string;
 
-writeln("This is the main task: x = ",x);
+writeln("This is the main task: x = ", x);
 
-coforall taskid in 1..numoftasks do
-{
-   var c=taskid+1;
-   var s="this is task "+taskid+": x + "+taskid+" = "+(x+taskid)+". My value of c is: "+c;
-   messages[taskid]=s;
+coforall taskid in 1..numoftasks do {
+  var c = taskid + 1;
+  messages[taskid] = 'this is task ' + taskid:string +
+    ': my value of c is ' + c:string + ' and x is ' + x:string;
 }
 
 for i in 1..numoftasks do writeln(messages[i]);
@@ -378,8 +377,8 @@ this is task 5: x + 5 = 6. My value of c is: 6
 this message won't appear until all tasks are done...
 ```
 
-Note that `+` is a **_polymorphic_** operand in Chapel. In this case it concatenates `strings` with `integers`
-(which are transformed to strings).
+Note that we need to convert integers to strings first (`taskid:string` converts `taskid` integer variable to
+a string) before we can add them to other strings to form a message stored inside each `messages` element.
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
