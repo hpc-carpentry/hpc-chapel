@@ -391,14 +391,14 @@ Consider the following code:
 
 ```chpl
 use Random;
-config const nelem=5000000000;
-var x: [1..n] int;
+config const nelem = 100_000_000;
+var x: [1..nelem] int;
 fillRandom(x);	//fill array with random numbers
-var mymax=0;
+var mymax = 0;
 
 // here put your code to find mymax
 
-writeln("the maximum value in x is: ",mymax);
+writeln("the maximum value in x is: ", mymax);
 ```
 
 Write a parallel code to find the maximum value in the array x.
@@ -406,35 +406,22 @@ Write a parallel code to find the maximum value in the array x.
 :::::::::::::::::::::::: solution
 
 ```chpl
-config const numoftasks=12;
-const n=nelem/numoftasks;
-const r=nelem-n*numoftasks;
+config const numtasks = 12;
+const n = nelem/numtasks;     // number of elements per thread
+const r = nelem - n*numtasks; // these elements did not fit into the last thread
 
-var d: [0..numoftasks-1] real;
+var d: [1..numtasks] int;  // local maxima for each thread
 
-coforall taskid in 0..numoftasks-1 do
-{
-  var i: int;
-  var f: int;
-  if taskid<r then
-  {
-     i=taskid*n+1+taskid;
-     f=taskid*n+n+taskid+1;
-  }
- else
- {
-      i=taskid*n+1+r;
-      f=taskid*n+n+r;
-  }
-  for c in i..f do
-  {
-      if x[c]>d[taskid] then d[taskid]=x[c];
-  }
+coforall taskid in 1..numtasks do {
+  var i, f: int;
+  i  = (taskid-1)*n + 1;
+  f = (taskid-1)*n + n;
+  if taskid == numtasks then f += r; // add r elements to the last thread
+  for j in i..f do
+    if x[j] > d[taskid] then d[taskid] = x[j];
 }
-for i in 0..numoftasks-1 do
-{
-  if d[i]>mymax then mymax=d[i];
-}
+for i in 1..numtasks do
+  if d[i] > mymax then mymax = d[i];
 ```
 
 ```bash
@@ -453,21 +440,6 @@ maximum of the array from the maximums of all tasks.
 
 :::::::::::::::::::::::::::::::::
 ::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::: discussion
-
-## Discussion
-
-Run the code of last Exercise using different number of tasks, and different sizes of the array _x_ to see how
-the execution time changes. For example:
-
-```bash
-time ./exercise_coforall_2 --nelem=3000 --numoftasks=4
-```
-
-Discuss your observations. Is there a limit on how fast the code could run?
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::: discussion
 
