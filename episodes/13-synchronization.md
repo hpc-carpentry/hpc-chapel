@@ -221,10 +221,11 @@ entire code.
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::::::::::::::::::::
 
-There are a number of methods defined for _sync_ variables. Suppose _x_ is a sync variable of a given type,
+There are a number of methods defined for _sync_ variables. If `x` is a sync variable of a given type, you can
+use the following functions:
 
 ```chpl
-// general methods
+// non-blocking methods
 x.reset()	//will set the state as empty and the value as the default of x's type
 x.isfull()	//will return true is the state of x is full, false if it is empty
 
