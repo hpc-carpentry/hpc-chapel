@@ -99,4 +99,7 @@ we can always add more specific detail to gain performance when targeting a part
 ::::::::::::::::::::::::::::::::::::: keypoints
 - "Concurrency and locality are orthogonal concepts in Chapel: where the tasks are running may not be
   indicative of when they run, and you can control both in Chapel."
+- "Problems with a lot of communication between tasks, or so called **_fine-grained_** parallel problems, are
+  typically more difficult to parallelize. As we will see later in these lessons, Chapel simplifies writing
+  **_fine-grained_** parallel codes by hiding a lot of communication complexity under the hood."
 ::::::::::::::::::::::::::::::::::::::::::::::::
