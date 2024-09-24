@@ -9,7 +9,10 @@ exercises: 30
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
-- "First objective."
+- "Learn how to synchronize multiple threads using one of three mechanisms: `sync` statements, sync variables,
+  and atomic variables."
+- "Learn that with shared memory access from multiple threads you can run into race conditions and deadlocks,
+  and learn how to recognize and solve these problems."
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 The keyword `sync` provides all sorts of mechanisms to synchronise tasks in Chapel.
