@@ -81,8 +81,8 @@ different from languages like Python where this does not happen.
 
 ## Indexing elements
 
-One final thing - we can retrieve and reset specific values of an array using `[]` notation. Let's try
-retrieving and setting a specific value in our example so far:
+We can retrieve and reset specific values of an array using `[]` notation. Let's try retrieving and setting a
+specific value in our example so far:
 
 ```chpl
 var example_range = 0..10;
