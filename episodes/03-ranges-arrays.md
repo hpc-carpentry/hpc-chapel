@@ -15,9 +15,7 @@ exercises: 30
 ## Ranges and Arrays
 
 A series of integers (1,2,3,4,5, for example), is called a **_range_**. Ranges are generated with the `..`
-operator, and are useful, among other things, to declare **_arrays_** of variables.
-
-Let's examine what a range looks like (`ranges.chpl` in this example):
+operator. Let's examine what a range looks like (`ranges.chpl` in this example):
 
 ```chpl
 var example_range = 0..10;
@@ -33,10 +31,9 @@ chpl ranges.chpl
 Our example range was set to: 0..10
 ```
 
-An array is a multidimensional collection of values of the same type. Arrays can be any size, and are defined
-using ranges. Let's
-define a 1-dimensional array of the size `example_range` and see what it looks like. Notice how the size of an
-array is included with its type.
+Among other uses, ranges can be used to declare **_arrays_** of variables. An array is a multidimensional
+collection of values of the same type. Arrays can be of any size. Let's define a 1-dimensional array of the
+size `example_range` and see what it looks like. Notice how the size of an array is included with its type.
 
 ```chpl
 var example_range = 0..10;
