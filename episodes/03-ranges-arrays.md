@@ -15,11 +15,14 @@ exercises: 30
 ## Ranges and Arrays
 
 A series of integers (1,2,3,4,5, for example), is called a **_range_**. Ranges are generated with the `..`
-operator. Let's examine what a range looks like (`ranges.chpl` in this example):
+operator. Let's examine what a range looks like; we store the following code as `ranges.chpl`. Here we
+introduce a very simple loop, cycling through all elements of the range and printing their values (we will
+study `for` loops in a separate section):
 
 ```chpl
 var example_range = 0..10;
 writeln('Our example range was set to: ', example_range);
+for x in example_range do writeln(x);
 ```
 
 ```bash
@@ -29,6 +32,11 @@ chpl ranges.chpl
 
 ```output
 Our example range was set to: 0..10
+0
+1
+...
+9
+10
 ```
 
 Among other uses, ranges can be used to declare **_arrays_** of variables. An array is a multidimensional
