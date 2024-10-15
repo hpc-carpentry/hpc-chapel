@@ -52,6 +52,12 @@
     <loc>https://hpc-carpentry.github.io/hpc-chapel/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://hpc-carpentry.github.io/hpc-chapel/aio.html</loc>
+  </url>
+  <url>
+    <loc>https://hpc-carpentry.github.io/hpc-chapel/images.html</loc>
+  </url>
+  <url>
     <loc>https://hpc-carpentry.github.io/hpc-chapel/index.html</loc>
   </url>
   <url>
@@ -106,13 +112,31 @@
     <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor/aio.html</loc>
+  </url>
+  <url>
+    <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor/images.html</loc>
+  </url>
+  <url>
     <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor/index.html</loc>
+  </url>
+  <url>
+    <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor/key-points.html</loc>
   </url>
   <url>
     <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor/profiles.html</loc>
   </url>
   <url>
     <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor/reference.html</loc>
+  </url>
+  <url>
+    <loc>https://hpc-carpentry.github.io/hpc-chapel/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://hpc-carpentry.github.io/hpc-chapel/key-points.html</loc>
   </url>
   <url>
     <loc>https://hpc-carpentry.github.io/hpc-chapel/profiles.html</loc>
