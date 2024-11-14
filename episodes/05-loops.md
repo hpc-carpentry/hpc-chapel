@@ -83,6 +83,17 @@ Note that at the end of the outer `for` loop, when all the elements in `temp_new
 `temp` with the values of `temp_new`; this way everything is set up for the next iteration of the main `while`
 statement.
 
+We're ready to execute our code, but the conditions we have initially set up
+will not produce interesting output, because the plate has a temporarture
+value of `25` everywhere. We can change the boundaries to have temperature `0`
+so that the middle will start cooling down. To do this, we should change the
+declaration of `temp` to:
+
+```chpl
+var temp: [0..rows+1, 0..cols+1] real = 0; // the whole plate starts at 0
+temp[1..rows,1..cols] = 25;                // set the non-boundary coordinates to 25
+```
+
 Now let's compile and execute our code again:
 
 ```bash
