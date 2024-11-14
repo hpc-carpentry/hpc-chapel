@@ -28,7 +28,7 @@ writeln(1 <= 2);
 
 ```bash
 chpl conditionals.chpl
-./conditionals.o
+./conditionals
 ```
 
 ```output
@@ -57,7 +57,7 @@ writeln(true || false);
 
 ```bash
 chpl conditionals.chpl
-./conditionals.o
+./conditionals
 ```
 
 ```output
@@ -77,12 +77,19 @@ true
 The general syntax of a while statement is: 
 
 ```chpl
-while condition do 
-{instructions}
+// single-statement form
+while condition do
+  instruction
+
+// multi-statement form
+while condition
+{
+  instructions
+}
 ```
 
 The code flows as follows: first, the condition is evaluated, and then, if it is satisfied, all the
-instructions within the curly brackets are executed one by one. This will be repeated over and over again
+instructions within the curly brackets or `do` are executed one by one. This will be repeated over and over again
 until the condition does not hold anymore.
 
 The main loop in our simulation can be programmed using a while statement like this
@@ -91,7 +98,7 @@ The main loop in our simulation can be programmed using a while statement like t
 //this is the main loop of the simulation
 var c = 0;
 delta = tolerance;
-while (c < niter && delta >= tolerance) do
+while (c < niter && delta >= tolerance)
 {
   c += 1;
   // actual simulation calculations will go here
@@ -115,9 +122,16 @@ at the desired position. This is the type of control that an **_if statement_** 
 is:
 
 ```chpl
-if condition then 
-{instructions A} 
-else 
+// single-statement form
+if condition then
+  instruction A
+else
+  instruction B
+
+// multi-statement form
+if condition
+{instructions A}
+else
 {instructions B}
 ```
 
@@ -158,7 +172,7 @@ writeln('Temperature at start is: ', temp[x, y]);
 //this is the main loop of the simulation
 var c = 0;
 delta = tolerance;
-while (c < niter && delta >= tolerance) do
+while (c < niter && delta >= tolerance)
 {
   c += 1;
   if (c % outputFrequency == 0)
@@ -170,7 +184,7 @@ while (c < niter && delta >= tolerance) do
 
 ```bash
 chpl base_solution.chpl
-./base_solution.o
+./base_solution
 ```
 
 ```output
@@ -207,11 +221,11 @@ Of course the temperature is always 25.0 at any iteration other than the initial
 computation yet.
 
 ::::::::::::::::::::::::::::::::::::: keypoints
-- "Use `if <condition> then {instructions A} else {instructions B}` syntax to execute one set of instructions
+- "Use `if <condition> {instructions A} else {instructions B}` syntax to execute one set of instructions
   if the condition is satisfied, and the other set of instructions if the condition is not satisfied."
-- This syntax can be simplified to `if <condition> then {instructions}` if we only want to execute the
+- This syntax can be simplified to `if <condition> {instructions}` if we only want to execute the
   instructions within the curly brackets if the condition is satisfied.
-- "Use `while <condition> do {instructions}` to repeatedly execute the instructions within the curly brackets
+- "Use `while <condition> {instructions}` to repeatedly execute the instructions within the curly brackets
   while the condition is satisfied. The instructions will be executed over and over again until the condition
   does not hold anymore."
 ::::::::::::::::::::::::::::::::::::::::::::::::
