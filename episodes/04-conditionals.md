@@ -162,6 +162,8 @@ const y = 50;                   // column number of the desired position
 const tolerance = 0.0001;       // smallest difference in temperature that
                                 // would be accepted before stopping
 const outputFrequency: int = 20;   // the temperature will be printed every outputFrequency iterations
+var delta: real;                // greatest difference in temperature from one iteration to another 
+var tmp: real;                  // for temporary results
 
 // this is our "plate"
 var temp: [0..rows+1, 0..cols+1] real = 25;
