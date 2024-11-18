@@ -35,7 +35,7 @@ Chapel source code must be written in text files with the extension **_.chpl_**.
 world"-type program to demonstrate how we write Chapel code! Using your favourite text editor, create the file
 `hello.chpl` with the following content:
 
-```bash
+```chpl
 writeln('If we can see this, everything works!');
 ```
 
@@ -46,12 +46,14 @@ chpl --fast hello.chpl
 ```
 
 The flag `--fast` indicates the compiler to optimise the binary to run as fast as possible in the given
-architecture. The `-o` option tells Chapel what to call the final output program, in this case `hello.o`.
+architecture. By default, the compiler will produce a program with the same name
+as the source file. In our case, the program will be called `hello`. The `-o`
+option can be used to change the name of the generated binary.
 
 To run the code, you execute it as you would any other program:
 
 ```bash
-./hello.o
+./hello
 ```
 ```output
 If we can see this, everything works!
@@ -82,7 +84,7 @@ and then inside that job compile and run the test code
 
 ```bash
 chpl --fast hello.chpl
-./hello.o
+./hello
 ```
 
 For production jobs, you would compile the code and then submit a batch script to the queue:
@@ -137,5 +139,5 @@ So, our objective is to:
 ::::::::::::::::::::::::::::::::::::: keypoints
 - "Chapel is a compiled language - any programs we make must be compiled with `chpl`."
 - "The `--fast` flag instructs the Chapel compiler to optimise our code."
-- "The `-o` flag tells the compiler what to name our output (otherwise it gets named `a.out`)"
+- "The `-o` flag tells the compiler what to name our output (otherwise it gets named after the source file)"
 ::::::::::::::::::::::::::::::::::::::::::::::::
