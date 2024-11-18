@@ -430,7 +430,7 @@ chpl --fast exercise_coforall_2.chpl
 ```
 
 ```output
-the maximum value in x is: 1
+the maximum value in x is: 9223372034161572255   # large random integer
 ```
 
 We use the `coforall` loop to spawn tasks that work concurrently in a fraction of the array. The trick here is to
