@@ -391,7 +391,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Fire-and-forget tasks</h1>
-        <p>Last updated on 2024-10-08 |
+        <p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/12-fire-forget-tasks.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -554,7 +554,7 @@ the same.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>We’ll get an error at compilation (“cannot assign to const
 variable”), since then <code>c</code> would be defined within the scope
@@ -591,7 +591,7 @@ whereas inside the second <code>begin</code> statement the value
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>The code will compile and run, and you will see the following
 output:</p>
@@ -759,7 +759,7 @@ config var numoftasks=2;
 
 writeln("This is the main task: x = ",x);
 
-coforall taskid in 1..numoftasks do
+coforall taskid in 1..numoftasks
 {
   var c=taskid+1;
   writeln("this is task ",taskid,": x + ",taskid," = ",x+taskid,". My value of c is: ",c);
@@ -809,7 +809,7 @@ all elements of the array in order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>The following code is a possible solution:</p>
 <pre class="chpl"><code>var x = 1;
@@ -818,7 +818,7 @@ var messages: [1..numoftasks] string;
 
 writeln("This is the main task: x = ", x);
 
-coforall taskid in 1..numoftasks do {
+coforall taskid in 1..numoftasks {
   var c = taskid + 1;
   messages[taskid] = 'this is task ' + taskid:string +
     ': my value of c is ' + c:string + ' and x is ' + x:string;
@@ -877,7 +877,7 @@ writeln("the maximum value in x is: ", mymax);</code></pre>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <pre class="chpl"><code>config const numtasks = 12;
 const n = nelem/numtasks;     // number of elements per thread
@@ -885,7 +885,7 @@ const r = nelem - n*numtasks; // these elements did not fit into the last thread
 
 var d: [1..numtasks] int;  // local maxima for each thread
 
-coforall taskid in 1..numtasks do {
+coforall taskid in 1..numtasks {
   var i, f: int;
   i  = (taskid-1)*n + 1;
   f = (taskid-1)*n + n;
@@ -904,7 +904,7 @@ for i in 1..numtasks do
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>the maximum value in x is: 1.0</code></pre>
+<pre class="output" tabindex="0"><code>the maximum value in x is: 9223372034161572255   # large random integer</code></pre>
 </div>
 <p>We use the <code>coforall</code> loop to spawn tasks that work
 concurrently in a fraction of the array. The trick here is to determine,
@@ -1030,8 +1030,8 @@ any links that you are not going to use.
   "url": "https://hpc-carpentry.github.io/hpc-chapel/12-fire-forget-tasks.html",
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/12-fire-forget-tasks.html",
   "dateCreated": "2017-09-14",
-  "dateModified": "2024-10-08",
-  "datePublished": "2024-11-12"
+  "dateModified": "2024-11-18",
+  "datePublished": "2024-11-18"
 }
 
   </script><script>

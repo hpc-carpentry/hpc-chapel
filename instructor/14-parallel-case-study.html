@@ -391,7 +391,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Task parallelism with Chapel</h1>
-        <p>Last updated on 2024-10-08 |
+        <p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/14-parallel-case-study.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -445,12 +445,12 @@ config const coltasks = 2;
 
 // this is the main loop of the simulation
 delta = tolerance;
-while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
+while (c&lt;niter &amp;&amp; delta&gt;=tolerance) {
   c += 1;
 
-  coforall taskid in 0..coltasks*rowtasks-1 do {
-    for i in rowi..rowf do {
-      for j in coli..colf do {
+  coforall taskid in 0..coltasks*rowtasks-1 {
+    for i in rowi..rowf {
+      for j in coli..colf {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
       }
     }
@@ -480,17 +480,17 @@ const rc = cols-nc*coltasks;
 
 // this is the main loop of the simulation
 delta = tolerance;
-while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
+while (c&lt;niter &amp;&amp; delta&gt;=tolerance) {
   c+=1;
 
-  coforall taskid in 0..coltasks*rowtasks-1 do {
+  coforall taskid in 0..coltasks*rowtasks-1 {
     var rowi, coli, rowf, colf: int;
     var taskr, taskc: int;
 
     taskr = taskid/coltasks;
     taskc = taskid%coltasks;
 
-    if taskr&lt;rr then {
+    if taskr&lt;rr {
       rowi=(taskr*nr)+1+taskr;
       rowf=(taskr*nr)+nr+taskr+1;
     }
@@ -499,7 +499,7 @@ while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
       rowf = (taskr*nr)+nr+rr;
     }
 
-    if taskc&lt;rc then {
+    if taskc&lt;rc {
       coli = (taskc*nc)+1+taskc;
       colf = (taskc*nc)+nc+taskc+1;
     }
@@ -508,8 +508,8 @@ while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
       colf = (taskc*nc)+nc+rc;
     }
 
-    for i in rowi..rowf do {
-      for j in coli..colf do {
+    for i in rowi..rowf {
+      for j in coli..colf {
       ...
 }</code></pre>
 <p>As you can see, to divide a data set (the array <code>temp</code> in
@@ -573,7 +573,7 @@ const rc = cols-nc*coltasks;
 
 // this is the main loop of the simulation
 delta = tolerance;
-coforall taskid in 0..coltasks*rowtasks-1 do {
+coforall taskid in 0..coltasks*rowtasks-1 {
   var rowi, coli, rowf, colf: int;
   var taskr, taskc: int;
   var c = 0;
@@ -581,7 +581,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
   taskr = taskid/coltasks;
   taskc = taskid%coltasks;
 
-  if taskr&lt;rr then {
+  if taskr&lt;rr {
     rowi = (taskr*nr)+1+taskr;
     rowf = (taskr*nr)+nr+taskr+1;
   }
@@ -590,7 +590,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
     rowf = (taskr*nr)+nr+rr;
   }
 
-  if taskc&lt;rc then {
+  if taskc&lt;rc {
     coli = (taskc*nc)+1+taskc;
     colf = (taskc*nc)+nc+taskc+1;
   }
@@ -599,11 +599,11 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
     colf = (taskc*nc)+nc+rc;
   }
 
-  while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
+  while (c&lt;niter &amp;&amp; delta&gt;=tolerance) {
     c = c+1;
 
-    for i in rowi..rowf do {
-      for j in coli..colf do {
+    for i in rowi..rowf {
+      for j in coli..colf {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
       }
     }
@@ -635,17 +635,17 @@ var myd: [0..coltasks*rowtasks-1] real;
 ...
 //this is the main loop of the simulation
 delta.write(tolerance);
-coforall taskid in 0..coltasks*rowtasks-1 do
+coforall taskid in 0..coltasks*rowtasks-1
 {
   var myd2: real;
   ...
 
-  while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
+  while (c&lt;niter &amp;&amp; delta.read() &gt;= tolerance) {
     c = c+1;
     ...
 
-    for i in rowi..rowf do {
-      for j in coli..colf do {
+    for i in rowi..rowf {
+      for j in coli..colf {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
         myd2 = max(abs(temp_new[i,j]-temp[i,j]),myd2);
       }
@@ -655,7 +655,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do
     // here comes the synchronisation of tasks
 
     temp[rowi..rowf,coli..colf] = temp_new[rowi..rowf,coli..colf];
-    if taskid==0 then {
+    if taskid==0 {
       delta.write(max reduce myd);
       if c%outputFrequency==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
     }
@@ -690,10 +690,10 @@ lock.write(0);
 ...
 //this is the main loop of the simulation
 delta.write(tolerance);
-coforall taskid in 0..coltasks*rowtasks-1 do
+coforall taskid in 0..coltasks*rowtasks-1
 {
    ...
-   while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do
+   while (c&lt;niter &amp;&amp; delta&gt;=tolerance)
    {
       ...
       myd[taskid]=myd2
@@ -748,7 +748,9 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 <p>We finish this section by providing another, elegant version of the
 2D heat transfer solver (without time stepping) using data parallelism
 on a single locale:</p>
-<pre class="chpl"><code>const n = 100, stride = 20;
+<pre class="chpl"><code>use Math; /* for exp() */
+
+const n = 100, stride = 20;
 var temp: [0..n+1, 0..n+1] real;
 var temp_new: [1..n,1..n] real;
 var x, y: real;
@@ -759,7 +761,7 @@ for (i,j) in {1..n,1..n} { // serial iteration
 }
 coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x20 blocks =&gt; 25 tasks
   for k in i..i+stride-1 { // serial loop inside each block
-    for l in j..j+stride-1 do {
+    for l in j..j+stride-1 {
       temp_new[k,l] = (temp[k-1,l] + temp[k+1,l] + temp[k,l-1] + temp[k,l+1]) / 4;
     }
   }
@@ -849,8 +851,8 @@ any links that you are not going to use.
   "url": "https://hpc-carpentry.github.io/hpc-chapel/instructor/14-parallel-case-study.html",
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/instructor/14-parallel-case-study.html",
   "dateCreated": "2017-09-14",
-  "dateModified": "2024-10-08",
-  "datePublished": "2024-11-12"
+  "dateModified": "2024-11-18",
+  "datePublished": "2024-11-18"
 }
 
   </script><script>

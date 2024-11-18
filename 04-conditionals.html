@@ -398,7 +398,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Conditional statements</h1>
-        <p>Last updated on 2024-10-08 |
+        <p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/04-conditionals.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -449,7 +449,7 @@ how they work (<code>conditionals.chpl</code>):</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">chpl</span> conditionals.chpl</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">./conditionals.o</span></span></code></pre>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">./conditionals</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -478,7 +478,7 @@ returns <code>true</code> if either condition is true.</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">chpl</span> conditionals.chpl</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">./conditionals.o</span></span></code></pre>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">./conditionals</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -495,18 +495,25 @@ returns <code>true</code> if either condition is true.</p>
 </div>
 <section><h2 class="section-heading" id="control-flow">Control flow<a class="anchor" aria-label="anchor" href="#control-flow"></a></h2>
 <hr class="half-width"><p>The general syntax of a while statement is:</p>
-<pre class="chpl"><code>while condition do
-{instructions}</code></pre>
+<pre class="chpl"><code>// single-statement form
+while condition do
+  instruction
+
+// multi-statement form
+while condition
+{
+  instructions
+}</code></pre>
 <p>The code flows as follows: first, the condition is evaluated, and
 then, if it is satisfied, all the instructions within the curly brackets
-are executed one by one. This will be repeated over and over again until
-the condition does not hold anymore.</p>
+or <code>do</code> are executed one by one. This will be repeated over
+and over again until the condition does not hold anymore.</p>
 <p>The main loop in our simulation can be programmed using a while
 statement like this</p>
 <pre class="chpl"><code>//this is the main loop of the simulation
 var c = 0;
 delta = tolerance;
-while (c &lt; niter &amp;&amp; delta &gt;= tolerance) do
+while (c &lt; niter &amp;&amp; delta &gt;= tolerance)
 {
   c += 1;
   // actual simulation calculations will go here
@@ -532,7 +539,14 @@ need to check whether <code>c</code> is a multiple of
 at the desired position. This is the type of control that an
 <strong><em>if statement</em></strong> give us. The general syntax
 is:</p>
-<pre class="chpl"><code>if condition then
+<pre class="chpl"><code>// single-statement form
+if condition then
+  instruction A
+else
+  instruction B
+
+// multi-statement form
+if condition
 {instructions A}
 else
 {instructions B}</code></pre>
@@ -557,6 +571,8 @@ const y = 50;                   // column number of the desired position
 const tolerance = 0.0001;       // smallest difference in temperature that
                                 // would be accepted before stopping
 const outputFrequency: int = 20;   // the temperature will be printed every outputFrequency iterations
+var delta: real;                // greatest difference in temperature from one iteration to another
+var tmp: real;                  // for temporary results
 
 // this is our "plate"
 var temp: [0..rows+1, 0..cols+1] real = 25;
@@ -567,7 +583,7 @@ writeln('Temperature at start is: ', temp[x, y]);
 //this is the main loop of the simulation
 var c = 0;
 delta = tolerance;
-while (c &lt; niter &amp;&amp; delta &gt;= tolerance) do
+while (c &lt; niter &amp;&amp; delta &gt;= tolerance)
 {
   c += 1;
   if (c % outputFrequency == 0)
@@ -579,7 +595,7 @@ while (c &lt; niter &amp;&amp; delta &gt;= tolerance) do
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="ex">./base_solution.o</span></span></code></pre>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -622,15 +638,15 @@ the initial one, as we haven’t done any computation yet.</p>
 <h3 class="callout-title">Key Points</h3>
 <div class="callout-content">
 <ul><li>“Use
-<code>if &lt;condition&gt; then {instructions A} else {instructions B}</code>
+<code>if &lt;condition&gt; {instructions A} else {instructions B}</code>
 syntax to execute one set of instructions if the condition is satisfied,
 and the other set of instructions if the condition is not
 satisfied.”</li>
 <li>This syntax can be simplified to
-<code>if &lt;condition&gt; then {instructions}</code> if we only want to
+<code>if &lt;condition&gt; {instructions}</code> if we only want to
 execute the instructions within the curly brackets if the condition is
 satisfied.</li>
-<li>“Use <code>while &lt;condition&gt; do {instructions}</code> to
+<li>“Use <code>while &lt;condition&gt; {instructions}</code> to
 repeatedly execute the instructions within the curly brackets while the
 condition is satisfied. The instructions will be executed over and over
 again until the condition does not hold anymore.”</li>
@@ -699,8 +715,8 @@ any links that you are not going to use.
   "url": "https://hpc-carpentry.github.io/hpc-chapel/04-conditionals.html",
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/04-conditionals.html",
   "dateCreated": "2017-09-14",
-  "dateModified": "2024-10-08",
-  "datePublished": "2024-11-12"
+  "dateModified": "2024-11-18",
+  "datePublished": "2024-11-18"
 }
 
   </script><script>

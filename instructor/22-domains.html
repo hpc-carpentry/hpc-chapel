@@ -391,7 +391,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Domains and data parallelism</h1>
-        <p>Last updated on 2024-10-08 |
+        <p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/22-domains.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -434,7 +434,7 @@ infinite:</p>
 <pre class="chpl"><code>var oneToTen: range = 1..10; // 1, 2, 3, ..., 10
 var a = 1234, b = 5678;
 var aToB: range = a..b; // using variables
-var twoToTenByTwo: range(stridable=true) = 2..10 by 2; // 2, 4, 6, 8, 10
+var twoToTenByTwo: range(strides=strideKind.positive) = 2..10 by 2; // 2, 4, 6, 8, 10
 var oneToInf = 1.. ; // unbounded range</code></pre>
 <p>On the other hand, domains are multi-dimensional (including 1D) sets
 of integer indices that are always bounded. To stress the difference
@@ -561,7 +561,7 @@ adding a separator <code>' '</code> at the end of each element.</p>
 <pre class="chpl"><code>use BlockDist; // use standard block distribution module to partition the domain into blocks
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};
-const distributedMesh: domain(2) dmapped Block(boundingBox=mesh) = mesh;
+const distributedMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = mesh;
 var A: [distributedMesh] string; // block-distributed array mapped to locales
 forall a in A { // go in parallel through all n^2 elements in A
   // assign each array element on the locale that stores that index/element
@@ -573,7 +573,7 @@ outer edge of our decomposition coincides exactly with the outer edge of
 our domain. Alternatively, the outer decomposition layer could include
 an additional perimeter of <em>ghost points</em> if we specify</p>
 <pre class="chpl"><code>const mesh: domain(2) = {1..n, 1..n};
-const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1,0..n+1};</code></pre>
+const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1,0..n+1};</code></pre>
 <p>but let us not worry about this for now.</p>
 <p>Running our code on four locales with three cores per locale produces
 the following output:</p>
@@ -653,7 +653,7 @@ which the code is running</li>
 </ol><pre class="chpl"><code>use CyclicDist; // elements are sent to locales in a round-robin pattern
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};  // a 2D domain defined in shared memory on a single locale
-const m2: domain(2) dmapped Cyclic(startIdx=mesh.low) = mesh; // mesh.low is the first index (1,1)
+const m2: domain(2) dmapped new cyclicDist(startIdx=mesh.low) = mesh; // mesh.low is the first index (1,1)
 var A2: [m2] string;
 forall a in A2 {
   a = a.locale.id:string + '-' + here.name + '-' + here.maxTaskPar:string + '  ';
@@ -697,15 +697,16 @@ DimensionalDist2D, ReplicatedDim, BlockCycDim — for details please see
 <p>Now let us use distributed domains to write a parallel version of our
 original diffusion solver code:</p>
 <pre class="chpl"><code>use BlockDist;
+use Math;
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};  // local 2D n^2 domain</code></pre>
 <p>We will add a larger (n+2)^2 block-distributed domain
 <code>largerMesh</code> with a layer of <em>ghost points</em> on
 <em>perimeter locales</em>, and define a temperature array
 <code>temp</code> on top of it, by adding the following to our code:</p>
-<pre class="chpl"><code>const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1, 0..n+1};
+<pre class="chpl"><code>const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1, 0..n+1};
 var temp: [largerMesh] real; // a block-distributed array of temperatures
-forall (i,j) in T.domain[1..n,1..n] {
+forall (i,j) in temp.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real); // x, y are local to each task
   var y = ((j:real)-0.5)/(n:real);
   temp[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01); // narrow Gaussian peak
@@ -716,8 +717,8 @@ middle of the mesh. As we evolve our solution in time, this peak should
 diffuse slowly over the rest of the domain.</p>
 <blockquote>
 <h2 id="question">Question</h2>
-<p>Why do we have <code>forall (i,j) in T.domain[1..n,1..n]</code> and
-not <code>forall (i,j) in mesh</code>?</p>
+<p>Why do we have <code>forall (i,j) in temp.domain[1..n,1..n]</code>
+and not <code>forall (i,j) in mesh</code>?</p>
 <blockquote>
 <h2 id="answer">Answer</h2>
 <p>The first one will run on multiple locales in parallel, whereas the
@@ -827,9 +828,10 @@ parallel.</p>
 </div>
 <p>Here is the final version of the entire code:</p>
 <pre class="chpl"><code>use BlockDist;
+use Math;
 config const n = 8;
 const mesh: domain(2) = {1..n,1..n};
-const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1,0..n+1};
+const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1,0..n+1};
 var temp, temp_new: [largerMesh] real;
 forall (i,j) in temp.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real);
@@ -929,7 +931,7 @@ not the endians problem!)</li>
 C/C++ functions from Chapel</li>
 </ul><p>We’ll add the following to our code to write ASCII:</p>
 <pre class="chpl"><code>use IO;
-var myFile = open("output.dat", iomode.cw); // open the file for writing
+var myFile = open("output.dat", ioMode.cw); // open the file for writing
 var myWritingChannel = myFile.writer(); // create a writing channel starting at file offset 0
 myWritingChannel.write(temp); // write the array
 myWritingChannel.close(); // close the channel</code></pre>
@@ -1023,8 +1025,8 @@ any links that you are not going to use.
   "url": "https://hpc-carpentry.github.io/hpc-chapel/instructor/22-domains.html",
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/instructor/22-domains.html",
   "dateCreated": "2017-09-14",
-  "dateModified": "2024-10-08",
-  "datePublished": "2024-11-12"
+  "dateModified": "2024-11-18",
+  "datePublished": "2024-11-18"
 }
 
   </script><script>

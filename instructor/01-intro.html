@@ -400,7 +400,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Chapel</h1>
-        <p>Last updated on 2024-10-08 |
+        <p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/01-intro.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -466,11 +466,7 @@ computer.</p>
 program to demonstrate how we write Chapel code! Using your favourite
 text editor, create the file <code>hello.chpl</code> with the following
 content:</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">writeln</span><span class="er">(</span><span class="st">'If we can see this, everything works!'</span><span class="kw">);</span></span></code></pre>
-</div>
+<pre class="chpl"><code><span><span class="fu">writeln</span><span class="op">(</span><span class="st">'If we can see this, everything works!'</span><span class="op">)</span>;</span></code></pre>
 <p>This program can then be compiled with the following bash
 command:</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -479,14 +475,16 @@ command:</p>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">chpl</span> <span class="at">--fast</span> hello.chpl</span></code></pre>
 </div>
 <p>The flag <code>--fast</code> indicates the compiler to optimise the
-binary to run as fast as possible in the given architecture. The
-<code>-o</code> option tells Chapel what to call the final output
-program, in this case <code>hello.o</code>.</p>
+binary to run as fast as possible in the given architecture. By default,
+the compiler will produce a program with the same name as the source
+file. In our case, the program will be called <code>hello</code>. The
+<code>-o</code> option can be used to change the name of the generated
+binary.</p>
 <p>To run the code, you execute it as you would any other program:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">./hello.o</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">./hello</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -521,7 +519,7 @@ interactive job to the queue</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">chpl</span> <span class="at">--fast</span> hello.chpl</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">./hello.o</span></span></code></pre>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">./hello</span></span></code></pre>
 </div>
 <p>For production jobs, you would compile the code and then submit a
 batch script to the queue:</p>
@@ -588,7 +586,7 @@ compiled with <code>chpl</code>.”</li>
 <li>“The <code>--fast</code> flag instructs the Chapel compiler to
 optimise our code.”</li>
 <li>“The <code>-o</code> flag tells the compiler what to name our output
-(otherwise it gets named <code>a.out</code>)”</li>
+(otherwise it gets named after the source file)”</li>
 </ul></div>
 </div>
 </div>
@@ -654,8 +652,8 @@ any links that you are not going to use.
   "url": "https://hpc-carpentry.github.io/hpc-chapel/instructor/01-intro.html",
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/instructor/01-intro.html",
   "dateCreated": "2017-09-14",
-  "dateModified": "2024-10-08",
-  "datePublished": "2024-11-12"
+  "dateModified": "2024-11-18",
+  "datePublished": "2024-11-18"
 }
 
   </script><script>

@@ -391,7 +391,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Getting started with loops</h1>
-        <p>Last updated on 2024-10-08 |
+        <p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/05-loops.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -435,7 +435,12 @@ or, in other words, we need to <em>iterate</em> over the elements of
 <code>temp_new</code>. When it comes to iterating over a given number of
 elements, the <strong><em>for-loop</em></strong> is what we want to use.
 The for-loop has the following general syntax:</p>
-<pre class="chpl"><code>for index in iterand do
+<pre class="chpl"><code>// single-statement version
+for index in iterand do
+  instruction;
+
+// multi-statement version
+for index in iterand
 {instructions}</code></pre>
 <p>The <em>iterand</em> is a function or statement that expresses an
 iteration; it could be the range 1..15, for example. <em>index</em> is a
@@ -449,7 +454,7 @@ repeated until index takes all the different values expressed by the
 iterand.</p>
 <p>This <code>for</code> loop, for example</p>
 <pre class="chpl"><code>// calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows do
+for i in 1..rows
 {
   // do this for every row
 }</code></pre>
@@ -458,10 +463,10 @@ for each row we also need to iterate over all the columns in order to
 access every single element of <code>temp_new</code>. This can be done
 with nested <code>for</code> loops like this:</p>
 <pre class="chpl"><code>// calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows do
+for i in 1..rows
 {
   // do this for every row
-  for j in 1..cols do
+  for j in 1..cols
   {
     // and this for every column in the row i
   }
@@ -469,10 +474,10 @@ for i in 1..rows do
 <p>Now, inside the inner loop, we can use the indices <code>i</code> and
 <code>j</code> to perform the required computations as follows:</p>
 <pre class="chpl"><code>// calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows do
+for i in 1..rows
 {
   // do this for every row
-  for j in 1..cols do
+  for j in 1..cols
   {
     // and this for every column in the row i
     temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
@@ -484,12 +489,20 @@ elements in <code>temp_new</code> are already calculated, we update
 <code>temp</code> with the values of <code>temp_new</code>; this way
 everything is set up for the next iteration of the main
 <code>while</code> statement.</p>
+<p>We’re ready to execute our code, but the conditions we have initially
+set up will not produce interesting output, because the plate has a
+temperature value of <code>25</code> everywhere. We can change the
+boundaries to have temperature <code>0</code> so that the middle will
+start cooling down. To do this, we should change the declaration of
+<code>temp</code> to:</p>
+<pre class="chpl"><code>var temp: [0..rows+1, 0..cols+1] real = 0; // the whole plate starts at 0
+temp[1..rows,1..cols] = 25;                // set the non-boundary coordinates to 25</code></pre>
 <p>Now let’s compile and execute our code again:</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -560,11 +573,11 @@ Modify the code to see the temperature at the top right corner.</p>
 the plate, we just need to modify <code>x</code> and <code>y</code>.
 This corner correspond to the first row (<code>x=1</code>) and the last
 column (<code>y=cols</code>) of the plate.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -624,11 +637,11 @@ for j in 1..cols do
 of integers in Chapel returns an integer, then, as <code>rows</code> and
 <code>cols</code> are integers, we must have 80 as real so that the
 result is not truncated.</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -689,9 +702,9 @@ find the greatest difference, and update <code>delta</code> with that
 value. The next nested for loops do the job:</p>
 <pre class="chpl"><code>// update delta, the greatest difference between temp_new and temp
 delta=0;
-for i in 1..rows do
+for i in 1..rows
 {
-  for j in 1..cols do
+  for j in 1..cols
   {
     tmp = abs(temp_new[i,j]-temp[i,j]);
     if tmp &gt; delta then delta = tmp;
@@ -700,11 +713,11 @@ for i in 1..rows do
 <p>Clearly there is no need to keep the difference at every single
 position in the array, we just need to update <code>delta</code> if we
 find a greater one.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -738,11 +751,11 @@ information,</p>
 writeln('\nFinal temperature at the desired position after ',c,' iterations is: ',temp[x,y]);
 writeln('The difference in temperatures between the last two iterations was: ',delta,'\n');</code></pre>
 <p>and compile and execute our final code,</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -793,11 +806,11 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 <div class="callout-content">
 <ul><li>“You can organize loops with <code>for</code> and <code>while</code>
 statements. Use a <code>for</code> loop to run over every element of the
-iterand, e.g. <code>for i in 1..rows do { ...}</code> will run over all
+iterand, e.g. <code>for i in 1..rows { ...}</code> will run over all
 integers from 1 to <code>rows</code>. Use a <code>while</code> statement
 to repeatedly execute a code block until the condition does not hold
 anymore,
-e.g. <code>while (c &lt;   niter &amp;&amp; delta &gt;= tolerance) do {...}</code>
+e.g. <code>while (c &lt;   niter &amp;&amp; delta &gt;= tolerance) {...}</code>
 will repeatedly execute the commands in curly braces until one of the
 two conditions turns false.”</li>
 </ul></div>
@@ -868,8 +881,8 @@ any links that you are not going to use.
   "url": "https://hpc-carpentry.github.io/hpc-chapel/05-loops.html",
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/05-loops.html",
   "dateCreated": "2017-09-14",
-  "dateModified": "2024-10-08",
-  "datePublished": "2024-11-12"
+  "dateModified": "2024-11-18",
+  "datePublished": "2024-11-18"
 }
 
   </script><script>

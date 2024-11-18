@@ -466,7 +466,7 @@
         
 <section id="aio-01-intro"><p>Content from <a href="01-intro.html">Introduction to Chapel</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/01-intro.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -531,11 +531,7 @@ computer.</p>
 program to demonstrate how we write Chapel code! Using your favourite
 text editor, create the file <code>hello.chpl</code> with the following
 content:</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">writeln</span><span class="er">(</span><span class="st">'If we can see this, everything works!'</span><span class="kw">);</span></span></code></pre>
-</div>
+<pre class="chpl"><code><span><span class="fu">writeln</span><span class="op">(</span><span class="st">'If we can see this, everything works!'</span><span class="op">)</span>;</span></code></pre>
 <p>This program can then be compiled with the following bash
 command:</p>
 <div class="codewrapper sourceCode" id="cb2">
@@ -544,14 +540,16 @@ command:</p>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">chpl</span> <span class="at">--fast</span> hello.chpl</span></code></pre>
 </div>
 <p>The flag <code>--fast</code> indicates the compiler to optimise the
-binary to run as fast as possible in the given architecture. The
-<code>-o</code> option tells Chapel what to call the final output
-program, in this case <code>hello.o</code>.</p>
+binary to run as fast as possible in the given architecture. By default,
+the compiler will produce a program with the same name as the source
+file. In our case, the program will be called <code>hello</code>. The
+<code>-o</code> option can be used to change the name of the generated
+binary.</p>
 <p>To run the code, you execute it as you would any other program:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">./hello.o</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">./hello</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -588,7 +586,7 @@ interactive job to the queue</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">chpl</span> <span class="at">--fast</span> hello.chpl</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">./hello.o</span></span></code></pre>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">./hello</span></span></code></pre>
 </div>
 <p>For production jobs, you would compile the code and then submit a
 batch script to the queue:</p>
@@ -662,7 +660,7 @@ compiled with <code>chpl</code>.”</li>
 <li>“The <code>--fast</code> flag instructs the Chapel compiler to
 optimise our code.”</li>
 <li>“The <code>-o</code> flag tells the compiler what to name our output
-(otherwise it gets named <code>a.out</code>)”</li>
+(otherwise it gets named after the source file)”</li>
 </ul>
 </div>
 </div>
@@ -673,7 +671,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-02-variables"><p>Content from <a href="02-variables.html">Basic syntax and variables</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/02-variables.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 30 minutes</p>
@@ -722,7 +720,7 @@ can compile it with the following commands:</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">chpl</span> operators.chpl <span class="at">--fast</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">./operators.o</span></span></code></pre>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">./operators</span></span></code></pre>
 </div>
 <p>You should see output that looks something like the following:</p>
 <div class="codewrapper">
@@ -837,7 +835,7 @@ writeln("counter is ", counter, " and delta is ", delta);</code></pre>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">chpl</span> variables.chpl</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="ex">./variables.o</span></span></code></pre>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="ex">./variables</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -852,7 +850,7 @@ writeln('The value of test is ', test, ' and its type is ', test.type:string);</
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">chpl</span> variables.chpl</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="ex">./variables.o</span></span></code></pre>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="ex">./variables</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -955,7 +953,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-03-ranges-arrays"><p>Content from <a href="03-ranges-arrays.html">Ranges and arrays</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/03-ranges-arrays.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 90 minutes</p>
@@ -1004,7 +1002,7 @@ for x in example_range do writeln(x);</code></pre>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">chpl</span> ranges.chpl</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">./ranges.o</span></span></code></pre>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">./ranges</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1041,7 +1039,7 @@ writeln('When set to a range: ', example_array);</code></pre>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">chpl</span> ranges.chpl</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">./ranges.o</span></span></code></pre>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">./ranges</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1081,7 +1079,7 @@ writeln(example_array);</code></pre>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="ex">chpl</span> ranges.chpl</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="ex">./ranges.o</span></span></code></pre>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="ex">./ranges</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1117,7 +1115,7 @@ writeln(example_array);</code></pre>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">chpl</span> ranges.chpl</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="ex">./ranges.o</span></span></code></pre>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="ex">./ranges</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1208,7 +1206,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-04-conditionals"><p>Content from <a href="04-conditionals.html">Conditional statements</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/04-conditionals.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 90 minutes</p>
@@ -1258,7 +1256,7 @@ how they work (<code>conditionals.chpl</code>):</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">chpl</span> conditionals.chpl</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">./conditionals.o</span></span></code></pre>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">./conditionals</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1287,7 +1285,7 @@ returns <code>true</code> if either condition is true.</p>
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">chpl</span> conditionals.chpl</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">./conditionals.o</span></span></code></pre>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">./conditionals</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1306,18 +1304,25 @@ returns <code>true</code> if either condition is true.</p>
 </h2>
 <hr class="half-width">
 <p>The general syntax of a while statement is:</p>
-<pre class="chpl"><code>while condition do
-{instructions}</code></pre>
+<pre class="chpl"><code>// single-statement form
+while condition do
+  instruction
+
+// multi-statement form
+while condition
+{
+  instructions
+}</code></pre>
 <p>The code flows as follows: first, the condition is evaluated, and
 then, if it is satisfied, all the instructions within the curly brackets
-are executed one by one. This will be repeated over and over again until
-the condition does not hold anymore.</p>
+or <code>do</code> are executed one by one. This will be repeated over
+and over again until the condition does not hold anymore.</p>
 <p>The main loop in our simulation can be programmed using a while
 statement like this</p>
 <pre class="chpl"><code>//this is the main loop of the simulation
 var c = 0;
 delta = tolerance;
-while (c &lt; niter &amp;&amp; delta &gt;= tolerance) do
+while (c &lt; niter &amp;&amp; delta &gt;= tolerance)
 {
   c += 1;
   // actual simulation calculations will go here
@@ -1343,7 +1348,14 @@ need to check whether <code>c</code> is a multiple of
 at the desired position. This is the type of control that an
 <strong><em>if statement</em></strong> give us. The general syntax
 is:</p>
-<pre class="chpl"><code>if condition then
+<pre class="chpl"><code>// single-statement form
+if condition then
+  instruction A
+else
+  instruction B
+
+// multi-statement form
+if condition
 {instructions A}
 else
 {instructions B}</code></pre>
@@ -1368,6 +1380,8 @@ const y = 50;                   // column number of the desired position
 const tolerance = 0.0001;       // smallest difference in temperature that
                                 // would be accepted before stopping
 const outputFrequency: int = 20;   // the temperature will be printed every outputFrequency iterations
+var delta: real;                // greatest difference in temperature from one iteration to another
+var tmp: real;                  // for temporary results
 
 // this is our "plate"
 var temp: [0..rows+1, 0..cols+1] real = 25;
@@ -1378,7 +1392,7 @@ writeln('Temperature at start is: ', temp[x, y]);
 //this is the main loop of the simulation
 var c = 0;
 delta = tolerance;
-while (c &lt; niter &amp;&amp; delta &gt;= tolerance) do
+while (c &lt; niter &amp;&amp; delta &gt;= tolerance)
 {
   c += 1;
   if (c % outputFrequency == 0)
@@ -1390,7 +1404,7 @@ while (c &lt; niter &amp;&amp; delta &gt;= tolerance) do
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="ex">./base_solution.o</span></span></code></pre>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1434,15 +1448,15 @@ the initial one, as we haven’t done any computation yet.</p>
 <div class="callout-content">
 <ul>
 <li>“Use
-<code>if &lt;condition&gt; then {instructions A} else {instructions B}</code>
+<code>if &lt;condition&gt; {instructions A} else {instructions B}</code>
 syntax to execute one set of instructions if the condition is satisfied,
 and the other set of instructions if the condition is not
 satisfied.”</li>
 <li>This syntax can be simplified to
-<code>if &lt;condition&gt; then {instructions}</code> if we only want to
+<code>if &lt;condition&gt; {instructions}</code> if we only want to
 execute the instructions within the curly brackets if the condition is
 satisfied.</li>
-<li>“Use <code>while &lt;condition&gt; do {instructions}</code> to
+<li>“Use <code>while &lt;condition&gt; {instructions}</code> to
 repeatedly execute the instructions within the curly brackets while the
 condition is satisfied. The instructions will be executed over and over
 again until the condition does not hold anymore.”</li>
@@ -1456,7 +1470,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-05-loops"><p>Content from <a href="05-loops.html">Getting started with loops</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/05-loops.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 90 minutes</p>
@@ -1499,7 +1513,12 @@ or, in other words, we need to <em>iterate</em> over the elements of
 <code>temp_new</code>. When it comes to iterating over a given number of
 elements, the <strong><em>for-loop</em></strong> is what we want to use.
 The for-loop has the following general syntax:</p>
-<pre class="chpl"><code>for index in iterand do
+<pre class="chpl"><code>// single-statement version
+for index in iterand do
+  instruction;
+
+// multi-statement version
+for index in iterand
 {instructions}</code></pre>
 <p>The <em>iterand</em> is a function or statement that expresses an
 iteration; it could be the range 1..15, for example. <em>index</em> is a
@@ -1513,7 +1532,7 @@ repeated until index takes all the different values expressed by the
 iterand.</p>
 <p>This <code>for</code> loop, for example</p>
 <pre class="chpl"><code>// calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows do
+for i in 1..rows
 {
   // do this for every row
 }</code></pre>
@@ -1522,10 +1541,10 @@ for each row we also need to iterate over all the columns in order to
 access every single element of <code>temp_new</code>. This can be done
 with nested <code>for</code> loops like this:</p>
 <pre class="chpl"><code>// calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows do
+for i in 1..rows
 {
   // do this for every row
-  for j in 1..cols do
+  for j in 1..cols
   {
     // and this for every column in the row i
   }
@@ -1533,10 +1552,10 @@ for i in 1..rows do
 <p>Now, inside the inner loop, we can use the indices <code>i</code> and
 <code>j</code> to perform the required computations as follows:</p>
 <pre class="chpl"><code>// calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows do
+for i in 1..rows
 {
   // do this for every row
-  for j in 1..cols do
+  for j in 1..cols
   {
     // and this for every column in the row i
     temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
@@ -1548,12 +1567,20 @@ elements in <code>temp_new</code> are already calculated, we update
 <code>temp</code> with the values of <code>temp_new</code>; this way
 everything is set up for the next iteration of the main
 <code>while</code> statement.</p>
+<p>We’re ready to execute our code, but the conditions we have initially
+set up will not produce interesting output, because the plate has a
+temperature value of <code>25</code> everywhere. We can change the
+boundaries to have temperature <code>0</code> so that the middle will
+start cooling down. To do this, we should change the declaration of
+<code>temp</code> to:</p>
+<pre class="chpl"><code>var temp: [0..rows+1, 0..cols+1] real = 0; // the whole plate starts at 0
+temp[1..rows,1..cols] = 25;                // set the non-boundary coordinates to 25</code></pre>
 <p>Now let’s compile and execute our code again:</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1624,11 +1651,11 @@ Modify the code to see the temperature at the top right corner.</p>
 the plate, we just need to modify <code>x</code> and <code>y</code>.
 This corner correspond to the first row (<code>x=1</code>) and the last
 column (<code>y=cols</code>) of the plate.</p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1688,11 +1715,11 @@ for j in 1..cols do
 of integers in Chapel returns an integer, then, as <code>rows</code> and
 <code>cols</code> are integers, we must have 80 as real so that the
 result is not truncated.</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1753,9 +1780,9 @@ find the greatest difference, and update <code>delta</code> with that
 value. The next nested for loops do the job:</p>
 <pre class="chpl"><code>// update delta, the greatest difference between temp_new and temp
 delta=0;
-for i in 1..rows do
+for i in 1..rows
 {
-  for j in 1..cols do
+  for j in 1..cols
   {
     tmp = abs(temp_new[i,j]-temp[i,j]);
     if tmp &gt; delta then delta = tmp;
@@ -1764,11 +1791,11 @@ for i in 1..rows do
 <p>Clearly there is no need to keep the difference at every single
 position in the array, we just need to update <code>delta</code> if we
 find a greater one.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1802,11 +1829,11 @@ information,</p>
 writeln('\nFinal temperature at the desired position after ',c,' iterations is: ',temp[x,y]);
 writeln('The difference in temperatures between the last two iterations was: ',delta,'\n');</code></pre>
 <p>and compile and execute our final code,</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="ex">chpl</span> base_solution.chpl</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="ex">./base_solution</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1858,11 +1885,11 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 <ul>
 <li>“You can organize loops with <code>for</code> and <code>while</code>
 statements. Use a <code>for</code> loop to run over every element of the
-iterand, e.g. <code>for i in 1..rows do { ...}</code> will run over all
+iterand, e.g. <code>for i in 1..rows { ...}</code> will run over all
 integers from 1 to <code>rows</code>. Use a <code>while</code> statement
 to repeatedly execute a code block until the condition does not hold
 anymore,
-e.g. <code>while (c &lt;   niter &amp;&amp; delta &gt;= tolerance) do {...}</code>
+e.g. <code>while (c &lt;   niter &amp;&amp; delta &gt;= tolerance) {...}</code>
 will repeatedly execute the commands in curly braces until one of the
 two conditions turns false.”</li>
 </ul>
@@ -1870,7 +1897,7 @@ two conditions turns false.”</li>
 </div>
 </div></section><section id="aio-06-procedures"><p>Content from <a href="06-procedures.html">Procedures</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/06-procedures.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 15 minutes</p>
@@ -1955,8 +1982,8 @@ and is named <code>x</code> inside the procedure. The number of elements
 passed to the procedure and is used to organize the calculations inside
 the procedure:</p>
 <pre class="chpl"><code>proc maxOf(x ...?k) { // take a tuple of one type with k elements
-  var maximum = x[1];
-  for i in 2..k do maximum = if maximum &lt; x[i] then x[i] else maximum;
+  var maximum = x[0];
+  for i in 1..&lt;k do maximum = if maximum &lt; x[i] then x[i] else maximum;
   return maximum;
 }</code></pre>
 <pre class="chpl"><code><span><span class="fu">writeln</span><span class="op">(</span><span class="fu">maxOf</span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">5</span>, <span class="fl">123</span>, <span class="fl">85</span>, <span class="op">-</span><span class="fl">17</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>;</span>
@@ -2103,7 +2130,7 @@ code?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Let’s prepend <code>config</code> to the following lines in our
 code:</p>
@@ -2498,7 +2525,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-12-fire-forget-tasks"><p>Content from <a href="12-fire-forget-tasks.html">Fire-and-forget tasks</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/12-fire-forget-tasks.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 90 minutes</p>
@@ -2662,7 +2689,7 @@ the same.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>We’ll get an error at compilation (“cannot assign to const
 variable”), since then <code>c</code> would be defined within the scope
@@ -2701,7 +2728,7 @@ whereas inside the second <code>begin</code> statement the value
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>The code will compile and run, and you will see the following
 output:</p>
@@ -2869,7 +2896,7 @@ config var numoftasks=2;
 
 writeln("This is the main task: x = ",x);
 
-coforall taskid in 1..numoftasks do
+coforall taskid in 1..numoftasks
 {
   var c=taskid+1;
   writeln("this is task ",taskid,": x + ",taskid," = ",x+taskid,". My value of c is: ",c);
@@ -2919,7 +2946,7 @@ all elements of the array in order.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>The following code is a possible solution:</p>
 <pre class="chpl"><code>var x = 1;
@@ -2928,7 +2955,7 @@ var messages: [1..numoftasks] string;
 
 writeln("This is the main task: x = ", x);
 
-coforall taskid in 1..numoftasks do {
+coforall taskid in 1..numoftasks {
   var c = taskid + 1;
   messages[taskid] = 'this is task ' + taskid:string +
     ': my value of c is ' + c:string + ' and x is ' + x:string;
@@ -2987,7 +3014,7 @@ writeln("the maximum value in x is: ", mymax);</code></pre>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
 <pre class="chpl"><code>config const numtasks = 12;
 const n = nelem/numtasks;     // number of elements per thread
@@ -2995,7 +3022,7 @@ const r = nelem - n*numtasks; // these elements did not fit into the last thread
 
 var d: [1..numtasks] int;  // local maxima for each thread
 
-coforall taskid in 1..numtasks do {
+coforall taskid in 1..numtasks {
   var i, f: int;
   i  = (taskid-1)*n + 1;
   f = (taskid-1)*n + n;
@@ -3014,7 +3041,7 @@ for i in 1..numtasks do
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>the maximum value in x is: 1.0</code></pre>
+<pre class="output" tabindex="0"><code>the maximum value in x is: 9223372034161572255   # large random integer</code></pre>
 </div>
 <p>We use the <code>coforall</code> loop to spawn tasks that work
 concurrently in a fraction of the array. The trick here is to determine,
@@ -3078,7 +3105,7 @@ a node is limited.”</li>
 </div>
 </div></section><section id="aio-13-synchronization"><p>Content from <a href="13-synchronization.html">Synchronising tasks</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/13-synchronization.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 90 minutes</p>
@@ -3233,7 +3260,7 @@ the functionality of <code>cobegin</code> in
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <pre class="chpl"><code>var x=0;
 writeln("This is the main thread, my value of x is ",x);
@@ -3333,7 +3360,7 @@ without changing the rest of the code:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>The code will block (run forever), and you would need to press
 <em>Ctrl-C</em> to halt its execution. In this example we try to read
@@ -3358,7 +3385,7 @@ child thread will block, hanging the entire code.</p>
 following functions:</p>
 <pre class="chpl"><code>// non-blocking methods
 x.reset()	//will set the state as empty and the value as the default of x's type
-x.isfull()	//will return true is the state of x is full, false if it is empty
+x.isFull  	//will return true is the state of x is full, false if it is empty
 
 //blocking read and write methods
 x.writeEF(value)	//will block until the state of x is empty,
@@ -3441,7 +3468,7 @@ tasks.”</li>
 </div>
 </div></section><section id="aio-14-parallel-case-study"><p>Content from <a href="14-parallel-case-study.html">Task parallelism with Chapel</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/14-parallel-case-study.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 90 minutes</p>
@@ -3494,12 +3521,12 @@ config const coltasks = 2;
 
 // this is the main loop of the simulation
 delta = tolerance;
-while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
+while (c&lt;niter &amp;&amp; delta&gt;=tolerance) {
   c += 1;
 
-  coforall taskid in 0..coltasks*rowtasks-1 do {
-    for i in rowi..rowf do {
-      for j in coli..colf do {
+  coforall taskid in 0..coltasks*rowtasks-1 {
+    for i in rowi..rowf {
+      for j in coli..colf {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
       }
     }
@@ -3529,17 +3556,17 @@ const rc = cols-nc*coltasks;
 
 // this is the main loop of the simulation
 delta = tolerance;
-while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
+while (c&lt;niter &amp;&amp; delta&gt;=tolerance) {
   c+=1;
 
-  coforall taskid in 0..coltasks*rowtasks-1 do {
+  coforall taskid in 0..coltasks*rowtasks-1 {
     var rowi, coli, rowf, colf: int;
     var taskr, taskc: int;
 
     taskr = taskid/coltasks;
     taskc = taskid%coltasks;
 
-    if taskr&lt;rr then {
+    if taskr&lt;rr {
       rowi=(taskr*nr)+1+taskr;
       rowf=(taskr*nr)+nr+taskr+1;
     }
@@ -3548,7 +3575,7 @@ while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
       rowf = (taskr*nr)+nr+rr;
     }
 
-    if taskc&lt;rc then {
+    if taskc&lt;rc {
       coli = (taskc*nc)+1+taskc;
       colf = (taskc*nc)+nc+taskc+1;
     }
@@ -3557,8 +3584,8 @@ while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
       colf = (taskc*nc)+nc+rc;
     }
 
-    for i in rowi..rowf do {
-      for j in coli..colf do {
+    for i in rowi..rowf {
+      for j in coli..colf {
       ...
 }</code></pre>
 <p>As you can see, to divide a data set (the array <code>temp</code> in
@@ -3622,7 +3649,7 @@ const rc = cols-nc*coltasks;
 
 // this is the main loop of the simulation
 delta = tolerance;
-coforall taskid in 0..coltasks*rowtasks-1 do {
+coforall taskid in 0..coltasks*rowtasks-1 {
   var rowi, coli, rowf, colf: int;
   var taskr, taskc: int;
   var c = 0;
@@ -3630,7 +3657,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
   taskr = taskid/coltasks;
   taskc = taskid%coltasks;
 
-  if taskr&lt;rr then {
+  if taskr&lt;rr {
     rowi = (taskr*nr)+1+taskr;
     rowf = (taskr*nr)+nr+taskr+1;
   }
@@ -3639,7 +3666,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
     rowf = (taskr*nr)+nr+rr;
   }
 
-  if taskc&lt;rc then {
+  if taskc&lt;rc {
     coli = (taskc*nc)+1+taskc;
     colf = (taskc*nc)+nc+taskc+1;
   }
@@ -3648,11 +3675,11 @@ coforall taskid in 0..coltasks*rowtasks-1 do {
     colf = (taskc*nc)+nc+rc;
   }
 
-  while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
+  while (c&lt;niter &amp;&amp; delta&gt;=tolerance) {
     c = c+1;
 
-    for i in rowi..rowf do {
-      for j in coli..colf do {
+    for i in rowi..rowf {
+      for j in coli..colf {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
       }
     }
@@ -3686,17 +3713,17 @@ var myd: [0..coltasks*rowtasks-1] real;
 ...
 //this is the main loop of the simulation
 delta.write(tolerance);
-coforall taskid in 0..coltasks*rowtasks-1 do
+coforall taskid in 0..coltasks*rowtasks-1
 {
   var myd2: real;
   ...
 
-  while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do {
+  while (c&lt;niter &amp;&amp; delta.read() &gt;= tolerance) {
     c = c+1;
     ...
 
-    for i in rowi..rowf do {
-      for j in coli..colf do {
+    for i in rowi..rowf {
+      for j in coli..colf {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
         myd2 = max(abs(temp_new[i,j]-temp[i,j]),myd2);
       }
@@ -3706,7 +3733,7 @@ coforall taskid in 0..coltasks*rowtasks-1 do
     // here comes the synchronisation of tasks
 
     temp[rowi..rowf,coli..colf] = temp_new[rowi..rowf,coli..colf];
-    if taskid==0 then {
+    if taskid==0 {
       delta.write(max reduce myd);
       if c%outputFrequency==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
     }
@@ -3741,10 +3768,10 @@ lock.write(0);
 ...
 //this is the main loop of the simulation
 delta.write(tolerance);
-coforall taskid in 0..coltasks*rowtasks-1 do
+coforall taskid in 0..coltasks*rowtasks-1
 {
    ...
-   while (c&lt;niter &amp;&amp; delta&gt;=tolerance) do
+   while (c&lt;niter &amp;&amp; delta&gt;=tolerance)
    {
       ...
       myd[taskid]=myd2
@@ -3799,7 +3826,9 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 <p>We finish this section by providing another, elegant version of the
 2D heat transfer solver (without time stepping) using data parallelism
 on a single locale:</p>
-<pre class="chpl"><code>const n = 100, stride = 20;
+<pre class="chpl"><code>use Math; /* for exp() */
+
+const n = 100, stride = 20;
 var temp: [0..n+1, 0..n+1] real;
 var temp_new: [1..n,1..n] real;
 var x, y: real;
@@ -3810,7 +3839,7 @@ for (i,j) in {1..n,1..n} { // serial iteration
 }
 coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x20 blocks =&gt; 25 tasks
   for k in i..i+stride-1 { // serial loop inside each block
-    for l in j..j+stride-1 do {
+    for l in j..j+stride-1 {
       temp_new[k,l] = (temp[k-1,l] + temp[k+1,l] + temp[k,l-1] + temp[k,l+1]) / 4;
     }
   }
@@ -3838,7 +3867,7 @@ data (covered in the next section).”</li>
 </div>
 </div></section><section id="aio-21-locales"><p>Content from <a href="21-locales.html">Running code on multiple machines</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/21-locales.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 180 minutes</p>
@@ -4000,7 +4029,7 @@ this locale is named cdr552</code></pre>
 <p>We can print few other attributes of each locale. Here it is actually
 useful to revert to the serial loop <code>for</code> so that the print
 statements appear in order:</p>
-<pre class="chpl"><code>use Memory.Diagnostics;
+<pre class="chpl"><code>use MemDiagnostics;
 for loc in Locales do
   on loc {
     writeln("locale #", here.id, "...");
@@ -4058,7 +4087,7 @@ any links that you are not going to use.
  -->
 </div></section><section id="aio-22-domains"><p>Content from <a href="22-domains.html">Domains and data parallelism</a></p>
 <hr>
-<p>Last updated on 2024-10-08 |
+<p>Last updated on 2024-11-18 |
 
         <a href="https://github.com/hpc-carpentry/hpc-chapel/edit/main/episodes/22-domains.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 180 minutes</p>
@@ -4099,7 +4128,7 @@ infinite:</p>
 <pre class="chpl"><code>var oneToTen: range = 1..10; // 1, 2, 3, ..., 10
 var a = 1234, b = 5678;
 var aToB: range = a..b; // using variables
-var twoToTenByTwo: range(stridable=true) = 2..10 by 2; // 2, 4, 6, 8, 10
+var twoToTenByTwo: range(strides=strideKind.positive) = 2..10 by 2; // 2, 4, 6, 8, 10
 var oneToInf = 1.. ; // unbounded range</code></pre>
 <p>On the other hand, domains are multi-dimensional (including 1D) sets
 of integer indices that are always bounded. To stress the difference
@@ -4231,7 +4260,7 @@ adding a separator <code>' '</code> at the end of each element.</p>
 <pre class="chpl"><code>use BlockDist; // use standard block distribution module to partition the domain into blocks
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};
-const distributedMesh: domain(2) dmapped Block(boundingBox=mesh) = mesh;
+const distributedMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = mesh;
 var A: [distributedMesh] string; // block-distributed array mapped to locales
 forall a in A { // go in parallel through all n^2 elements in A
   // assign each array element on the locale that stores that index/element
@@ -4243,7 +4272,7 @@ outer edge of our decomposition coincides exactly with the outer edge of
 our domain. Alternatively, the outer decomposition layer could include
 an additional perimeter of <em>ghost points</em> if we specify</p>
 <pre class="chpl"><code>const mesh: domain(2) = {1..n, 1..n};
-const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1,0..n+1};</code></pre>
+const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1,0..n+1};</code></pre>
 <p>but let us not worry about this for now.</p>
 <p>Running our code on four locales with three cores per locale produces
 the following output:</p>
@@ -4325,7 +4354,7 @@ which the code is running</li>
 <pre class="chpl"><code>use CyclicDist; // elements are sent to locales in a round-robin pattern
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};  // a 2D domain defined in shared memory on a single locale
-const m2: domain(2) dmapped Cyclic(startIdx=mesh.low) = mesh; // mesh.low is the first index (1,1)
+const m2: domain(2) dmapped new cyclicDist(startIdx=mesh.low) = mesh; // mesh.low is the first index (1,1)
 var A2: [m2] string;
 forall a in A2 {
   a = a.locale.id:string + '-' + here.name + '-' + here.maxTaskPar:string + '  ';
@@ -4370,15 +4399,16 @@ DimensionalDist2D, ReplicatedDim, BlockCycDim — for details please see
 <p>Now let us use distributed domains to write a parallel version of our
 original diffusion solver code:</p>
 <pre class="chpl"><code>use BlockDist;
+use Math;
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};  // local 2D n^2 domain</code></pre>
 <p>We will add a larger (n+2)^2 block-distributed domain
 <code>largerMesh</code> with a layer of <em>ghost points</em> on
 <em>perimeter locales</em>, and define a temperature array
 <code>temp</code> on top of it, by adding the following to our code:</p>
-<pre class="chpl"><code>const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1, 0..n+1};
+<pre class="chpl"><code>const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1, 0..n+1};
 var temp: [largerMesh] real; // a block-distributed array of temperatures
-forall (i,j) in T.domain[1..n,1..n] {
+forall (i,j) in temp.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real); // x, y are local to each task
   var y = ((j:real)-0.5)/(n:real);
   temp[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01); // narrow Gaussian peak
@@ -4389,8 +4419,8 @@ middle of the mesh. As we evolve our solution in time, this peak should
 diffuse slowly over the rest of the domain.</p>
 <blockquote>
 <h2 id="question">Question</h2>
-<p>Why do we have <code>forall (i,j) in T.domain[1..n,1..n]</code> and
-not <code>forall (i,j) in mesh</code>?</p>
+<p>Why do we have <code>forall (i,j) in temp.domain[1..n,1..n]</code>
+and not <code>forall (i,j) in mesh</code>?</p>
 <blockquote>
 <h2 id="answer">Answer</h2>
 <p>The first one will run on multiple locales in parallel, whereas the
@@ -4500,9 +4530,10 @@ parallel.</p>
 </div>
 <p>Here is the final version of the entire code:</p>
 <pre class="chpl"><code>use BlockDist;
+use Math;
 config const n = 8;
 const mesh: domain(2) = {1..n,1..n};
-const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1,0..n+1};
+const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1,0..n+1};
 var temp, temp_new: [largerMesh] real;
 forall (i,j) in temp.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real);
@@ -4606,7 +4637,7 @@ C/C++ functions from Chapel</li>
 </ul>
 <p>We’ll add the following to our code to write ASCII:</p>
 <pre class="chpl"><code>use IO;
-var myFile = open("output.dat", iomode.cw); // open the file for writing
+var myFile = open("output.dat", ioMode.cw); // open the file for writing
 var myWritingChannel = myFile.writer(); // create a writing channel starting at file offset 0
 myWritingChannel.write(temp); // write the array
 myWritingChannel.close(); // close the channel</code></pre>
@@ -4688,8 +4719,8 @@ any links that you are not going to use.
   "url": "https://hpc-carpentry.github.io/hpc-chapel/instructor/aio.html",
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/instructor/aio.html",
   "dateCreated": "2017-09-14",
-  "dateModified": "2024-11-12",
-  "datePublished": "2024-11-12"
+  "dateModified": "2024-11-18",
+  "datePublished": "2024-11-18"
 }
 
   </script><script>

@@ -472,7 +472,7 @@ compiled with <code>chpl</code>.”</li>
 <li>“The <code>--fast</code> flag instructs the Chapel compiler to
 optimise our code.”</li>
 <li>“The <code>-o</code> flag tells the compiler what to name our output
-(otherwise it gets named <code>a.out</code>)”</li>
+(otherwise it gets named after the source file)”</li>
 </ul></section><section id="02-variables"><h2 class="section-heading"><a href="02-variables.html">Basic syntax and variables</a></h2>
 <hr class="half-width">
 <ul>
@@ -496,15 +496,15 @@ type.”</li>
 <hr class="half-width">
 <ul>
 <li>“Use
-<code>if &lt;condition&gt; then {instructions A} else {instructions B}</code>
+<code>if &lt;condition&gt; {instructions A} else {instructions B}</code>
 syntax to execute one set of instructions if the condition is satisfied,
 and the other set of instructions if the condition is not
 satisfied.”</li>
 <li>This syntax can be simplified to
-<code>if &lt;condition&gt; then {instructions}</code> if we only want to
+<code>if &lt;condition&gt; {instructions}</code> if we only want to
 execute the instructions within the curly brackets if the condition is
 satisfied.</li>
-<li>“Use <code>while &lt;condition&gt; do {instructions}</code> to
+<li>“Use <code>while &lt;condition&gt; {instructions}</code> to
 repeatedly execute the instructions within the curly brackets while the
 condition is satisfied. The instructions will be executed over and over
 again until the condition does not hold anymore.”</li>
@@ -513,11 +513,11 @@ again until the condition does not hold anymore.”</li>
 <ul>
 <li>“You can organize loops with <code>for</code> and <code>while</code>
 statements. Use a <code>for</code> loop to run over every element of the
-iterand, e.g. <code>for i in 1..rows do { ...}</code> will run over all
+iterand, e.g. <code>for i in 1..rows { ...}</code> will run over all
 integers from 1 to <code>rows</code>. Use a <code>while</code> statement
 to repeatedly execute a code block until the condition does not hold
 anymore,
-e.g. <code>while (c &lt;   niter &amp;&amp; delta &gt;= tolerance) do {...}</code>
+e.g. <code>while (c &lt;   niter &amp;&amp; delta &gt;= tolerance) {...}</code>
 will repeatedly execute the commands in curly braces until one of the
 two conditions turns false.”</li>
 </ul></section><section id="06-procedures"><h2 class="section-heading"><a href="06-procedures.html">Procedures</a></h2>
@@ -640,8 +640,8 @@ model.”</li>
   "url": "https://hpc-carpentry.github.io/hpc-chapel/instructor/key-points.html",
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/instructor/key-points.html",
   "dateCreated": "2017-09-14",
-  "dateModified": "2024-11-12",
-  "datePublished": "2024-11-12"
+  "dateModified": "2024-11-18",
+  "datePublished": "2024-11-18"
 }
 
   </script><script>
