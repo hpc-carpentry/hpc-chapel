@@ -84,7 +84,7 @@ Note that at the end of the outer `for` loop, when all the elements in `temp_new
 statement.
 
 We're ready to execute our code, but the conditions we have initially set up
-will not produce interesting output, because the plate has a temporarture
+will not produce interesting output, because the plate has a temperature
 value of `25` everywhere. We can change the boundaries to have temperature `0`
 so that the middle will start cooling down. To do this, we should change the
 declaration of `temp` to:
