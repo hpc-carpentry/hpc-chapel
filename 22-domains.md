@@ -21,7 +21,7 @@ that can be bounded or infinite:
 var oneToTen: range = 1..10; // 1, 2, 3, ..., 10
 var a = 1234, b = 5678;
 var aToB: range = a..b; // using variables
-var twoToTenByTwo: range(stridable=true) = 2..10 by 2; // 2, 4, 6, 8, 10
+var twoToTenByTwo: range(strides=strideKind.positive) = 2..10 by 2; // 2, 4, 6, 8, 10
 var oneToInf = 1.. ; // unbounded range
 ```
 
@@ -153,7 +153,7 @@ each element.
 use BlockDist; // use standard block distribution module to partition the domain into blocks
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};
-const distributedMesh: domain(2) dmapped Block(boundingBox=mesh) = mesh;
+const distributedMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = mesh;
 var A: [distributedMesh] string; // block-distributed array mapped to locales
 forall a in A { // go in parallel through all n^2 elements in A
   // assign each array element on the locale that stores that index/element
@@ -168,7 +168,7 @@ perimeter of *ghost points* if we specify
 
 ```chpl
 const mesh: domain(2) = {1..n, 1..n};
-const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1,0..n+1};
+const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1,0..n+1};
 ```
 
 but let us not worry about this for now.
@@ -247,7 +247,7 @@ each element of the array we will print out again
 use CyclicDist; // elements are sent to locales in a round-robin pattern
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};  // a 2D domain defined in shared memory on a single locale
-const m2: domain(2) dmapped Cyclic(startIdx=mesh.low) = mesh; // mesh.low is the first index (1,1)
+const m2: domain(2) dmapped new cyclicDist(startIdx=mesh.low) = mesh; // mesh.low is the first index (1,1)
 var A2: [m2] string;
 forall a in A2 {
   a = a.locale.id:string + '-' + here.name + '-' + here.maxTaskPar:string + '  ';
@@ -294,6 +294,7 @@ Now let us use distributed domains to write a parallel version of our original d
 
 ```chpl
 use BlockDist;
+use Math;
 config const n = 8;
 const mesh: domain(2) = {1..n, 1..n};  // local 2D n^2 domain
 ```
@@ -302,9 +303,9 @@ We will add a larger (n+2)^2 block-distributed domain `largerMesh` with a layer 
 *perimeter locales*, and define a temperature array `temp` on top of it, by adding the following to our code:
 
 ```chpl
-const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1, 0..n+1};
+const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1, 0..n+1};
 var temp: [largerMesh] real; // a block-distributed array of temperatures
-forall (i,j) in T.domain[1..n,1..n] {
+forall (i,j) in temp.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real); // x, y are local to each task
   var y = ((j:real)-0.5)/(n:real);
   temp[i,j] = exp(-((x-0.5)**2 + (y-0.5)**2) / 0.01); // narrow Gaussian peak
@@ -317,7 +318,7 @@ in time, this peak should diffuse slowly over the rest of the domain.
 
 > ## Question
 >
-> Why do we have `forall (i,j) in T.domain[1..n,1..n]`
+> Why do we have `forall (i,j) in temp.domain[1..n,1..n]`
 > and not `forall (i,j) in mesh`?
 >
 > > ## Answer
@@ -415,9 +416,10 @@ Here is the final version of the entire code:
 
 ```chpl
 use BlockDist;
+use Math;
 config const n = 8;
 const mesh: domain(2) = {1..n,1..n};
-const largerMesh: domain(2) dmapped Block(boundingBox=mesh) = {0..n+1,0..n+1};
+const largerMesh: domain(2) dmapped new blockDist(boundingBox=mesh) = {0..n+1,0..n+1};
 var temp, temp_new: [largerMesh] real;
 forall (i,j) in temp.domain[1..n,1..n] {
   var x = ((i:real)-0.5)/(n:real);
@@ -518,7 +520,7 @@ We'll add the following to our code to write ASCII:
 
 ```chpl
 use IO;
-var myFile = open("output.dat", iomode.cw); // open the file for writing
+var myFile = open("output.dat", ioMode.cw); // open the file for writing
 var myWritingChannel = myFile.writer(); // create a writing channel starting at file offset 0
 myWritingChannel.write(temp); // write the array
 myWritingChannel.close(); // close the channel
