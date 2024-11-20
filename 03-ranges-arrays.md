@@ -27,7 +27,7 @@ for x in example_range do writeln(x);
 
 ```bash
 chpl ranges.chpl
-./ranges
+./ranges.o
 ```
 
 ```output
@@ -66,7 +66,7 @@ writeln('When set to a range: ', example_array);
 
 ```bash
 chpl ranges.chpl
-./ranges
+./ranges.o
 ```
 
 ```output
@@ -104,7 +104,7 @@ writeln(example_array);
 
 ```bash
 chpl ranges.chpl
-./ranges
+./ranges.o
 ```
 
 ```output
@@ -139,7 +139,7 @@ writeln(example_array);
 
 ```bash
 chpl ranges.chpl
-./ranges
+./ranges.o
 ```
 
 ```output

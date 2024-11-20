@@ -31,7 +31,7 @@ In this example, our code is called `operators.chpl`. You can compile it with th
 
 ```bash
 chpl operators.chpl --fast
-./operators
+./operators.o
 ```
 
 You should see output that looks something like the following:
@@ -139,7 +139,7 @@ writeln("counter is ", counter, " and delta is ", delta);
 ```
 ```bash
 chpl variables.chpl
-./variables
+./variables.o
 ```
 ```output
 counter is 0 and delta is 0.0
@@ -154,7 +154,7 @@ writeln('The value of test is ', test, ' and its type is ', test.type:string);
 ```
 ```bash
 chpl variables.chpl
-./variables
+./variables.o
 ```
 ```output
 The value of test is 100 and its type is int(64)

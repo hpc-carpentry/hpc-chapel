@@ -139,7 +139,7 @@ We can print few other attributes of each locale. Here it is actually useful to 
 `for` so that the print statements appear in order:
 
 ```chpl
-use MemDiagnostics;
+use Memory.Diagnostics;
 for loc in Locales do
   on loc {
     writeln("locale #", here.id, "...");

@@ -20,14 +20,9 @@ a given number of elements, the **_for-loop_** is what we want to use. The for-l
 syntax:
 
 ```chpl
-// single-statement version
 for index in iterand do
-  instruction;
-
-// multi-statement version
-for index in iterand
 {instructions}
-```
+``` 
 
 The *iterand* is a function or statement that expresses an iteration; it could be the range 1..15, for
 example. *index* is a variable that exists only in the context of the for-loop, and that will be taking the
@@ -40,7 +35,7 @@ This `for` loop, for example
 
 ```chpl
 // calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows
+for i in 1..rows do
 {
   // do this for every row 
 }
@@ -52,10 +47,10 @@ this:
 
 ```chpl
 // calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows
+for i in 1..rows do
 {
   // do this for every row 
-  for j in 1..cols
+  for j in 1..cols do
   {
     // and this for every column in the row i
   }
@@ -67,10 +62,10 @@ follows:
 
 ```chpl
 // calculate the new temperatures (temp_new) using the past temperatures (temp)
-for i in 1..rows
+for i in 1..rows do
 {
   // do this for every row 
-  for j in 1..cols
+  for j in 1..cols do
   {
     // and this for every column in the row i
     temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
@@ -82,17 +77,6 @@ temp=temp_new;
 Note that at the end of the outer `for` loop, when all the elements in `temp_new` are already calculated, we update
 `temp` with the values of `temp_new`; this way everything is set up for the next iteration of the main `while`
 statement.
-
-We're ready to execute our code, but the conditions we have initially set up
-will not produce interesting output, because the plate has a temperature
-value of `25` everywhere. We can change the boundaries to have temperature `0`
-so that the middle will start cooling down. To do this, we should change the
-declaration of `temp` to:
-
-```chpl
-var temp: [0..rows+1, 0..cols+1] real = 0; // the whole plate starts at 0
-temp[1..rows,1..cols] = 25;                // set the non-boundary coordinates to 25
-```
 
 Now let's compile and execute our code again:
 
@@ -255,9 +239,9 @@ the job:
 ```chpl
 // update delta, the greatest difference between temp_new and temp
 delta=0;
-for i in 1..rows
+for i in 1..rows do
 {
-  for j in 1..cols
+  for j in 1..cols do
   {
     tmp = abs(temp_new[i,j]-temp[i,j]);
     if tmp > delta then delta = tmp;
@@ -353,8 +337,8 @@ The greatest difference in temperatures between the last two iterations was: 0.0
 
 ::::::::::::::::::::::::::::::::::::: keypoints
 - "You can organize loops with `for` and `while` statements. Use a `for` loop to run over every element of the
-  iterand, e.g. `for i in 1..rows { ...}` will run over all integers from 1 to `rows`. Use a `while`
+  iterand, e.g. `for i in 1..rows do { ...}` will run over all integers from 1 to `rows`. Use a `while`
   statement to repeatedly execute a code block until the condition does not hold anymore, e.g. `while (c <
-  niter && delta >= tolerance) {...}` will repeatedly execute the commands in curly braces until one of the
+  niter && delta >= tolerance) do {...}` will repeatedly execute the commands in curly braces until one of the
   two conditions turns false."
 ::::::::::::::::::::::::::::::::::::::::::::::::

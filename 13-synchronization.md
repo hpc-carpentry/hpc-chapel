@@ -227,7 +227,7 @@ use the following functions:
 ```chpl
 // non-blocking methods
 x.reset()	//will set the state as empty and the value as the default of x's type
-x.isFull  	//will return true is the state of x is full, false if it is empty
+x.isfull()	//will return true is the state of x is full, false if it is empty
 
 //blocking read and write methods
 x.writeEF(value)	//will block until the state of x is empty, 

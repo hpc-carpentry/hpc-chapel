@@ -65,8 +65,8 @@ procedure and is used to organize the calculations inside the procedure:
 
 ```chpl
 proc maxOf(x ...?k) { // take a tuple of one type with k elements
-  var maximum = x[0];
-  for i in 1..<k do maximum = if maximum < x[i] then x[i] else maximum;
+  var maximum = x[1];
+  for i in 2..k do maximum = if maximum < x[i] then x[i] else maximum;
   return maximum;
 }
 ```

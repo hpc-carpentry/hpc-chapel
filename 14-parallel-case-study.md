@@ -29,12 +29,12 @@ config const coltasks = 2;
 
 // this is the main loop of the simulation
 delta = tolerance;
-while (c<niter && delta>=tolerance) {
+while (c<niter && delta>=tolerance) do {
   c += 1;
 
-  coforall taskid in 0..coltasks*rowtasks-1 {
-    for i in rowi..rowf {
-      for j in coli..colf {
+  coforall taskid in 0..coltasks*rowtasks-1 do {
+    for i in rowi..rowf do {
+      for j in coli..colf do {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
       }
     }
@@ -64,17 +64,17 @@ const rc = cols-nc*coltasks;
 
 // this is the main loop of the simulation
 delta = tolerance;
-while (c<niter && delta>=tolerance) {
+while (c<niter && delta>=tolerance) do {
   c+=1;
 
-  coforall taskid in 0..coltasks*rowtasks-1 {
+  coforall taskid in 0..coltasks*rowtasks-1 do {
     var rowi, coli, rowf, colf: int;
     var taskr, taskc: int;
 
     taskr = taskid/coltasks;
     taskc = taskid%coltasks;
 
-    if taskr<rr {
+    if taskr<rr then {
       rowi=(taskr*nr)+1+taskr;
       rowf=(taskr*nr)+nr+taskr+1;
     }
@@ -83,7 +83,7 @@ while (c<niter && delta>=tolerance) {
       rowf = (taskr*nr)+nr+rr;
     }
 
-    if taskc<rc {
+    if taskc<rc then {
       coli = (taskc*nc)+1+taskc;
       colf = (taskc*nc)+nc+taskc+1;
     }
@@ -92,8 +92,8 @@ while (c<niter && delta>=tolerance) {
       colf = (taskc*nc)+nc+rc;
     }
 
-    for i in rowi..rowf {
-      for j in coli..colf {
+    for i in rowi..rowf do {
+      for j in coli..colf do {
       ...
 }
 ```
@@ -152,7 +152,7 @@ const rc = cols-nc*coltasks;
 
 // this is the main loop of the simulation
 delta = tolerance;
-coforall taskid in 0..coltasks*rowtasks-1 {
+coforall taskid in 0..coltasks*rowtasks-1 do {
   var rowi, coli, rowf, colf: int;
   var taskr, taskc: int;
   var c = 0;
@@ -160,7 +160,7 @@ coforall taskid in 0..coltasks*rowtasks-1 {
   taskr = taskid/coltasks;
   taskc = taskid%coltasks;
 
-  if taskr<rr {
+  if taskr<rr then {
     rowi = (taskr*nr)+1+taskr;
     rowf = (taskr*nr)+nr+taskr+1;
   }
@@ -169,7 +169,7 @@ coforall taskid in 0..coltasks*rowtasks-1 {
     rowf = (taskr*nr)+nr+rr;
   }
 
-  if taskc<rc {
+  if taskc<rc then {
     coli = (taskc*nc)+1+taskc;
     colf = (taskc*nc)+nc+taskc+1;
   }
@@ -178,11 +178,11 @@ coforall taskid in 0..coltasks*rowtasks-1 {
     colf = (taskc*nc)+nc+rc;
   }
 
-  while (c<niter && delta>=tolerance) {
+  while (c<niter && delta>=tolerance) do {
     c = c+1;
 
-    for i in rowi..rowf {
-      for j in coli..colf {
+    for i in rowi..rowf do {
+      for j in coli..colf do {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
       }
     }
@@ -215,17 +215,17 @@ var myd: [0..coltasks*rowtasks-1] real;
 ...
 //this is the main loop of the simulation
 delta.write(tolerance);
-coforall taskid in 0..coltasks*rowtasks-1
+coforall taskid in 0..coltasks*rowtasks-1 do
 {
   var myd2: real;
   ...
 
-  while (c<niter && delta.read() >= tolerance) {
+  while (c<niter && delta>=tolerance) do {
     c = c+1;
     ...
 
-    for i in rowi..rowf {
-      for j in coli..colf {
+    for i in rowi..rowf do {
+      for j in coli..colf do {
         temp_new[i,j] = (temp[i-1,j] + temp[i+1,j] + temp[i,j-1] + temp[i,j+1]) / 4;
         myd2 = max(abs(temp_new[i,j]-temp[i,j]),myd2);
       }
@@ -235,7 +235,7 @@ coforall taskid in 0..coltasks*rowtasks-1
     // here comes the synchronisation of tasks
 
     temp[rowi..rowf,coli..colf] = temp_new[rowi..rowf,coli..colf];
-    if taskid==0 {
+    if taskid==0 then {
       delta.write(max reduce myd);
       if c%outputFrequency==0 then writeln('Temperature at iteration ',c,': ',temp[x,y]);
     }
@@ -262,10 +262,10 @@ lock.write(0);
 ...
 //this is the main loop of the simulation
 delta.write(tolerance);
-coforall taskid in 0..coltasks*rowtasks-1
+coforall taskid in 0..coltasks*rowtasks-1 do
 {
    ...
-   while (c<niter && delta>=tolerance)
+   while (c<niter && delta>=tolerance) do
    {
       ...
       myd[taskid]=myd2
@@ -321,8 +321,6 @@ We finish this section by providing another, elegant version of the 2D heat tran
 stepping) using data parallelism on a single locale:
 
 ```chpl
-use Math; /* for exp() */
-
 const n = 100, stride = 20;
 var temp: [0..n+1, 0..n+1] real;
 var temp_new: [1..n,1..n] real;
@@ -334,7 +332,7 @@ for (i,j) in {1..n,1..n} { // serial iteration
 }
 coforall (i,j) in {1..n,1..n} by (stride,stride) { // 5x5 decomposition into 20x20 blocks => 25 tasks
   for k in i..i+stride-1 { // serial loop inside each block
-    for l in j..j+stride-1 {
+    for l in j..j+stride-1 do {
       temp_new[k,l] = (temp[k-1,l] + temp[k+1,l] + temp[k,l-1] + temp[k,l+1]) / 4;
     }
   }

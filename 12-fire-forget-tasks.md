@@ -302,7 +302,7 @@ config var numoftasks=2;
 
 writeln("This is the main task: x = ",x);
 
-coforall taskid in 1..numoftasks
+coforall taskid in 1..numoftasks do
 {
   var c=taskid+1;
   writeln("this is task ",taskid,": x + ",taskid," = ",x+taskid,". My value of c is: ",c);
@@ -352,7 +352,7 @@ var messages: [1..numoftasks] string;
 
 writeln("This is the main task: x = ", x);
 
-coforall taskid in 1..numoftasks {
+coforall taskid in 1..numoftasks do {
   var c = taskid + 1;
   messages[taskid] = 'this is task ' + taskid:string +
     ': my value of c is ' + c:string + ' and x is ' + x:string;
@@ -412,7 +412,7 @@ const r = nelem - n*numtasks; // these elements did not fit into the last thread
 
 var d: [1..numtasks] int;  // local maxima for each thread
 
-coforall taskid in 1..numtasks {
+coforall taskid in 1..numtasks do {
   var i, f: int;
   i  = (taskid-1)*n + 1;
   f = (taskid-1)*n + n;
@@ -430,7 +430,7 @@ chpl --fast exercise_coforall_2.chpl
 ```
 
 ```output
-the maximum value in x is: 9223372034161572255   # large random integer
+the maximum value in x is: 1.0
 ```
 
 We use the `coforall` loop to spawn tasks that work concurrently in a fraction of the array. The trick here is to
