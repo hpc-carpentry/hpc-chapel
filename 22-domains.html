@@ -779,7 +779,7 @@ value. Is it the same or different from here.id?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Something along the lines:
 <code>m = here.id:string + '-' + m.locale.id:string</code></p>
@@ -811,7 +811,7 @@ for step in 1..5 { // time-stepping
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>It should be</p>
 <p><code>forall (i,j) in temp_new.domain[1..n,1..n] do</code></p>
@@ -872,7 +872,7 @@ compare that to the ID of the node where temp[i,i] is computed.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>Here is one possible solution examining the locality of the
 finite-difference stencil:</p>
@@ -1024,7 +1024,7 @@ any links that you are not going to use.
   "identifier": "https://hpc-carpentry.github.io/hpc-chapel/22-domains.html",
   "dateCreated": "2017-09-14",
   "dateModified": "2024-11-18",
-  "datePublished": "2024-12-03"
+  "datePublished": "2024-12-10"
 }
 
   </script><script>
